@@ -1,7 +1,8 @@
-Documentação de Requisitos - Integrações Fiscais
+# Documentação de Requisitos - Integrações Fiscais
 
 ---
 
+- [Documentação de Requisitos - Integrações Fiscais](#documentação-de-requisitos---integrações-fiscais)
 - [Introdução](#introdução)
 - [Roadmap](#roadmap)
   - [Recursos Globais](#recursos-globais)
@@ -16,14 +17,18 @@ Documentação de Requisitos - Integrações Fiscais
     - [Parâmetros Mix Fiscal](#parâmetros-mix-fiscal)
   - [Cadastro de Finalidade de Operações](#cadastro-de-finalidade-de-operações)
   - [Cadastro de Perfil Fiscal](#cadastro-de-perfil-fiscal)
+  - [Cadastro de Produtos](#cadastro-de-produtos)
+    - [Funções](#funções)
+    - [Novos Campos](#novos-campos)
+  - [Nova Tela - Gerenciador Tributário](#nova-tela---gerenciador-tributário)
 - [Requisitos da Integração iMendes](#requisitos-da-integração-imendes)
   - [Método de Consulta Básico](#método-de-consulta-básico)
   - [Método de Consulta Avançado](#método-de-consulta-avançado)
   - [Captura e Armazenamento dos Dados](#captura-e-armazenamento-dos-dados)
   - [Recursos Adicionais](#recursos-adicionais)
   - [Regra Fiscal de Entrada e Saída x iMendes](#regra-fiscal-de-entrada-e-saída-x-imendes)
-  - [# Requisitos da Integração FGF](#-requisitos-da-integração-fgf)
-  - [# Requisitos da Integração Mix Fiscal](#-requisitos-da-integração-mix-fiscal)
+- [Requisitos da Integração FGF](#requisitos-da-integração-fgf)
+- [Requisitos da Integração Mix Fiscal](#requisitos-da-integração-mix-fiscal)
 - [Requisitos da Regra Fiscal de Saída Ganso](#requisitos-da-regra-fiscal-de-saída-ganso)
 - [Requisitos de Segurança](#requisitos-de-segurança)
   - [Acessos Restritos](#acessos-restritos)
@@ -41,7 +46,7 @@ Documentação de Requisitos - Integrações Fiscais
 - O presente documento objetiva descrever em detalhes os processos e meios para Integrações Fiscais de Consulta Tributária dos parceiros **iMendes, FGF e Mix Fiscal** no Sistema Ganso.
 - No Modelo de Integração escolhido, o Sistema Ganso comunica-se com o portal tributário do Parceiro Integrador através de uma **API**, e realiza a consulta da Tributação dos produtos obtendo os dados para os mesmos.
 - A Consulta ocorre de modos distintos conforme o Parceiro Integrador:
-  - **Parceiro iMendes**: Permite realizar consulta durante a realização de um **novo cadastro**, consultar a tributação de um **produto cadastrado** ou **enviar todos os Produtos** para revisão geral. Durante a consulta em Lote a resposta da API é imediata, contudo, ao enviar o cadastro completo para revisão, produtos que não possuírem classificação na base iMendes serão classificados e devolvidos em até 45 dias. O usuário pode acatar ou não as alterações através do próprio Sistema Ganso.
+  - **Parceiro iMendes**: Permite realizar consulta durante a realização de um **novo cadastro**, consultar a tributação de um ou mais **produto(s) cadastrado(s)** ou **enviar todos os Produtos** para revisão geral. Durante a consulta a resposta da API é imediata, contudo, ao enviar o cadastro completo para revisão, produtos que não possuírem classificação na base iMendes serão classificados e devolvidos em até 45 dias. O usuário pode acatar ou não as alterações através do próprio Sistema Ganso.
   - **Parceiro FGF**: Permite realizar a consulta de um produto cadastrado ou enviar todos os produtos para revisão geral. A resposta da API não é imediata, e o usuário precisa realizar o aceite no Portal Virtual do Integrador para que o Sistema possa consultar as correções tributárias.
   - **Parceiro Mix Fiscal**: Realiza a revisão geral do cadastros através de Cenários Fiscais. Inicialmente, a resposta da API é imediata, e o usuário pode acatar ou não as alterações através do próprio Sistema Ganso.
 - O Integrador **FGF** disponibiliza apenas Informações para a Saída a Consumidor Final, contendo dados para complementação do cadastro com informações de Entrada.
@@ -50,7 +55,7 @@ Documentação de Requisitos - Integrações Fiscais
 
 # Roadmap
 
-O **Roadmap** é um guia que indicará o caminho em uma ordem lógica para a implementação dos Recursos Necessários descritos neste documento. Cada Integrador Fiscal possui uma _rota_ específica que deve ser obedecida para que os objetivos sejam atingidos.
+O **Roadmap** é um guia que indicará o caminho em uma ordem lógica para a implementação dos Recursos Necessários descritos neste documento. Cada Integrador Fiscal possui uma _rota_ específica que deve ser obedecida para que os objetivos sejam atingidos, contudo, os **Recursos Globais** devem ser implementados antes de cada Integrador.
 
 ## Recursos Globais
 
@@ -71,11 +76,11 @@ O **Roadmap** é um guia que indicará o caminho em uma ordem lógica para a imp
 
 ## Integrador Fiscal Mix Fiscal
 
-[Voltar ao Sumário](#introdução) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 # Requisitos Globais
 
-Nesta Seção, são descritos os **Requisitos Globais** obrigatórios e comuns a todas as Integrações desta documentação. De acordo com o [Roadmap](#recursos-globais) é necessário adequar determinadas rotinas do Sistema Ganso para permitir integração fiscal, que requer modificações em Cadastros e Inclusão de Recursos específicos.
+Nesta Seção, são descritos os **Requisitos Globais** obrigatórios e comuns a todas as Integrações desta documentação. Conforme definido no [Roadmap](#recursos-globais) é necessário adequar determinadas rotinas do Sistema Ganso para permitir integração fiscal, que requer modificações em Cadastros e Inclusão de Recursos específicos.
 
 ## Cadastro de Empresas
 
@@ -86,7 +91,7 @@ Os Integradores **iMendes** e **Mix Fiscal** requerem que o cadastro de Empresas
 | Regime Tributário | Campo para informar a Subclassificação do CRT "Regime Normal", cuja informação pode ser definida entre "**Lucro Real - LR**" ou "**Lucro Presumido - LP**". Este dado é obrigatório para a obtenção de Regras corretas. | Deve ser permitido informá-lo apenas se o CRT selecionado for igual a "3 - Regime Normal".                                                                                                          |   **Sim**   |
 | Área da Loja      | Campo para informar o tamanho da área fisica ocupada pelo estabelecimento do cliente em Metros Quadrados                                                                                                                | Informação importante para o Integrador Mix Fiscal, que oferece para o Cliente Integrado insights de organização mercadológica de espaços, proximidade de produtos e composição de mix de produtos. |   **Não**   |
 
-[Voltar ao Sumário](#introdução) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 ## Parâmetros do Sistema - Autenticação e Regras de Negócio
 
@@ -100,7 +105,7 @@ Os Integradores **iMendes** e **Mix Fiscal** requerem que o cadastro de Empresas
 | **Grupo**                 | Sub-aba iMendes     | **Autenticação**                                                                                                   | Organiza os campos de Configurações para conectividade com os Servidores iMendes                                                                                                                                                                                                                           | Ativar apenas se o Parâmetro Ativar Integração estiver selecionado                                                                                                                                                                                                                                                                          |   **Sim**   |
 | **Campo Texto**           | Grupo Autenticação  | URL de Saneamento (Consulta Tributação)                                                                            | Campo para informar a URL da API que retorna Dados da Tributação do Produto consultado.                                                                                                                                                                                                                    | Permitir até 255 caracteres.                                                                                                                                                                                                                                                                                                                |   **Sim**   |
 | **Campo Texto**           | Grupo Autenticação  | URL Envia e Recebe Dados (Outros Métodos)                                                                          | Campo para informar a URL da API utilizada para os Recursos Adicionais do iMendes descritos em [Recursos Adicionais iMendes](#recursos-adicionais)                                                                                                                                                         | Permitir até 255 caracteres.                                                                                                                                                                                                                                                                                                                |   **Sim**   |
-| **Campo Texto Mascarado** | Grupo Autenticação  | Senha                                                                                                              | Campo para informar a Senha do Usuário Integrado.                                                                                                                                                                                                                                                          | Permitir até 30 caracteres alfanuméricos e símbolos                                                                                                                                                                                                                                                                                         |   **Sim**   |
+| **Campo Texto Mascarado** | Grupo Autenticação  | Senha                                                                                                              | Campo para informar a Senha do Cliente Integrado.                                                                                                                                                                                                                                                          | Permitir até 30 caracteres alfanuméricos e símbolos                                                                                                                                                                                                                                                                                         |   **Sim**   |
 | **Caixa de Combinação**   | Grupo Autenticação  | Versão da API                                                                                                      | Seleção da Versão da API contratada. Disponibilizar as versões 2.0 e 3.0 por padrão                                                                                                                                                                                                                        | Permitir selecionar apenas uma das versões                                                                                                                                                                                                                                                                                                  |   **Sim**   |
 | **Campo de Texto**        | Grupo Autenticação  | Tempo de Resposta                                                                                                  | Timeout ou Tempo de Resposta máximo da API. Tempo máximo que o Sistema deve aguardar para obter a resposta antes de efetuar uma nova requisição.                                                                                                                                                           | Campo Numérico, interpretado em segundos, com valor padrão definido em 15 segundos.                                                                                                                                                                                                                                                         |   **Sim**   |
 | **Botão de Ação**         | Grupo Autenticação  | Verificar Status                                                                                                   | Botão para acionar um comando de teste de conectividade com as APIs utilizando os dados de Autenticação e URLs informadas.                                                                                                                                                                                 | Deve retornar uma Mensagem amigável de Sucesso ou Falha, informando quais APIs foram testadas.                                                                                                                                                                                                                                              |   **Não**   |
@@ -120,7 +125,7 @@ Os Integradores **iMendes** e **Mix Fiscal** requerem que o cadastro de Empresas
 
 ### Parâmetros Mix Fiscal
 
-[Voltar ao Sumário](#introdução) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 ## Cadastro de Finalidade de Operações
 
@@ -163,7 +168,30 @@ Abaixo a tabela de Códigos e Descrição padrão que o Sistema deverá oferecer
 
 Esta informação também será necessária para a Atualização/Criação de Regras Fiscais de Entrada e Saída automáticas conforme consultas.
 
-[Voltar ao Sumário](#introdução) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
+## Cadastro de Produtos
+
+Para disponibilizar ao Usuário um Método de Consulta de Tributos através do Cadastro de um Produto, é necessário incluir **Funções Específicas** e **Campos Específicos**, descritos a seguir:
+
+### Funções
+
+| Nome                                          | Descritivo                                                                                                                                                                                     | Validações                                                                                  | Integrador  |
+| :-------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------ | :---------: |
+| Consultar Tributação                          | Aciona a Consulta Tributária conforme Integrador ativado                                                                                                                                       | Solicitar Acesso Restrito para a Operação [Ver Seção Acessos Restritos](#acessos-restritos) |  **Todos**  |
+| Consultar Histórico de Alterações Tributárias | Aciona a visualização do Histórico de Alterações do Produto                                                                                                                                    | Solicitar Acesso Restrito para a Operação [Ver Seção Acessos Restritos](#acessos-restritos) | **iMendes** |
+| Desfazer Alterações Tributárias               | Aciona a Função contida no Histórico de Alterações para que o Usuário possa reverter dados Tributários atualizados pelo Integrador com possibilidade de escolha do ponto de reversão desejado. | Solicitar Acesso Restrito para a Operação [Ver Seção Acessos Restritos](#acessos-restritos) | **iMendes** |
+
+### Novos Campos
+
+| Tipo                 | Posicionamento                | Nome/Texto                             | Descritivo                                                                                                                                                                                                                                                                                                                                                       | Validações                                                                                                                                                                                                              |   Integrador    |
+| :------------------- | :---------------------------- | :------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------: |
+| **Campo**            | **Grupo de Dados do Produto** | Código iMendes                         | Campo para armazenar e exibir o Código iMendes, quando ocorrer o vínculo efetuado pelo Usuário durante a Consulta por Descrição                                                                                                                                                                                                                                  | Tipo Numérico Inteiro e Somente Leitura                                                                                                                                                                                 |   **iMendes**   |
+| **Campo**            | A definir                     | Auditado por (Integrador Fiscal)       | Campo para armazenar e exibir a informação de que o Produto teve a tributação auditada/atualizada pelo Integrador Fiscal. Complementar esta informação com a Data/Hora da última atualização tributária.                                                                                                                                                         | Somente leitura e visualmente destacado.                                                                                                                                                                                |   **iMendes**   |
+| **Campo**            | A definir                     | Enviado para Integrador Fiscal         | Campo para armazenar e exibir a informação de que o Produto foi enviado para Revisão Tributária para o Integrador Fiscal. Será utilizado para identificar quais Produtos estão pendentes de recepção da Tributação do Integrador **iMendes**, e como _flag_ para indicar que precisa receber atualização. Complementar esta informação com a Data/Hora do envio. | Somente leitura e visualmente destacado.                                                                                                                                                                                |    **Todos**    |
+| **Caixa de Seleção** | A definir                     | **Não Tributar por Integrador Fiscal** | Parâmetro para restringir a atualização de Tributos do Produto pelo Integrador Fiscal (_exceto Mix Fiscal_) ativo. Por decisão do Usuário, alguns produtos podem ser tributados seguindo a sua própria interpretação ou por orientação de sua contabilidade, e não irão receber atualizações do Integrador.                                                      | Solicitar Acesso Restrito [Ver Seção Acessos Restritos](#acessos-restritos). O Integrador Mix Fiscal requer formalização via e-mail esta decisão, portanto, esta opção deve ser desativado para o Integrador Mix Fiscal | **iMendes/FGF** |
+
+## Nova Tela - Gerenciador Tributário
 
 # Requisitos da Integração iMendes
 
