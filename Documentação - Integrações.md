@@ -31,6 +31,8 @@
   - [Recursos Adicionais](#recursos-adicionais)
   - [Regra Fiscal de Entrada e Saída x iMendes](#regra-fiscal-de-entrada-e-saída-x-imendes)
 - [Relação de Campos Ganso x Integrador Fiscal](#relação-de-campos-ganso-x-integrador-fiscal)
+  - [Tabela Produto](#tabela-produto)
+  - [Tabela Produto Parâmetros](#tabela-produto-parâmetros)
   - [Campos Dependentes](#campos-dependentes)
 - [Requisitos da Integração FGF](#requisitos-da-integração-fgf)
 - [Requisitos da Integração Mix Fiscal](#requisitos-da-integração-mix-fiscal)
@@ -292,6 +294,16 @@ Obtidos os dados do Perfil, a Tag de `"produtos"` deve ser composta conforme dad
 ---
 
 # Relação de Campos Ganso x Integrador Fiscal
+
+Nesta Seção são descritos os **Relacionamentos das Informações** que são retornadas pelas APIs dos Integradores Fiscais, e os respectivos Campos de Informações do Sistema Ganso que deverão receber os dados. A relação está divida em 2 tabelas: **Produto e Produto Parâmetros** quando as informações tributárias compõe apenas dados do **Cadastro do Produto**. Nas Seções envolvendo a Regra Fiscal terão uma nova relação por tratar-se de Estruturas distintas.
+
+## Tabela Produto
+
+| Campo do Ganso | Descritivo     | Retorno iMendes | Retorno FGF | Retorno Mix Fiscal | Regra de Negócio |
+| :------------- | :------------- | :-------------- | :---------- | :----------------- | :--------------- |
+| NCM            | NCM do Produto | `nCM`           | `codNcm`    |
+
+## Tabela Produto Parâmetros
 
 ## Campos Dependentes
 
