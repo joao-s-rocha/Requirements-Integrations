@@ -60,7 +60,9 @@
 
 # Roadmap
 
-O **Roadmap** é um guia que indicará o caminho em uma ordem lógica para a implementação dos Recursos Necessários descritos neste documento. Cada Integrador Fiscal possui uma _rota_ específica que deve ser obedecida para que os objetivos sejam atingidos, contudo, os **Recursos Globais** devem ser implementados antes de cada Integrador.
+O **Roadmap** é um guia que indicará o caminho em uma ordem lógica para a implementação dos Recursos Necessários descritos neste documento. Cada Integrador Fiscal possui uma _rota_ específica que deve ser obedecida para que os objetivos sejam atingidos, contudo, os **Recursos Globais** devem ser implementados antes de cada Integrador. Pode ser observado no esquema abaixo:
+
+![Roadmap Completo](./Roadmap-Global.png)
 
 ## Recursos Globais
 
