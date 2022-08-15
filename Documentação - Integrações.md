@@ -300,10 +300,43 @@ Nesta Seção são descritos os **Relacionamentos das Informações** que são r
 ## Tabela Produto
 
 | Campo do Ganso | Descritivo     | Retorno iMendes | Retorno FGF | Retorno Mix Fiscal | Regra de Negócio |
-| :------------- | :------------- | :-------------- | :---------- | :----------------- | :--------------- |
-| NCM            | NCM do Produto | `nCM`           | `codNcm`    |
+| :------------- | :------------- | :--------------: | :----------: | :-----------------: | :--------------- |
+| NCM            | NCM do Produto | `nCM`           | `codNcm`    | `ncm` | - |
+| CEST | Código CEST do Produto | `cEST` | `codCest`| `cest`| Se Integrador igual a **iMendes** remover a máscara do retorno e gravar apenas os dígitos. |
+| prod_esp_com_codigo_anp | Código ANP do Produto Específico Combustível | `codAnp`| - | - | Se existir informação, gravar no Produto e preencher o campo "PRODUTO_ESPECIFICO" com 'COM'|
+| ex_tipi | Exclusão da TIPI | `ex` | `exTipi` | `ex_ipi` | - |
 
 ## Tabela Produto Parâmetros
+
+| Campo do Ganso | Descritivo | Retorno iMendes | Retorno FGF | Retorno Mix Fiscal | Regra de Negócio |
+|:---|:---|:---:|:---:|:---:|:---|
+| cst_pis_entrada | CST de PIS de Entrada | `pisCofins/cstEnt` | `cstPisCofinsEntrada` | `cst_entrada_pis` | O CST de PIS de Entrada deve ser igual ao CST de Cofins de Entrada. Somente o Integrador Mix Fiscal diferencia os campos de Entrada |
+| cst_cofins_entrada | CST de Cofins de Entrada | `pisCofins/cstEnt` | `cstPisCofinsEntrada` | `cst_entrada_cofins` | O CST de Cofins de Entrada deve ser igual ao CST de PIS de Entrada. Somente o Integrador Mix Fiscal diferencia os campos de Entrada |
+| cst_pis | CST de PIS de Saída | `pisCofins/cstSai` | `cstPisCofinsSaida` | `cst_saida_pis` | O CST de PIS de Saída deve ser igual ao CST de Cofins de Saída. Somente o Integrador Mix Fiscal diferencia os campos de Saída |
+| cst_cofins | CST de Cofins de Saída | `pisCofins/cstSai` | `cstPisCofinsSaida` | `cst_saida_cofins` | O CST de PIS de Saída deve ser igual ao CST de Cofins de Saída. Somente o Integrador Mix Fiscal diferencia os campos de Saída |
+| codigo_tributo_pis_entrada / f_pis_compra | Alíquota de PIS de Entrada | `pisCofins/aliqPis` | `al_pis_in` | `aliq_entrada_pis` | Gravar o Código do Tributo do PIS que consta na Tabela "TRIBUTOS" do Sistema Ganso, que corresponde à Alíquota retornada pelo parceiro. Gravar a Alíquota no campo f_pis_compra. |
+| codigo_tributo_cofins_entrada / f_cofins_compra | Alíquota de Cofins de Entrada | `pisCofins/aliqCofins` | `al_cofins_in` | `aliq_entrada_cofins` | Gravar o Código do Tributo do Cofins que consta na Tabela "TRIBUTOS" do Sistema Ganso, que corresponde à Alíquota retornada pelo parceiro. Gravar a Alíquota no campo f_cofins_compra. |
+| codigo_tributo_pis_saida / f_pis_venda | Alíquota de PIS de Saída | `pisCofins/aliqPis` | `al_pis_out` | `aliq_saida_pis` | Gravar o Código do Tributo do PIS que consta na Tabela "TRIBUTOS" do Sistema Ganso, que corresponde à Alíquota retornada pelo parceiro. Gravar a Alíquota no campo f_pis_venda. |
+| codigo_tributo_cofins_saida / f_cofins_venda | Alíquota de Cofins de Saída | `pisCofins/aliqCofins` | `al_cofins_out` | `aliq_saida_cofins` | Gravar o Código do Tributo do Cofins que consta na Tabela "TRIBUTOS" do Sistema Ganso, que corresponde à Alíquota retornada pelo parceiro. Gravar a Alíquota no campo f_cofins_venda. |
+| cst_natureza_receita_piscofins | CST da Natureza da Receita de PIS e Cofins | `pisCofins/nri` | `naturezaReceita` | `nat_rec` | Verificar a existência do Código de Natureza da Receita (campo "codigo_natureza_receita" da tabela "NATUREZA_RECEITA") onde os campos "cst_pis" e "cst_cofins" correspondem ao CST de PIS e Cofins retornados pelo Integrador. Se existir, gravar no Campo do Ganso. Se não existir, criar um Registro Genérico na Tabela "NATUREZA_RECEITA" preenchendo os campos: <br> CODIGO_NATUREZA_RECEITA: Código Retornado pelo Integrador <br> NATUREZA_RECEITA: 'Natureza criada pelo Integrador (x)' <br> CST_PIS e CST_COFINS: CST de PIS e Cofins Retornados pelo Integrador, tanto de entrada quanto de saída, separados por vírgula. Ex.: '70,06' |
+| cst_ipi_entrada | CST de IPI de Entrada | `iPI/cstEnt` | - | - | Informar o Código de Retorno no Campo de destino. Somente o Integrador iMendes fornece retorno para este campo. |
+| cst_ipi | CST de IPI de Saída | `iPI/cstSai` | - | - | Informar o Código de Retorno no Campo de destino. Somente o Integrador iMendes fornece retorno para este campo. |
+| codigo_tributo_ipi | Alíquota de IPI de Saída | `iPI/aliqipi` | - | - | Gravar o Código do Tributo que consta na Tabela "PRODUTO_TRIBUTO" onde o campo "SITUACAO" seja igual a 1, "SITUACAO_TRIBUTARIA" seja igua a 'T' e o campo "CST" corresponda ao valor retornado pelo Integrador.
+| codigo_cfop_nfc | Código Fiscal de Operação ou Prestação (CFOP) de Saída | `CaracTrib/cFOP` | - | - | Somente o Integrador **iMendes** retorna esta informação, contudo é obrigatória para o Sistema Ganso. Para os demais parceiros, preencher com '5102' se "CST de ICMS de Saída" diferente de '60' e preencher com '5405' se "CST de ICMS de Saída" igual a '60'. |
+| cst | CST de ICMS de Saída | `CaracTrib/cST` | `cstIcmsSaida` | `cst_icms`| Concatenar o dígito '0' como prefixo quando o Integrador for igual a **iMendes ou Mix Fiscal**. O Integrador **FGF** retornará os 3 dígitos requeridos pelo Sistema Ganso. |
+| cst_nfc | CST de ICMS de Saída (NFC-e/SAT) | `CaracTrib/cST` | `cstIcmsSaida` | `cst_icms` | Concatenar o dígito '0' como prefixo quando o Integrador for igual a **iMendes ou Mix Fiscal**. O Integrador **FGF** retornará os 3 dígitos requeridos pelo Sistema Ganso. |
+| csosn | CSOSN de ICMS de Saída - Se CRT = 1 ou 2 | `CaracTrib/cSOSN` | `cstIcmsSaida` | `cst_icms` | Concatenar o dígito '0' como prefixo quando o Integrador for igual a **iMendes ou Mix Fiscal**. O Integrador **FGF** retornará os 4 dígitos requeridos pelo Sistema Ganso. |
+| csosn_nfc | CSOSN de ICMS de Saída (NFC-e/SAT) | `CaracTrib/cSOSN` | `cstIcmsSaida` | `cst_icms` | Concatenar o dígito '0' como prefixo quando o Integrador for igual a **iMendes ou Mix Fiscal**. O Integrador **FGF** retornará os 4 dígitos requeridos pelo Sistema Ganso. Gravar somente se CRT da Empresa igual 1 ou 2. |
+| f_rbc_icms_sai_estadual | Percentual de Redução de Base de Cálculo do ICMS Estadual | `CaracTrib/reducaoBcIcms` | `perReducaoSaida` | `redbase_saida` | Informar no campo de destino o valor retornado pelo Integrador. |
+| f_st_rbc_icms_sai_estadual | `CaracTrib/reducaoBcIcmsSt` | Percentual de Redução de Base de Cálculo do ICMS ST Estadual | Informar no campo de destino o valor retornado pelo Integrador. |
+| f_rbc_icms_sai_interestadual | Percenutal de Redução de Base de Cálculo do ICMS Interestadual | `CaracTrib/redBcIcmsInterestadual` | - | - | * Verificar com FGF e Mix Fiscal este retorno. |
+| f_st_mva_saida | Percentual de Margem de Valor Agregado ou Índice de Valor Agregado de Saída | `CaracTrib/iVA` | `perMva/perMvaInterestadual` | `mva` | * Verificar FGF qual campo utilizar. |
+| f_st_mva | Percentual de Margem de Valor Agregado ou Índice de Valor Agregado de Entrada | `CaracTrib/iVAAjust` | `perMva/perMvaInterestadual` | `mva` | * Verificar FGF qual campo utilizar.|
+| percentual_fcp | Percentual de Entrada do Fundo de Combate a Pobreza | `CaracTrib/fCP` | `perFcp` | `fecp` | Informar no campo de destino o valor retornado pelo Integrador.|
+| cod_beneficio_fiscal | Código do Benefício Fiscal de Saída | `CaracTrib/codBenef` | `CodBenefAjusteIncentivoCST` | `cBenef` | Informar no campo de destino o valor retornado pelo Integrador. |
+| percentual_diferimento | Percentual de Diferimento de Entrada | `CaracTrib/pDifer` | `AliqIcmsDesoneradoEntrada` | - | * Verificar com FGF e Mix Fiscal qual campo utilizar. |
+| codigo_tributo | Código do Tributo de ICMS de Saída Estadual para NFC-e/SAT-CF-e | `infPDV/pICMSPDV` | `perAliqPDVSaida` | `aliq_icms/aliq_saida` | Gravar o Código do Tributo que consta na Tabela "PRODUTO_TRIBUTO" onde o campo "SITUACAO" seja igual a 0, "SITUACAO_TRIBUTARIA" seja igua a 'T' e o campo "CST" corresponda ao valor retornado pelo Integrador. Se valor retornado igual a 0, verificar se campo o "SITUACAO_TRIBUTARIA" é igual a:<br> **iMendes:** `infPDV/simbPDV`<br> **FGF**: `tipoTributacaoPDV`<br> **Mix Fiscal**: dependerá do cenário*.
+| f_icms_venda | Alíquota de ICMS de Saída Estadual para NFC-e/SAT-CF-e | `infPDV/pICMSPDV` | `perAliqPDVSaida` | `aliq_icms/aliq_saida` | Gravar o valor retornado pelo Integrador.
 
 ## Campos Dependentes
 
