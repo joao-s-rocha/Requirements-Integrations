@@ -36,6 +36,7 @@
   - [Campos Dependentes](#campos-dependentes)
 - [Requisitos da Integração FGF](#requisitos-da-integração-fgf)
 - [Requisitos da Integração Mix Fiscal](#requisitos-da-integração-mix-fiscal)
+  - [Composição da Requisição - Cenário Fiscal](#composição-da-requisição---cenário-fiscal)
 - [Requisitos da Regra Fiscal de Saída Ganso](#requisitos-da-regra-fiscal-de-saída-ganso)
 - [Requisitos de Segurança](#requisitos-de-segurança)
   - [Acessos Restritos](#acessos-restritos)
@@ -224,7 +225,7 @@ O Integrador **iMendes** oferece opção para Usuário consultar a Tributação 
 | Grupo de Filtros    | Posição 2                                    | Produto                                    | Grupo que organiza os campos para pesquisa de Produtos por Características.                                                                                                                                                | Filtros "Contém, Começa Com, Igual a" para os campos **Descrição, Referência do Fabricante, Referência Auxiliar e Localização**, Status do Produto, Empresas (Filiais), Caixas de Seleção para as opções **Produtos com EAN/GTIN, Produtos Enviados para Integrador Fiscal, Produtos com Código iMendes**. | A opção **"Produtos com EAN/GTIN"** deve retornar apenas produtos cujo Código de Barras seja maior ou igual a 8 dígitos. <br> A opção **"Produtos Enviados para Integrador Fiscal"** refere-se ao itens que foram enviados uma vez em Lote para Revisão Tributária. <br> A opção **"Produtos com Código iMendes"** deverá ser exibida apenas se o Integrador ativo for igual a **iMendes** e listar apenas produtos que possuírem a informação preenchida no Cadastro de Produtos. |
 | Botão               | Grupo de Filtros do Produto                  | Limpar filtros                             | Botão que aciona o comando para limpar todos os filtros, inclusive os do Grupo Segmentação                                                                                                                                 | Todos os filtros                                                                                                                                                                                                                                                                                           | Exibir uma Mensagem de Confirmação e decisão do Usuário.                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | Botão               | Grupo de Filtros do Produto                  | Pesquisar                                  | Botão que aciona a pesquisa considerando os filtros informados, inclusive os do Grupo Segmentação.                                                                                                                         | Todos os filtros                                                                                                                                                                                                                                                                                           | Verificar se nenhum filtro foi preenchido, se sim, informar ao Usuário que a Consulta retornará **todos os produtos**. Se Integrador Ativo igual a **iMendes**, informar que mesmo listando todos os Produtos, apenas os X Produtos serão enviados por lote devido a limitação da API. [Ver Seção Parâmetros iMendes](#parâmetros-imendes)                                                                                                                                         |
-| Grade de Dados      | Posição 3                                    | Resultado dos Filtros                      | Tabela de Dados contendo os Produtos resultantes dos filtros informandos pelo usuário.                                                                                                                                     | Caixa de Seleção, Código, Código de Barras, Descrição, NCM, CEST, Marca, Seção, Grupo, Subgrupo, Código iMendes, Enviado para Integrador Fiscal ([Ver Seção Cadastro de Produtos](#cadastro-de-produtos))                                                                                                  | Permitir selecionar um ou mais Produtos do Resultado. Permitir configurar as colunas a exibir na Grade de Dados. Observar a Limitação de Produtos do Integrador **iMendes** ([Ver Seção Parâmetros iMendes](#parâmetros-imendes))                                                                                                                                                                                                                                                  |
+| Grade de Dados      | Posição 3                                    | Resultado dos Filtros                      | Tabela de Dados contendo os Produtos resultantes dos filtros informandos pelo usuário.                                                                                                                                     | Caixa de Seleção, Código, Código de Barras, Descrição, NCM, CEST, Marca, Seção, Grupo, Subgrupo, Código iMendes, Enviado para Integrador Fiscal ([Ver Seção Cadastro de Produtos](#cadastro-de-produtos))                                                                                                  | Permitir selecionar um ou mais Produtos do Resultado. Permitir configurar as colunas a exibir na Grade de Dados. Exibir um "_hint_" quando o usuário passar o mouse sobre um Produto, que exibe os dados Tributários **Antes e Depois**. Observar a Limitação de Produtos do Integrador **iMendes** ([Ver Seção Parâmetros iMendes](#parâmetros-imendes))                                                                                                                          |
 | Texto               | Abaixo da Grade de Resultado - lado esquerdo | [F4] - Selecionar Todos/Inverter Seleção   | Ação para permitir selecionar Todos os Produtos da Grade de Resultado ou Inverter a Seleção atual                                                                                                                          | Todos os dados da Grade de Resultado                                                                                                                                                                                                                                                                       | Permitir selecionar o inverter a seleção dos Produtos do Resultado usando a Tecla de Atalho. Observar o Limite de Seleção do Integrador **iMendes** ([Ver Seção Parâmetros iMendes](#parâmetros-imendes))                                                                                                                                                                                                                                                                          |
 | Texto               | Abaixo da Grade de Resultado - lado esquerdo | [F5] - Limpar Seleção                      | Ação para permitir limpar a Seleção atual da Grade de Resultado dos Filtros                                                                                                                                                | Todos os dados da Grade de Resultado                                                                                                                                                                                                                                                                       | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | Texto               | Abaixo Grade de Resultado - lado direito     | Produtos Listados                          | Texto informativo que exibe o contador total de Produtos que a pesquisa retornou.                                                                                                                                          | Produtos da Grade de Resultado                                                                                                                                                                                                                                                                             | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
@@ -263,6 +264,8 @@ Os Integradores Fiscais **iMendes e Mix Fiscal** relacionados nesta documentaç�
 
 ![Wireframe Comparativo](./Wireframe-Screen-Decision.png)
 
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
 # Requisitos da Integração iMendes
 
 Nesta Seção são descritos os Requisitos da Integração iMendes, que atende à Homologação e abrange os principais recursos do Integrador. Para um Produto, existem 4 (quatro) Métodos de Consulta e cada um utiliza dados específicos para gerar a Requisição e obter os dados. A seguir serão descritos os Métodos e informações.
@@ -280,6 +283,8 @@ Os Métodos de Consulta são necessário para a tomada de decisão durante a con
 
 Para ilustrar a tomada de decisão que o Sistema Ganso deverá realizar conforme o _Input de dados_ do Usuário no Cadastro do Produto, segue abaixo imagem representativo do Fluxo de Decisão.
 ![Fluxo de Decisão do Método de Consulta](./Flow-Decision-Method.jpeg)
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 ## Composição da Requisição
 
@@ -325,15 +330,25 @@ Obtidos os dados do Perfil, a Tag de `"produtos"` deve ser composta conforme dad
 | Código iMendes | `"codImendes"` | Código | Código _Único_ fornecido pela iMendes. Quando um produto é vinculado ao código iMendes esta informação deve ser utilizada para consulta. | **Cadastro de Produtos** campo **"Codigo iMendes"** [Ver Seção Cadastro de Produtos](#cadastro-de-produtos) | Verificar se o Código iMendes está preenchido, se sim, enviar o este Código, senão enviar em branco. Utilizar o **Método de Consulta 3** [Ver Seção Métodos de Consulta](#métodos-de-consulta) | **Não** |
 | NCM | `"ncm"` | Caractere | Nomenclatura Comum do Mercosul | **Cadastro de Produtos** campo "NCM" | Verificar se NCM está preenchido no Cadastro do Produto. Esta informação é importante para o comparativo de tributos "(Antes x Depois)" | **Não** |
 
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
 ## Consulta Avançada iMendes - Gerenciador Tributário
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 ## Captura e Armazenamento dos Dados
 
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
 ## Recursos Adicionais iMendes
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 ## Regra Fiscal de Entrada e Saída x iMendes
 
 ---
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 # Relação de Campos Ganso x Integrador Fiscal
 
@@ -380,19 +395,33 @@ Nesta Seção são descritos os **Relacionamentos das Informações** que são r
 | codigo_tributo                                  | Código do Tributo de ICMS de Saída Estadual para NFC-e/SAT-CF-e               |                      `infPDV/pICMSPDV`                       |                        `perAliqPDVSaida`                        | `aliq_icms/aliq_saida` | Gravar o Código do Tributo que consta na Tabela "PRODUTO_TRIBUTO" onde o campo "SITUACAO" seja igual a 0, "SITUACAO_TRIBUTARIA" seja igua a 'T' e o campo "CST" corresponda ao valor retornado pelo Integrador. Se valor retornado igual a 0, verificar se campo o "SITUACAO_TRIBUTARIA" é igual a:<br> **iMendes:** `infPDV/simbPDV`<br> **FGF**: `tipoTributacaoPDV`<br> **Mix Fiscal**: dependerá do cenário\*.                                                                                                                                                                                                                               |
 | f_icms_venda                                    | Alíquota de ICMS de Saída Estadual para NFC-e/SAT-CF-e                        |                      `infPDV/pICMSPDV`                       |                        `perAliqPDVSaida`                        | `aliq_icms/aliq_saida` | Gravar o valor retornado pelo Integrador.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
 ## Campos Dependentes
 
 ---
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 # Requisitos da Integração FGF
 
 ---
 
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
 # Requisitos da Integração Mix Fiscal
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
+## Composição da Requisição - Cenário Fiscal
 
 ---
 
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
 # Requisitos da Regra Fiscal de Saída Ganso
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 # Requisitos de Segurança
 
