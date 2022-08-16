@@ -105,7 +105,7 @@ Os Integradores **iMendes** e **Mix Fiscal** requerem que o cadastro de Empresas
 
 ## Parâmetros do Sistema - Autenticação e Regras de Negócio
 
-- Para organizar os Integradores Fiscais de modo claro e objetivo, em **Parâmetros Gerais do Sistema** criar uma Aba "**Integrações Fiscais**" que deve conter uma "**Sub-aba**" para cada Integrador contendo as respectivas configurações individuais.
+- Para organizar os Integradores Fiscais de modo claro e objetivo, em **Parâmetros Gerais do Sistema** criar uma Aba "**Integrações Fiscais**" que deve conter uma "**Sub-aba**" para cada Integrador contendo as respectivas configurações individuais, conforme Tabelas a seguir.
 
 ### Parâmetros iMendes
 
@@ -369,12 +369,12 @@ Nesta Seção são descritos os **Relacionamentos das Informações** que são r
 
 ## Tabela Produto
 
-| Campo do Ganso          | Descritivo                                   | Retorno iMendes | Retorno FGF | Retorno Mix Fiscal | Regra de Negócio                                                                            |
-| :---------------------- | :------------------------------------------- | :-------------: | :---------: | :----------------: | :------------------------------------------------------------------------------------------ |
-| NCM                     | NCM do Produto                               |      `nCM`      |  `codNcm`   |       `ncm`        | -                                                                                           |
-| CEST                    | Código CEST do Produto                       |     `cEST`      |  `codCest`  |       `cest`       | Se Integrador igual a **iMendes** remover a máscara do retorno e gravar apenas os dígitos.  |
-| prod_esp_com_codigo_anp | Código ANP do Produto Específico Combustível |    `codAnp`     |      -      |         -          | Se existir informação, gravar no Produto e preencher o campo "PRODUTO_ESPECIFICO" com 'COM' |
-| ex_tipi                 | Exclusão da TIPI                             |      `ex`       |  `exTipi`   |      `ex_ipi`      | -                                                                                           |
+| Campo do Ganso          | Descritivo                                   | Retorno iMendes | Retorno FGF | Retorno Mix Fiscal | Regra de Negócio                                                                                                                   |
+| :---------------------- | :------------------------------------------- | :-------------: | :---------: | :----------------: | :--------------------------------------------------------------------------------------------------------------------------------- |
+| NCM                     | NCM do Produto                               |      `nCM`      |  `codNcm`   |       `ncm`        | -                                                                                                                                  |
+| CEST                    | Código CEST do Produto                       |     `cEST`      |  `codCest`  |       `cest`       | Se Integrador igual a **iMendes** remover a máscara do retorno e gravar apenas os dígitos.                                         |
+| prod_esp_com_codigo_anp | Código ANP do Produto Específico Combustível |    `codAnp`     |      -      |         -          | Se existir retorno para esta informação, gravar o Código ANP no Produto e preencher o campo "PRODUTO_ESPECIFICO" com a sigla 'COM' |
+| ex_tipi                 | Exclusão da TIPI                             |      `ex`       |  `exTipi`   |      `ex_ipi`      | -                                                                                                                                  |
 
 ## Tabela Produto Parâmetros
 
