@@ -80,7 +80,7 @@ O **Roadmap** é um guia que indicará o caminho em uma ordem lógica para a imp
 
 - **Roadmap ilustrado**
 
-  ![Roadmap Integração iMendes](./roadmap-imendes.png)
+  ![Roadmap Integração iMendes](./Roadmap-iMendes.png)
 
 ## Integrador Fiscal FGF
 
