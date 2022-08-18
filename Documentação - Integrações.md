@@ -299,6 +299,8 @@ Conforme **Manual de Integração iMendes**, uma Consulta a API requer um padrã
 4. Constrói a estrutura JSON obedecendo a ordem: `emit` > `perfil` > `produtos`
 5. Envia requisição ao _endpoint_ indicado.
 
+![Ilustração do Fluxo de Consulta no Cadastro de Produtos](./iMendes-Workflow-01.png)
+
 A Tag `emit` que deve conter os dados da Empresa, possui a seguinte relação de dados abaixo:
 | Dado | Tag | Tipo | Descritivo | Origem dos Dados | Preenchimento Obrigatório |
 |:---|:---|:---|:---|:---|:---:|
@@ -478,8 +480,6 @@ A requisição acima, retorna a seguinte Estrutura de Dados:
     "SemRetorno": []
 }
 ```
-
-
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
