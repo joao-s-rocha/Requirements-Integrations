@@ -296,6 +296,8 @@ Conforme **Manual de Integração iMendes**, uma Consulta a API requer um padrã
 1. Coleta dados do Emitente e gera a Tag `"emit"` do `JSON`
 2. Coleta dados do Perfil do Destinatário da Operação e gera a Tag `"perfil"` do `JSON`
 3. Coleta dados do Produto e gera a Tag `"produtos"`
+4. Constrói a estrutura JSON obedecendo a ordem: `emit` > `perfil` > `produtos`
+5. Envia requisição ao _endpoint_ indicado.
 
 A Tag `emit` que deve conter os dados da Empresa, possui a seguinte relação de dados abaixo:
 | Dado | Tag | Tipo | Descritivo | Origem dos Dados | Preenchimento Obrigatório |
@@ -326,19 +328,19 @@ Além das informações da **Empresa**, são necessárias informações para com
 
 Obtidos os dados do Perfil, a Tag de `"produtos"` é um _array_ de Produtos e deve ser composta conforme dados e Regras de Negócio abaixo:
 
-| Dado | Tag | Tipo | Descritivo | Origem dos Dados | Regras de Negócio | Preenchimento Obrigatório |
-| :------------- | :------------- | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: |
-| Código | `"codigo"` | Código | Código de Barras EAN/GTIN ou Código Interno do Produto quando o mesmo foi enviado previamente para Saneamento pela iMendes | **Cadastro de Produtos** campo Código de Barras Padrão ou Código Interno | Verificar o Método de Consulta apropriado para preenchimento deste campo, observando a Regra de Negócio. [Ver Seção Métodos de Consulta](#métodos-de-consulta) | **Sim** |
-| Código Interno | `"codInterno"` | Caractere | Indicativo de "Sim" ou "Não" para consulta via Código Interno, quando o Produto foi enviado previamente para Saneamento pela iMendes | Preencher com "S" ou "N" de acordo com a Regra de Negócio | Se o Produto está sinalizado como **"Enviado para Integrador Fiscal"**, enviar "S" e utilizar o **Método de Consulta 4** informando Código Interno do Produto na Tag `codigo` do JSON. [Ver Seção Métodos de Consulta](#métodos-de-consulta) | **Sim** |
-| Descrição | `"descricao"` | Caractere | Descrição Completa do Produto | **Cadastro de Produtos** campo "Descrição" | Sempre enviar a Descrição Completa do Produto. | **Sim** |
-| Código iMendes | `"codImendes"` | Código | Código _Único_ fornecido pela iMendes. Quando um produto é vinculado ao código iMendes esta informação deve ser utilizada para consulta. | **Cadastro de Produtos** campo **"Codigo iMendes"** [Ver Seção Cadastro de Produtos](#cadastro-de-produtos) | Verificar se o Código iMendes está preenchido, se sim, enviar o este Código, senão enviar em branco. Utilizar o **Método de Consulta 3** [Ver Seção Métodos de Consulta](#métodos-de-consulta) | **Não** |
-| NCM | `"ncm"` | Caractere | Nomenclatura Comum do Mercosul | **Cadastro de Produtos** campo "NCM" | Verificar se NCM está preenchido no Cadastro do Produto. Esta informação é importante para o comparativo de tributos "(Antes x Depois)" | **Não** |
+| Dado           | Tag            | Tipo      | Descritivo                                                                                                                               | Origem dos Dados                                                                                            | Regras de Negócio                                                                                                                                                                                                                            | Preenchimento Obrigatório |
+| :------------- | :------------- | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------: |
+| Código         | `"codigo"`     | Código    | Código de Barras EAN/GTIN ou Código Interno do Produto quando o mesmo foi enviado previamente para Saneamento pela iMendes               | **Cadastro de Produtos** campo Código de Barras Padrão ou Código Interno                                    | Verificar o Método de Consulta apropriado para preenchimento deste campo, observando a Regra de Negócio. [Ver Seção Métodos de Consulta](#métodos-de-consulta)                                                                               |          **Sim**          |
+| Código Interno | `"codInterno"` | Caractere | Indicativo de "Sim" ou "Não" para consulta via Código Interno, quando o Produto foi enviado previamente para Saneamento pela iMendes     | Preencher com "S" ou "N" de acordo com a Regra de Negócio                                                   | Se o Produto está sinalizado como **"Enviado para Integrador Fiscal"**, enviar "S" e utilizar o **Método de Consulta 4** informando Código Interno do Produto na Tag `codigo` do JSON. [Ver Seção Métodos de Consulta](#métodos-de-consulta) |          **Sim**          |
+| Descrição      | `"descricao"`  | Caractere | Descrição Completa do Produto                                                                                                            | **Cadastro de Produtos** campo "Descrição"                                                                  | Sempre enviar a Descrição Completa do Produto.                                                                                                                                                                                               |          **Sim**          |
+| Código iMendes | `"codImendes"` | Código    | Código _Único_ fornecido pela iMendes. Quando um produto é vinculado ao código iMendes esta informação deve ser utilizada para consulta. | **Cadastro de Produtos** campo **"Codigo iMendes"** [Ver Seção Cadastro de Produtos](#cadastro-de-produtos) | Verificar se o Código iMendes está preenchido, se sim, enviar o este Código, senão enviar em branco. Utilizar o **Método de Consulta 3** [Ver Seção Métodos de Consulta](#métodos-de-consulta)                                               |          **Não**          |
+| NCM            | `"ncm"`        | Caractere | Nomenclatura Comum do Mercosul                                                                                                           | **Cadastro de Produtos** campo "NCM"                                                                        | Verificar se NCM está preenchido no Cadastro do Produto. Esta informação é importante para o comparativo de tributos "(Antes x Depois)"                                                                                                      |          **Não**          |
 
 ### Exemplo JSON - Requisição API
 
 A Estrutura abaixo exemplifica uma Consulta do Produto **Água Mineral** através do **Cadastro de Produtos** para **Operação de Saída a Consumidor Final** para o Estado de **MS** (Operação Interna). Na Tag `perfil/uf` é enviada apenas a UF correspondente à UF da Empresa Filial, ou seja, da Tag `emit/uf`.
 
-```JSON 
+```JSON
 {
   "emit": {
     "amb": 1,
@@ -371,7 +373,7 @@ A Estrutura abaixo exemplifica uma Consulta do Produto **Água Mineral** atravé
 }
 ```
 
-O trecho acima, retornará a seguinte Estrutura de Dados:
+A requisição acima, retorna a seguinte Estrutura de Dados:
 
 ```JSON
   "Cabecalho": {
@@ -476,6 +478,8 @@ O trecho acima, retornará a seguinte Estrutura de Dados:
     "SemRetorno": []
 }
 ```
+
+
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
