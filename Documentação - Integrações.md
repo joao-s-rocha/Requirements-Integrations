@@ -274,7 +274,7 @@ Nesta Seção são descritos os Requisitos da Integração iMendes, que atende �
 
 ## Métodos de Consulta
 
-Os Métodos de Consulta são necessário para a tomada de decisão durante a consulta tributária de um Produto, pois, depende de quais informações serão fornecidas pelo o Usuário ao Sistema. Cada Método possui uma API de consulta específica, e requer dados específicos que são:
+Os Métodos de Consulta são necessários para a tomada de decisão durante a consulta tributária de um Produto, pois, _depende de quais informações serão fornecidas pelo Usuário ao Sistema_. Cada Método possui uma API de consulta específica, e requer dados específicos que são:
 
 |    Método    |                   Tipo de Consulta                   | Descritivo                                                                                                                                                            | Regras de Negócio                                                                                                                                                                                                                                                                                                                                                                                                                                                |     API a Consumir     | Tags de Envio Principais                                                     |
 | :----------: | :--------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------: | :--------------------------------------------------------------------------- |
@@ -291,15 +291,24 @@ Para ilustrar a tomada de decisão que o Sistema Ganso deverá realizar conforme
 
 ## Composição da Requisição
 
-Conforme **Manual de Integração iMendes**, uma Consulta a API requer um padrão `JSON`, e a Consulta Básica através do **Cadastro de Produtos** possui o seguinte _Workflow_:
+Conforme **Manual de Integração iMendes**, uma Consulta a **API de Saneamento** requer um padrão `JSON`, e a Função de Consulta Básica através do **Cadastro de Produtos** possui o seguinte _Workflow_:
 
-1. Coleta dados do Emitente e gera a Tag `"emit"` do `JSON`
-2. Coleta dados do Perfil do Destinatário da Operação e gera a Tag `"perfil"` do `JSON`
-3. Coleta dados do Produto e gera a Tag `"produtos"`
-4. Constrói a estrutura JSON obedecendo a ordem: `emit` > `perfil` > `produtos`
-5. Envia requisição ao _endpoint_ indicado.
+1. Usuário aciona a **Função de Consulta** ([Ver Seção Cadastro de Produtos / Funções](#cadastro-de-produtos))
+2. O Sistema deverá identificar **que dados foram inseridos pelo Usuário** para definir o [**Método de Consulta**](#métodos-de-consulta), Tags principais e _endpoint_ de consulta.
+3. Se o **Método de Consulta** definido for igual a **"Método 2 - Apenas Descrição"**, executar o **Passo 8**, senão, continuar a partir do **Passo 4**
+4. Coleta dados do Emitente e gera a Tag `"emit"` do `JSON`
+5. Coleta dados do Perfil do Destinatário da Operação e gera a Tag `"perfil"` do `JSON`
+6. Coleta dados do Produto e gera a Tag `"produtos"`
+7. Constrói a estrutura JSON obedecendo a ordem: `emit` > `perfil` > `produtos`
+8. Envia requisição ao _endpoint_ indicado. [Ver Seção Parâmetros iMendes](#parâmetros-imendes)
 
-![Ilustração do Fluxo de Consulta no Cadastro de Produtos](./iMendes-Workflow-01.png)
+A ilustração abaixo, demonstra os passos que compoem a Consulta a **API Saneamento**
+
+![Ilustração do Fluxo de Consulta API Saneamento](./iMendes-Workflow-01.png)
+
+A ilustração abaixo, demonstra os passos que compoem a Consulta a **API Envia/Recebe Dados**
+
+![Ilustração do Fluxo de Consulta API Envia/Recebe](./iMendes-Workflow-02.png)
 
 A Tag `emit` que deve conter os dados da Empresa, possui a seguinte relação de dados abaixo:
 | Dado | Tag | Tipo | Descritivo | Origem dos Dados | Preenchimento Obrigatório |
@@ -480,6 +489,12 @@ A requisição acima, retorna a seguinte Estrutura de Dados:
     "SemRetorno": []
 }
 ```
+
+Após Processo de Envio e Captura de Retorno, os seguintes passos devem ocorrer:
+
+1. Os dados devem ser Interpretados e Relacionados com seus respectivos campos, conforme descrito em [**Relação de Campos Ganso x Integrador Fiscal / Coluna "Ganso" e "Retorno iMendes"**](#relação-de-campos-ganso-x-integrador-fiscal).
+2. O Usuário precisa visualizar os dados relacionados utilizando a [**Nova Tela - Comprativo de Tributos (Antes x Depois)**](#nova-tela---comparativo-de-tributos-antes-x-depois) e decidir quais **Tributos** deverão ser atualizados. O Sistema Ganso deve considerar os [Parâmetros do Sistema](#parâmetros-imendes) e [Acessos Restritos](#acessos-restritos) nesta operação.
+3. Após confirmação, os dados Tributários devem ser **efetivados** para o Produto, e os [**Logs**](#logs) gerados e gravados corretamente.
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
