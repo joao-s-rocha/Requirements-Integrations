@@ -22,6 +22,7 @@
     - [Novos Campos](#novos-campos)
   - [Nova Tela - Gerenciador Tributário](#nova-tela---gerenciador-tributário)
   - [Nova Tela - Comparativo de Tributos (Antes x Depois)](#nova-tela---comparativo-de-tributos-antes-x-depois)
+  - [Nova Tela - Produtos iMendes - Consulta por Descrição](#nova-tela---produtos-imendes---consulta-por-descrição)
 - [Requisitos da Integração iMendes](#requisitos-da-integração-imendes)
   - [Métodos de Consulta](#métodos-de-consulta)
   - [Composição da Requisição](#composição-da-requisição)
@@ -268,6 +269,10 @@ A seguir, o _Wireframe_ ilustra os elementos descritos na Tabela acima:
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
+## Nova Tela - Produtos iMendes - Consulta por Descrição
+
+![Nova Tela - Consulta por Descrição](./Wireframe-Screen-Description-Consulting.png)
+
 # Requisitos da Integração iMendes
 
 Nesta Seção são descritos os Requisitos da Integração iMendes, que atende à Homologação e abrange os principais recursos do Integrador. Para um Produto, existem 4 (quatro) Métodos de Consulta e cada um utiliza dados específicos para gerar a Requisição e obter os dados. A seguir serão descritos os Métodos e informações.
@@ -285,7 +290,7 @@ Os Métodos de Consulta são necessários para a tomada de decisão durante a co
 
 Para ilustrar a tomada de decisão que o Sistema Ganso deverá realizar conforme o _Input de dados_ do Usuário no Cadastro do Produto, o **Fluxo de Decisão** define as decisões necessárias.
 
-![Fluxo de Decisão do Método de Consulta](./Flow-Decision-Method.jpeg)
+![Fluxo de Decisão do Método de Consulta](./Flow-Decision-Method-02.png)
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
@@ -294,13 +299,15 @@ Para ilustrar a tomada de decisão que o Sistema Ganso deverá realizar conforme
 Conforme **Manual de Integração iMendes**, uma Consulta a **API de Saneamento** requer um padrão `JSON`, e a Função de Consulta Básica através do **Cadastro de Produtos** possui o seguinte _Workflow_:
 
 1. Usuário aciona a **Função de Consulta** ([Ver Seção Cadastro de Produtos / Funções](#cadastro-de-produtos))
-2. O Sistema deverá identificar **que dados foram inseridos pelo Usuário** para definir o [**Método de Consulta**](#métodos-de-consulta), Tags principais e _endpoint_ de consulta.
+2. O Sistema deverá identificar **que dados foram inseridos pelo Usuário** (executando o **Fluxo de Decisão de Método de Consulta**) para definir o [**Método de Consulta**](#métodos-de-consulta), Tags principais e _endpoint_ de consulta.
 3. Se o **Método de Consulta** definido for igual a **"Método 2 - Apenas Descrição"**, executar o **Passo 8**, senão, continuar a partir do **Passo 4**
 4. Coleta dados do Emitente e gera a Tag `"emit"` do `JSON`
 5. Coleta dados do Perfil do Destinatário da Operação e gera a Tag `"perfil"` do `JSON`
 6. Coleta dados do Produto e gera a Tag `"produtos"`
-7. Constrói a estrutura JSON obedecendo a ordem: `emit` > `perfil` > `produtos`
-8. Envia requisição ao _endpoint_ indicado. [Ver Seção Parâmetros iMendes](#parâmetros-imendes)
+7. Constrói a estrutura JSON obedecendo a ordem: `emit` > `perfil` > `produtos` e executa o **Passo 9**
+8. Utilizar a **API Envia/Recebe Dados** e exibir a [**Nova Tela - Produtos iMendes - Consulta por Descrição**](#nova-tela---produtos-imendes---consulta-por-descrição) para Usuário vincular o Produto e retornar ao **Passo 2**.
+9. Envia requisição ao _endpoint_ indicado. [Ver Seção Parâmetros iMendes](#parâmetros-imendes)
+10. Obtém retorno.
 
 A ilustração abaixo, demonstra os passos que compoem a Consulta a **API Saneamento**
 
