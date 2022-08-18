@@ -25,6 +25,7 @@
 - [Requisitos da Integração iMendes](#requisitos-da-integração-imendes)
   - [Métodos de Consulta](#métodos-de-consulta)
   - [Composição da Requisição](#composição-da-requisição)
+    - [Exemplo JSON - Requisição API](#exemplo-json---requisição-api)
   - [Consulta Avançada iMendes - Gerenciador Tributário](#consulta-avançada-imendes---gerenciador-tributário)
     - [Regras de Negócio](#regras-de-negócio)
   - [Composição da Requisição em Lotes](#composição-da-requisição-em-lotes)
@@ -290,7 +291,7 @@ Para ilustrar a tomada de decisão que o Sistema Ganso deverá realizar conforme
 
 ## Composição da Requisição
 
-Conforme **Manual de Integração iMendes**, uma Consulta a API requer um padrão `JSON`, e a Consulta Básica possui o seguinte _Workflow_:
+Conforme **Manual de Integração iMendes**, uma Consulta a API requer um padrão `JSON`, e a Consulta Básica através do **Cadastro de Produtos** possui o seguinte _Workflow_:
 
 1. Coleta dados do Emitente e gera a Tag `"emit"` do `JSON`
 2. Coleta dados do Perfil do Destinatário da Operação e gera a Tag `"perfil"` do `JSON`
@@ -323,14 +324,158 @@ Além das informações da **Empresa**, são necessárias informações para com
 | Origem                    | `"origem"`     | Código                        | Indica a Origem da Mercadoria.                                                                                                                                                                                                                              |                 Se Tipo de Consulta igual a **Método 1**, e **Código de Barras** não iniciar em 789 ou 790, enviar Código 8.                 |          **Sim**          |
 | Substituição Tributária   | `"substICMS"`  | Caractere                     | Indica se o destinatário é Substituto Tributário.                                                                                                                                                                                                           | Se houver uma Inscrição Estadual de Substituto Tributário informada no Cadastro de Empresas, deve ser enviado "S", caso contrário enviar "N" |          **Sim**          |
 
-Obtidos os dados do Perfil, a Tag de `"produtos"` deve ser composta conforme dados e Regras de Negócio abaixo:
-| Dado | Tag | Tipo | Descritivo | Origem dos Dados | Regras de Negócio | Preenchimento Obrigatório |
-| :------------- | :------------- | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: |
-| Código | `"codigo"` | Código | Código de Barras EAN/GTIN ou Código Interno do Produto quando o mesmo foi enviado previamente para Saneamento pela iMendes | **Cadastro de Produtos** campo Código de Barras Padrão ou Código Interno | Verificar o Método de Consulta apropriado para preenchimento deste campo, observando a Regra de Negócio. [Ver Seção Métodos de Consulta](#métodos-de-consulta) | **Sim** |
-| Código Interno | `"codInterno"` | Caractere | Indicativo de "Sim" ou "Não" para consulta via Código Interno, quando o Produto foi enviado previamente para Saneamento pela iMendes | Preencher com "S" ou "N" de acordo com a Regra de Negócio | Verificar se o Produto está sinalizado como **"Enviado para Integrador Fiscal"** e o **Método de Consulta** adequado. [Ver Seção Métodos de Consulta](#métodos-de-consulta) | **Sim** |
-| Descrição | `"descricao"` | Caractere | Descrição Completa do Produto | **Cadastro de Produtos** campo "Descrição" | Sempre enviar a Descrição Completa do Produto. | **Sim** |
-| Código iMendes | `"codImendes"` | Código | Código _Único_ fornecido pela iMendes. Quando um produto é vinculado ao código iMendes esta informação deve ser utilizada para consulta. | **Cadastro de Produtos** campo **"Codigo iMendes"** [Ver Seção Cadastro de Produtos](#cadastro-de-produtos) | Verificar se o Código iMendes está preenchido, se sim, enviar o este Código, senão enviar em branco. Utilizar o **Método de Consulta 3** [Ver Seção Métodos de Consulta](#métodos-de-consulta) | **Não** |
-| NCM | `"ncm"` | Caractere | Nomenclatura Comum do Mercosul | **Cadastro de Produtos** campo "NCM" | Verificar se NCM está preenchido no Cadastro do Produto. Esta informação é importante para o comparativo de tributos "(Antes x Depois)" | **Não** |
+Obtidos os dados do Perfil, a Tag de `"produtos"` é um _array_ de Produtos e deve ser composta conforme dados e Regras de Negócio abaixo:
+
+| Dado           | Tag            | Tipo      | Descritivo                                                                                                                               | Origem dos Dados                                                                                            | Regras de Negócio                                                                                                                                                                              | Preenchimento Obrigatório |
+| :------------- | :------------- | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------: |
+| Código         | `"codigo"`     | Código    | Código de Barras EAN/GTIN ou Código Interno do Produto quando o mesmo foi enviado previamente para Saneamento pela iMendes               | **Cadastro de Produtos** campo Código de Barras Padrão ou Código Interno                                    | Verificar o Método de Consulta apropriado para preenchimento deste campo, observando a Regra de Negócio. [Ver Seção Métodos de Consulta](#métodos-de-consulta)                                 |          **Sim**          |
+| Código Interno | `"codInterno"` | Caractere | Indicativo de "Sim" ou "Não" para consulta via Código Interno, quando o Produto foi enviado previamente para Saneamento pela iMendes     | Preencher com "S" ou "N" de acordo com a Regra de Negócio                                                   | Verificar se o Produto está sinalizado como **"Enviado para Integrador Fiscal"** e o **Método de Consulta** adequado. [Ver Seção Métodos de Consulta](#métodos-de-consulta)                    |          **Sim**          |
+| Descrição      | `"descricao"`  | Caractere | Descrição Completa do Produto                                                                                                            | **Cadastro de Produtos** campo "Descrição"                                                                  | Sempre enviar a Descrição Completa do Produto.                                                                                                                                                 |          **Sim**          |
+| Código iMendes | `"codImendes"` | Código    | Código _Único_ fornecido pela iMendes. Quando um produto é vinculado ao código iMendes esta informação deve ser utilizada para consulta. | **Cadastro de Produtos** campo **"Codigo iMendes"** [Ver Seção Cadastro de Produtos](#cadastro-de-produtos) | Verificar se o Código iMendes está preenchido, se sim, enviar o este Código, senão enviar em branco. Utilizar o **Método de Consulta 3** [Ver Seção Métodos de Consulta](#métodos-de-consulta) |          **Não**          |
+| NCM            | `"ncm"`        | Caractere | Nomenclatura Comum do Mercosul                                                                                                           | **Cadastro de Produtos** campo "NCM"                                                                        | Verificar se NCM está preenchido no Cadastro do Produto. Esta informação é importante para o comparativo de tributos "(Antes x Depois)"                                                        |          **Não**          |
+
+### Exemplo JSON - Requisição API
+
+A Estrutura abaixo exemplifica uma Consulta do Produto **Água Mineral** através do **Cadastro de Produtos** para **Operação de Saída a Consumidor Final** para o Estado de **MS** (Operação Interna). Na Tag `perfil/uf` é enviada apenas a UF correspondente à UF da Empresa Filial, ou seja, da Tag `emit/uf`.
+
+```JSON
+{
+  "emit": {
+    "amb": 1,
+    "cnpj": "04391715000173",
+    "crt": 3,
+    "regimeTrib": "LR",
+    "uf": "MS",
+    "cnae": "",
+    "substICMS": "N",
+    "interdependente": "N"
+  },
+  "perfil": {
+    "uf": ["MS"],
+    "cfop": "5102",
+    "caracTrib": [8],
+    "finalidade": 0,
+    "simplesN": "N",
+    "origem": "0",
+    "substICMS": "N"
+  },
+  "produtos": [
+    {
+      "codigo": "7894900531008",
+      "codInterno": "N",
+      "codIMendes": "",
+      "descricao": "AGUA MINERAL CRYSTAL C/GAS 500ML",
+      "ncm": "22011000"
+    }
+  ]
+}
+```
+
+O trecho acima, retornará a seguinte Estrutura de Dados:
+
+```JSON
+  "Cabecalho": {
+        "sugestao": "Se a comunicação estiver lenta, reduza o número de UF's, Caract. Tributárias e produtos. Nessa ordem.",
+        "amb": 1,
+        "cnpj": "04391715000173",
+        "dthr": "2022-08-18T11:37:34.7495236-03:00",
+        "transacao": "48773646",
+        "mensagem": "OK",
+        "prodEnv": 1,
+        "prodRet": 1,
+        "prodNaoRet": 0,
+        "comportamentosParceiro": "104;106;108",
+        "comportamentosCliente": "",
+        "versao": "2.3.5.0"
+    },
+    "Grupos": [
+        {
+            "codigo": "7408",
+            "nCM": "22011000",
+            "cEST": "03.005.04",
+            "lista": "",
+            "tipo": "",
+            "codAnp": "",
+            "passivelPMC": "S",
+            "impostoImportacao": 20.00,
+            "pisCofins": {
+                "cstEnt": "73",
+                "cstSai": "06",
+                "aliqPis": 0.00,
+                "aliqCofins": 0.00,
+                "nri": "918",
+                "ampLegal": "'Lei n 13.097/2015, Art. 28'",
+                "redPis": 0,
+                "redCofins": 0
+            },
+            "iPI": {
+                "cstEnt": "03",
+                "cstSai": "53",
+                "aliqipi": 0.00,
+                "codenq": "999",
+                "ex": "00"
+            },
+            "Regras": [
+                {
+                    "uFs": [
+                        {
+                            "uF": "MS",
+                            "CFOP": {
+                                "cFOP": "5102",
+                                "CaracTrib": [
+                                    {
+                                        "codigo": "8",
+                                        "finalidade": "0",
+                                        "codRegra": "1473",
+                                        "codExcecao": 0,
+                                        "cFOP": "5405",
+                                        "cST": "60",
+                                        "cSOSN": "",
+                                        "aliqIcmsInterna": 17.00,
+                                        "aliqIcmsInterestadual": 0.00,
+                                        "reducaoBcIcms": 0.00,
+                                        "reducaoBcIcmsSt": 0,
+                                        "redBcICMsInterestadual": 0,
+                                        "aliqIcmsSt": 0,
+                                        "iVA": 0,
+                                        "iVAAjust": 0,
+                                        "fCP": 0.00,
+                                        "codBenef": "",
+                                        "pDifer": 0,
+                                        "pIsencao": 0.00,
+                                        "antecipado": "N",
+                                        "desonerado": "N",
+                                        "isento": "N",
+                                        "tpCalcDifal": 0,
+                                        "ampLegal": "'BASE LEGAL DA SUBSTITUICAO TRIBUTARIA - RICMS/MS, ANEXO III, SUBANEXO I, TABELAS IV-A E IV-B, ITEM 5.4'",
+                                        "InfPDV": {
+                                            "pICMSPDV": 0,
+                                            "simbPDV": "F",
+                                            "cstICMS": "60",
+                                            "csosn": "",
+                                            "cstSai": "06",
+                                            "aliqPis": 0.00,
+                                            "aliqCofins": 0.00
+                                        },
+                                        "Protocolo": {},
+                                        "Convenio": {}
+                                    }
+                                ]
+                            },
+                            "mensagem": "OK"
+                        }
+                    ]
+                }
+            ],
+            "prodEan": [
+                "07894900531008"
+            ],
+            "Mensagem": "OK"
+        }
+    ],
+    "SemRetorno": []
+}
+```
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
@@ -349,7 +494,7 @@ A Consulta Avançada do Integrador iMendes utilizará a [**Nova Tela do Gerencia
 
 ## Composição da Requisição em Lotes
 
-O _Diagrama_ abaixo, ilustra a tomada de decisão durante o disparo de consulta em Lotes.
+O _Fluxograma_ abaixo, ilustra a tomada de decisão durante o disparo de consulta em Lotes.
 
 ![Fluxo de Consulta em Lotes - iMendes](./Batch-Search-Flow.jpeg)
 
