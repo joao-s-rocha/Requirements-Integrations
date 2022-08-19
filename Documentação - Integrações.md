@@ -32,6 +32,7 @@
   - [Composição da Requisição em Lotes](#composição-da-requisição-em-lotes)
   - [Captura e Armazenamento dos Dados](#captura-e-armazenamento-dos-dados)
   - [Recursos Adicionais iMendes](#recursos-adicionais-imendes)
+    - [Exemplos de Requisição - Métodos Adicionais](#exemplos-de-requisição---métodos-adicionais)
   - [Regra Fiscal de Entrada e Saída x iMendes](#regra-fiscal-de-entrada-e-saída-x-imendes)
 - [Relação de Campos Ganso x Integrador Fiscal](#relação-de-campos-ganso-x-integrador-fiscal)
   - [Tabela Produto](#tabela-produto)
@@ -286,7 +287,7 @@ Nesta Seção são descritos os Requisitos da Integração iMendes, que atende �
 
 ## Métodos de Consulta
 
-Os Métodos de Consulta são necessários para a tomada de decisão durante a consulta tributária de um Produto, pois, _depende de quais informações serão fornecidas pelo Usuário ao Sistema_. Cada Método possui uma API de consulta específica, e requer dados específicos que são:
+Os Métodos de Consulta são necessários para a tomada de decisão durante a consulta tributária de um Produto, pois, _depende de quais informações serão fornecidas pelo Usuário ao Sistema_. Cada Método possui uma API de consulta específica e requer dados específicos. A seguir a definição de cada Método:
 
 |    Método    |                   Tipo de Consulta                   | Descritivo                                                                                                                                                            | Regras de Negócio                                                                                                                                                                                                                                                                                                                                                                                                                                                |     API a Consumir     | Tags de Envio Principais                                                     |
 | :----------: | :--------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------: | :--------------------------------------------------------------------------- |
@@ -539,6 +540,57 @@ O _Fluxograma_ abaixo, ilustra a tomada de decisão durante o disparo de consult
 
 ## Recursos Adicionais iMendes
 
+O Integrador iMendes oferece métodos adicionais através da **API Envia/Recebe Dados** que retorna dados específicos como **Histórico de Acesso, Produtos Alterados, Consulta por Descrição e Remoção de Produtos da Base iMendes**. Os métodos interessantes para o usuário são: **Produtos Alterados, Consulta por Descrição e Remoção de Produtos**, que estão descritos a seguir.
+
+| Serviço              | Descritivo                                                                                                                                                                      | Composição da Requisição                                                                                                                                                       | Retorno                                                                                                                                                                                                         | Tratamento                                                                                                                        |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| **ALTERADOS**        | Retorna a Lista de Produtos cuja revisão tributária foi finalizada pela iMendes ou que tiveram algum tipo de alteração desde a última consulta do produto para o CNPJ indicado. | - Nome do Serviço = 'ALTERADOS' <br> - Dados (CNPJ, UF, Limite de Produtos) [Ver Seção Exemplos Requisição - Métodos Adicionais](#exemplos-de-requisição---métodos-adicionais) | Cabeçalho e Lista de Produtos                                                                                                                                                                                   | \*Criar método de verificação e processamento de atualização dos Produtos, utilizando a data de revisão.                          |
+| **DESCRPRODUTOS**    | Retorna a Lista de Produtos compatível com a descrição informada para pesquisa, com limite máximo de 100 Produtos.                                                              | - Nome do Serviço = 'DESCRPRODUTOS' <br> - Dados = CNPJ, DESCRIÇÃO, Tipo [Ver Seção Exemplos Requisição - Métodos Adicionais](#exemplos-de-requisição---métodos-adicionais)    | Cabeçalho e Produtos                                                                                                                                                                                            | Exibir o ID, Descrição e EAN na [**Nova Tela - Consulta por Descrição**](#nova-tela---produtos-imendes---consulta-por-descrição). |
+| **REMOVEDEVOLVIDOS** | Envia uma Lista de IDs para remoção da Base de Dados iMendes, quando o Usuário desejar eliminar seus Produtos classificados pela iMendes.                                       | Mensagem de Sucesso e Quantidade de Itens Removidos.                                                                                                                           | Enviar os Produtos selecionados na [**Nova Tela - Gerenciador Tributário**](#nova-tela---gerenciador-tributário) resultantes de uma pesquisa selecionando a opção **Produtos Enviados para Integrador Fiscal**. |
+
+### Exemplos de Requisição - Métodos Adicionais
+
+Método Alterados
+
+```JSON
+/* Envio */
+{
+  "nomeServico": "ALTERADOS",
+  "dados": "04391715000173|MS|100"
+}
+
+/* Retorno */
+{
+  "cabecalho": {
+        "CNPJ": "04391715000173",
+        "UF": "MS",
+        "produtosRetornados": 4,
+        "mensagem": "OK"
+  },
+  "produto": [{
+        "codigo": "1602",
+        "dtultcons": "2017-12-22",
+        "dtrev": "2018-02-15"
+  },
+  {
+    "codigo": "27153",
+    "dtultcons": "2017-12-22",
+    "dtrev": "2018-02-15"
+  },
+  {
+    "codigo": "1696",
+    "dtultcons": "2017-12-22",
+    "dtrev": "2018-02-15"
+  },
+  {
+    "codigo": "8903855062822",
+    "dtultcons": "2017-12-22",
+    "dtrev": "2018-02-15"
+  }]
+}
+
+```
+
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 ## Regra Fiscal de Entrada e Saída x iMendes
@@ -649,12 +701,13 @@ A seguir a Tabela de Acessos Restritos essenciais para Controle da Integração 
 
 A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras de Negócio e Dados envolvidos.
 
-| Nome do Log                      | Descritivo                                                 | Regras de Negócio                                                                                 | Dados                                                                                                                                                                 |   Integrador   |
-| :------------------------------- | :--------------------------------------------------------- | :------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------: |
-| Consumo da API                   | Histórico de Acesso ou Consumo da API do Integrador Fiscal | Armazenar dados da Consulta a cada nova Requisição à API do Integrador.                           | Código da Filial, Data, Hora, Usuário de Consulta, Nome do Integrador, Nome da API Consumida, Método de Consulta, Número de Produtos enviados, Resposta da API        |   **Todos**    |
-| Produto Log Consulta Tributária  | Histórico de Consultas por Produto                         | Armazenar dados da Consulta Tributária realizada pelo Produto à API do Integrador.                | Código do Produto, Código da Filial, Data, Hora, Usuário de Consulta, Nome do Integrador, Nome da API, Método de Consulta, Resposta da API, Dados de Retorno          |   **Todos**    |
-| Produto Log Atualização Tributos | Histórico de Tributos alterados por Produto                | Armazenar dados dos Tributos que foram alterados e vincular a um Produto Log Consulta Tributária. | Código do Produto, Código da Filial, Todos os Campos de Tributos do Produto que foram atualizados, Todos os Campos de Tributos não atualizados, Data, Hora e Usuário. |   **Todos**    |
-| Cenário Fiscal                   | Histórico de Alterações de Cenário Fiscal                  | Armazenar dados da atualização do Cenário Fiscal, quando o integrador for igual a **Mix Fiscal**  | ID do Cenário Fiscal, Data, Hora, Usuário e Histórico (descritivo da alteração realizada)                                                                             | **Mix Fiscal** |
+| Nome do Log                          | Descritivo                                                               | Regras de Negócio                                                                                                                                                             | Dados                                                                                                                                                                 |   Integrador   |
+| :----------------------------------- | :----------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------: |
+| Consumo da API                       | Histórico de Acesso ou Consumo da API do Integrador Fiscal               | Armazenar dados da Consulta a cada nova Requisição à API do Integrador.                                                                                                       | Código da Filial, Data, Hora, Usuário de Consulta, Nome do Integrador, Nome da API Consumida, Método de Consulta, Número de Produtos enviados, Resposta da API        |   **Todos**    |
+| Produto Log Consulta Tributária      | Histórico de Consultas por Produto                                       | Armazenar dados da Consulta Tributária realizada pelo Produto à API do Integrador.                                                                                            | Código do Produto, Código da Filial, Data, Hora, Usuário de Consulta, Nome do Integrador, Nome da API, Método de Consulta, Resposta da API, Dados de Retorno          |   **Todos**    |
+| Produto Log Atualização Tributos     | Histórico de Tributos alterados por Produto                              | Armazenar dados dos Tributos que foram **alterados** e os **não alterados** e vincular a um Produto Log Consulta Tributária.                                                  | Código do Produto, Código da Filial, Todos os Campos de Tributos do Produto que foram atualizados, Todos os Campos de Tributos não atualizados, Data, Hora e Usuário. |   **Todos**    |
+| Produto Log Envio Revisão Tributária | Histórico de Produtos enviados para Revisão Tributária para o Integrador | Armazenar os Produtos que foram enviados para Revisão Tributária, e quando houver retorno de atualização, sinalizar o Status como Revisado e gravar a Data e Hora do revisão. | Código Filial, Código do Produto, Data, Hora, Usuário de Envio, Status da Revisão, Integrador Fiscal                                                                  |   **Todos**    |
+| Cenário Fiscal                       | Histórico de Alterações de Cenário Fiscal                                | Armazenar dados da atualização do Cenário Fiscal, quando o integrador for igual a **Mix Fiscal**                                                                              | ID do Cenário Fiscal, Data, Hora, Usuário e Histórico (descritivo da alteração realizada)                                                                             | **Mix Fiscal** |
 
 # Requisitos de Homologação
 
