@@ -529,7 +529,7 @@ A Consulta Avançada do Integrador iMendes utilizará a [**Nova Tela do Gerencia
 
 O _Fluxograma_ abaixo, ilustra a tomada de decisão durante o disparo de consulta em Lotes.
 
-![Fluxo de Consulta em Lotes - iMendes](./Batch-Search-Flow.jpeg)
+![Fluxo de Consulta em Lotes - iMendes](./Batch-Consulting-Flow-iMendes.png)
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
@@ -623,6 +623,11 @@ Nesta Seção são descritos os **Relacionamentos das Informações** que são r
 # Requisitos de Segurança
 
 ## Acessos Restritos
+
+A seguir a Tabela de Acessos Restritos essenciais para Controle da Integração Fiscal
+| Grupo | Descritivo | Regra de Negócio | Dependendência | Integrador |
+|:---|:---|:---|:---|:---|
+
 
 ## Logs
 
