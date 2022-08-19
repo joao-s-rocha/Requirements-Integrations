@@ -647,6 +647,15 @@ A seguir a Tabela de Acessos Restritos essenciais para Controle da Integração 
 
 ## Logs
 
+A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras de Negócio e Dados envolvidos.
+
+| Nome do Log                      | Descritivo                                                 | Regras de Negócio                                                                                 | Dados                                                                                                                                                                 |   Integrador   |
+| :------------------------------- | :--------------------------------------------------------- | :------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------: |
+| Consumo da API                   | Histórico de Acesso ou Consumo da API do Integrador Fiscal | Armazenar dados da Consulta a cada nova Requisição à API do Integrador.                           | Código da Filial, Data, Hora, Usuário de Consulta, Nome do Integrador, Nome da API Consumida, Método de Consulta, Número de Produtos enviados, Resposta da API        |   **Todos**    |
+| Produto Log Consulta Tributária  | Histórico de Consultas por Produto                         | Armazenar dados da Consulta Tributária realizada pelo Produto à API do Integrador.                | Código do Produto, Código da Filial, Data, Hora, Usuário de Consulta, Nome do Integrador, Nome da API, Método de Consulta, Resposta da API, Dados de Retorno          |   **Todos**    |
+| Produto Log Atualização Tributos | Histórico de Tributos alterados por Produto                | Armazenar dados dos Tributos que foram alterados e vincular a um Produto Log Consulta Tributária. | Código do Produto, Código da Filial, Todos os Campos de Tributos do Produto que foram atualizados, Todos os Campos de Tributos não atualizados, Data, Hora e Usuário. |   **Todos**    |
+| Cenário Fiscal                   | Histórico de Alterações de Cenário Fiscal                  | Armazenar dados da atualização do Cenário Fiscal, quando o integrador for igual a **Mix Fiscal**  | ID do Cenário Fiscal, Data, Hora, Usuário e Histórico (descritivo da alteração realizada)                                                                             | **Mix Fiscal** |
+
 # Requisitos de Homologação
 
 ## Checklist do MVP iMendes
