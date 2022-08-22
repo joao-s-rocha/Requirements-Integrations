@@ -20,6 +20,7 @@
   - [Cadastro de Produtos](#cadastro-de-produtos)
     - [Funções](#funções)
     - [Novos Campos](#novos-campos)
+  - [Regra Fiscal de Entrada Ganso](#regra-fiscal-de-entrada-ganso)
   - [Nova Tela - Gerenciador Tributário](#nova-tela---gerenciador-tributário)
   - [Nova Tela - Comparativo de Tributos (Antes x Depois)](#nova-tela---comparativo-de-tributos-antes-x-depois)
   - [Nova Tela - Produtos iMendes - Consulta por Descrição](#nova-tela---produtos-imendes---consulta-por-descrição)
@@ -37,7 +38,8 @@
     - [Método Descrição de Produtos](#método-descrição-de-produtos)
     - [Método Remove Devolvidos](#método-remove-devolvidos)
     - [Método Histórico de Acesso](#método-histórico-de-acesso)
-  - [Regra Fiscal de Entrada e Saída x iMendes](#regra-fiscal-de-entrada-e-saída-x-imendes)
+  - [Regra Fiscal de Entrada x iMendes](#regra-fiscal-de-entrada-x-imendes)
+    - [Relação de Operações - Ganso x iMendes](#relação-de-operações---ganso-x-imendes)
 - [Relação de Campos Ganso x Integrador Fiscal](#relação-de-campos-ganso-x-integrador-fiscal)
   - [Tabela Produto](#tabela-produto)
   - [Tabela Produto Parâmetros](#tabela-produto-parâmetros)
@@ -223,6 +225,16 @@ Para disponibilizar ao Usuário um Método de Consulta de Tributos através do C
 | **Campo**            | A definir                     | Enviado para Integrador Fiscal         | Campo para armazenar e exibir a informação de que o Produto foi enviado para Revisão Tributária para o Integrador Fiscal. Será utilizado para identificar quais Produtos estão pendentes de recepção da Tributação do Integrador **iMendes**, e como _flag_ para indicar que precisa receber atualização. Complementar esta informação com a Data/Hora do envio. | Somente leitura e visualmente destacado.                                                                                                                                                                                         |    **Todos**    |
 | **Caixa de Seleção** | A definir                     | **Não Tributar por Integrador Fiscal** | Parâmetro para restringir a atualização de Tributos do Produto pelo Integrador Fiscal (_exceto Mix Fiscal_) ativo. Por decisão do Usuário, alguns produtos podem ser tributados seguindo a sua própria interpretação ou por orientação de sua contabilidade, e não irão receber atualizações do Integrador.                                                      | Solicitar Acesso Restrito. [Ver Seção Acessos Restritos](#acessos-restritos). <br><br>O Integrador Mix Fiscal requer formalização via e-mail esta decisão, portanto, esta opção deve ser desativado para o Integrador Mix Fiscal | **iMendes/FGF** |
 
+## Regra Fiscal de Entrada Ganso
+
+Nesta Seção são descritos os Novos Campos necessários para que as Integrações Fiscais sejam aprimoradas.
+
+| Tipo de Elemento | Nome/Texto | Descritivo | Regra de Negócio | Integrador |
+|:---|:---|:---|:---|:---:|
+| Flag | Criado por Integrador Fiscal | Campo para sinalizar que a Regra Fiscal foi criada por um Integrador Fiscal através de um retorno de Consulta Tributária | Deve ser apenas uma Flag indicativa. Ativar apenas se o Parâmetro "Permitir Criar Regras Fiscais" estiver ativado. [Ver Seção Parâmetros](#parâmetros-imendes). <br><br> Bloquear a Edição de Regras criadas pelo Integrador. | **iMendes** |
+| Campo Numérico | Código Regra iMendes | Campo para armazenar o Código da Regra Fiscal da Base do Integrador, quando devolvido pela API. Esta informação será utilizada para eventuais atualizações da Própria Regra do Integrador, para evitar que Regras Fiscais em duplicidade possam ser criadas, e para eventuais soluções de problemas. | Armazenar o Código da Regra retornado pela API no campo especificado. | **Todos** |
+
+
 ## Nova Tela - Gerenciador Tributário
 
 O Integrador **iMendes** oferece opção para Usuário consultar a Tributação de vários produtos em uma única Requisição (em Lote), obtendo retorno imediato conforme as configurações da Operação solicitada. Além disso, permite o envio do Cadastro Completo para revisão. Os integradores **FGF** e **Mix Fiscal** permitem apenas o envio do Cadastro Completo para Revisão Tributária (em Lote). Deste modo é necessário criar uma Nova Tela para o recurso ao Usuário. A seguir, estão descritos os Recursos que esta Nova Tela deve disponibilizar.
@@ -284,6 +296,8 @@ O Integrador **iMendes** possui um recurso importante para garantir que o Usuár
 | Cadastrando Novo Produto ou Utilizando um Produto Cadastrado | Descrição e Código de Barras inválido, mas com 8, 12, 13 ou 14 dígitos | Informar que o Código de Barras é inválido e solicitar que o usuário verifique o Código. Disponibilizar as opções para **"Continuar por Descrição"** e **"Continuar pelo Código de Barras"**. | Se Usuário **"Continuar por Descrição"**, exibir mensagem informando que a consulta ocorrerá através da Descrição, e utilizar o [**Método de Consulta 2**](#métodos-de-consulta) e exibir os Produtos encontrados.<br><br> Se Usuário **"Continuar pelo Código de Barras"**, utilizar o [**Método de Consulta 1**](#métodos-de-consulta) e exibir mensagem informando que o Produto pode não ser encontrado. | Aplicar método de validação do Código de Barras pelo dígito verificador. <br><br> Exibir mensagem clara e objetiva sobre possível falha do Processo "Continuar pelo Código de Barras". |
 
 ![Nova Tela - Consulta por Descrição](./Wireframe-Screen-Description-Consulting.png)
+
+
 
 # Requisitos da Integração iMendes
 
@@ -751,7 +765,38 @@ Exemplo de Requisição JSON
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
-## Regra Fiscal de Entrada e Saída x iMendes
+## Regra Fiscal de Entrada x iMendes
+
+O Integrador **iMendes** possui dados suficientes para alimentar a Regra Fiscal de Entrada do Sistema Ganso. A Tabela a seguir aponta quais campos obrigatórios da **Regra Fiscal Ganso** devem ser alimentados pelo Retorno da Consulta Avançada iMendes.
+
+| Campo do Ganso | Tabela | Descritivo | Retorno iMendes | Regra de Negócio |
+|:---|:---|:---|:---:|:---|
+| descricao | produto_prf | Descrição da Regra Fiscal | - | Criar uma descrição padronizada utilizando dados das informações tributárias de retorno. Sugestão: "RF IMENDES - [Tipo] NCM [NCM] - [CARACTERÍSTICA TRIBUTÁRIA] - [UF]" |
+| codigo_filial | produto_prf | Código da Filial de Consulta | - | Preencher com o Código da Filial que realizou a Consulta |
+| data_inicial | produto_prf | Data de Vigência Inicial | - | Preencher com a Data Atual da Criação da Regra |
+| data_final | produto_prf | Data de Vigência Final | - | Deixar em branco |
+| status | produto_prf | Status da Regra | - | Marcar como "Ativa" | 
+| tipo_operacao | produto_prf | Tipo de Regra Fiscal (Entrada ou Saída) | - | Preencher com 'E' |
+| orig_finalidoperacao | produto_prf | Código da Finalidade da Operação consultada | `CaracTrib/finalidade` | Preencher com o Código da **Finalidade do Produto** relacionado à Finalidade de Operação cadastrada que foi enviada para Consulta à API. [Ver Seção Cadastro de Finalidade de Operação](#cadastro-de-finalidade-de-operações) |
+| orig_perfil_fiscal | produto_prf | Código do Perfil Fiscal consultado | `CaracTrib/codigo` | Preencher com o Código da Característica Tributária relacionada ao **Perfil Fiscal** ([Ver Seção Cadastro de Perfil Fiscal](#cadastro-de-perfil-fiscal)) enviado para consulta à API. |
+| orig_uf | produto_prf | UFs de Origem consultadas | `Regras/uFs/uF` | Preencher com as UFs retornadas na Tag correspondente |
+| ncm | produto_prf | NCM do Produto | `Grupos/nCM` | Preencher com o NCM retornado na Tag correspondente | 
+| cest | produto_prf | CEST do Produto | `Grupos/cEST` | Preencher com o CEST retornado na Tag correspondente. Eliminar a máscara do retorno deste campo. |
+| orig_cfop | produto_prf | CFOP de Origem | `CaracTrib/cFOP` | Preencher com o CFOP retornado na Tag correspondente |
+| orig_cst | produto_prf | CST/CSOSN de Origem | `CaracTrib/cST` | Preencher com o CST ou CSOSN retornado pela Tag correspondente, complementando o primeiro dígito com o dígito informado no campo **origem** da Tag de Envio `perfil` [Ver Seção Composição da Requisição](#composição-da-requisição) |
+| sugere_cfop_sn | produto_prf | Definir o CFOP | - | Preencher com 'S' para que o campo de CFOP seja preenchido com a informação retornada da Tag correspondente |
+| sugere_cfop | produto_prf | CFOP a aplicar | `CaracTrib/cFOP` | Preencher com o CFOP retornado pela Tag correspondente |
+| sugere_icms_cstcsosn_sn | produto_prf | Definir CST/CSOSN | - | Preencher com 'S' para que o CST/CSOSN seja preenchido com a informação retornada da Tag correspondente |
+| sugere_icms_cstcsosn | produto_prf | CST/CSOSN a aplicar | `CaracTrib/cST` ou `CaracTrib/cSOSN`| Preencher com o CST ou CSOSN retornado pela Tag correspondente, adicionando como prefixo o dígito enviado no campo `perfil/origem` |
+| zerar_icms | produto_prf | Zerar ICMS do Produto | - | Se `CaracTrib/cST` = '60' e `CaracTrib/cFOP` = 'x403' ou 'x405' definir como 'S', caso contrário, definir como 'N' |
+| sugere_icms_aliq_sn | produto_prf | Definir Alíquota ICMS | - | Preencher com 'S' se `CaracTrib/cST` diferente de '60' e `CaracTrib/cFOP` diferente de 'x403' ou 'x405' |
+| codigo_produto_tributo | produto_prf | Alíquota de ICMS a Aplicar | `CaracTrib/aliqIcmsInterestadual` | **Regra 1** - Se o campo `CaracTrib/cST` igual a '60', preencher com o Código do Tributo da tabela "PRODUTO_TRIBUTO" que corresponda a "SITUACAO_TRIBUTARIA" igual a 'F' e que o campo "CST" seja igual ao campo de retorno. <br><br>**Regra 2** - Se `CaracTrib/cST` diferente de '60' e campo de retorno maior que "zero", preencher com o Código do Tributo da tabela "PRODUTO_TRIBUTO" que corresponda a "SITUACAO_TRIBUTARIA" igual a 'T' e campo "CST" seja igual ao campo de retorno. |
+| sugere_icms_rbc_sn | produto_prf | Definir Redução de Base de Cálculo do ICMS | - | Preencher com 'S' para que o campo Redução de Base seja preenchido |
+| sugere_icms_rbc | produto_prf | Percentual da Redução de Base de Cálculo do ICMS a Aplicar | `CaracTrib/reducaoBcIcms` | Preencher com a informação do campo retornado. |
+
+
+
+### Relação de Operações - Ganso x iMendes
 
 ---
 
