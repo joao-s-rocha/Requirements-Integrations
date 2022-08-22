@@ -33,6 +33,10 @@
   - [Captura e Armazenamento dos Dados](#captura-e-armazenamento-dos-dados)
   - [Recursos Adicionais iMendes](#recursos-adicionais-imendes)
     - [Exemplos de Requisição - Métodos Adicionais](#exemplos-de-requisição---métodos-adicionais)
+    - [Método Alterados](#método-alterados)
+    - [Método Descrição de Produtos](#método-descrição-de-produtos)
+    - [Método Remove Devolvidos](#método-remove-devolvidos)
+    - [Método Histórico de Acesso](#método-histórico-de-acesso)
   - [Regra Fiscal de Entrada e Saída x iMendes](#regra-fiscal-de-entrada-e-saída-x-imendes)
 - [Relação de Campos Ganso x Integrador Fiscal](#relação-de-campos-ganso-x-integrador-fiscal)
   - [Tabela Produto](#tabela-produto)
@@ -542,15 +546,15 @@ O _Fluxograma_ abaixo, ilustra a tomada de decisão durante o disparo de consult
 
 O Integrador iMendes oferece métodos adicionais através da **API Envia/Recebe Dados** que retorna dados específicos como **Histórico de Acesso, Produtos Alterados, Consulta por Descrição e Remoção de Produtos da Base iMendes**. Os métodos interessantes para o usuário são: **Produtos Alterados, Consulta por Descrição e Remoção de Produtos**, que estão descritos a seguir.
 
-| Serviço              | Descritivo                                                                                                                                                                      | Composição da Requisição                                                                                                                                                       | Retorno                                                                                                                                                                                                         | Tratamento                                                                                                                        |
-| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
-| **ALTERADOS**        | Retorna a Lista de Produtos cuja revisão tributária foi finalizada pela iMendes ou que tiveram algum tipo de alteração desde a última consulta do produto para o CNPJ indicado. | - Nome do Serviço = 'ALTERADOS' <br> - Dados (CNPJ, UF, Limite de Produtos) [Ver Seção Exemplos Requisição - Métodos Adicionais](#exemplos-de-requisição---métodos-adicionais) | Cabeçalho e Lista de Produtos                                                                                                                                                                                   | \*Criar método de verificação e processamento de atualização dos Produtos, utilizando a data de revisão.                          |
-| **DESCRPRODUTOS**    | Retorna a Lista de Produtos compatível com a descrição informada para pesquisa, com limite máximo de 100 Produtos.                                                              | - Nome do Serviço = 'DESCRPRODUTOS' <br> - Dados = CNPJ, DESCRIÇÃO, Tipo [Ver Seção Exemplos Requisição - Métodos Adicionais](#exemplos-de-requisição---métodos-adicionais)    | Cabeçalho e Produtos                                                                                                                                                                                            | Exibir o ID, Descrição e EAN na [**Nova Tela - Consulta por Descrição**](#nova-tela---produtos-imendes---consulta-por-descrição). |
-| **REMOVEDEVOLVIDOS** | Envia uma Lista de IDs para remoção da Base de Dados iMendes, quando o Usuário desejar eliminar seus Produtos classificados pela iMendes.                                       | Mensagem de Sucesso e Quantidade de Itens Removidos.                                                                                                                           | Enviar os Produtos selecionados na [**Nova Tela - Gerenciador Tributário**](#nova-tela---gerenciador-tributário) resultantes de uma pesquisa selecionando a opção **Produtos Enviados para Integrador Fiscal**. |
+| Serviço              | Descritivo                                                                                                                                                                      | Composição da Requisição                                                                                                                                                                | Retorno                                              | Tratamento                                                                                                                                                                                                      |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ALTERADOS**        | Retorna a Lista de Produtos cuja revisão tributária foi finalizada pela iMendes ou que tiveram algum tipo de alteração desde a última consulta do produto para o CNPJ indicado. | - Nome do Serviço = 'ALTERADOS' <br> - Dados (CNPJ, UF, Limite de Produtos) [Ver Seção Exemplos Requisição - Métodos Adicionais](#método-alterados)                                     | Cabeçalho e Lista de Produtos                        | \*Criar método de verificação e processamento de atualização dos Produtos, utilizando a data de revisão.                                                                                                        |
+| **DESCRPRODUTOS**    | Retorna a Lista de Produtos compatível com a descrição informada para pesquisa, com limite máximo de 100 Produtos.                                                              | - Nome do Serviço = 'DESCRPRODUTOS' <br> - Dados = CNPJ, DESCRIÇÃO, Tipo [Ver Seção Exemplos Requisição - Métodos Adicionais](#método-descrição-de-produtos)                            | Cabeçalho e Produtos                                 | Exibir o ID, Descrição e EAN na [**Nova Tela - Consulta por Descrição**](#nova-tela---produtos-imendes---consulta-por-descrição).                                                                               |
+| **REMOVEDEVOLVIDOS** | Envia uma Lista de IDs para remoção da Base de Dados iMendes, quando o Usuário desejar eliminar seus Produtos classificados pela iMendes.                                       | - Nome do Serviço = 'REMOVEDEVOLVIDOS' <br> - Dados (CNPJ, Produtos) em um padrão distinto do comum. [Ver Seção Exemplos de Requisição - Métodos Adicionais](#método-remove-devolvidos) | Mensagem de Sucesso e Quantidade de Itens Removidos. | Enviar os Produtos selecionados na [**Nova Tela - Gerenciador Tributário**](#nova-tela---gerenciador-tributário) resultantes de uma pesquisa selecionando a opção **Produtos Enviados para Integrador Fiscal**. |
 
 ### Exemplos de Requisição - Métodos Adicionais
 
-Método Alterados
+### Método Alterados
 
 ```JSON
 /* Envio */
@@ -588,7 +592,161 @@ Método Alterados
     "dtrev": "2018-02-15"
   }]
 }
+```
 
+O método "ALTERADOS" permite verificar se há atualizações ocorridas para os produtos, que permite criar automatismos com base na "Data de Revisão" retornada pelo método.
+
+### Método Descrição de Produtos
+
+```JSON
+
+/* Envio */
+{
+  "nomeServico": "DESCRPRODUTOS",
+  "dados": "04391715000173|ARROZ|0"
+}
+
+/* Retorno*/
+{
+  "cabecalho": {
+    "CNPJ": "71xxxxxx000160",
+    "produtosRetornados": 100,
+    "mensagem": "OK"
+  },
+  "produto": [{
+    "id": "245197",
+    "descricao": "*ARROZ CAMIL 1KG PARBOILIZADO EM SAQUINHOS C/8UN",
+    "ean": ""
+  },
+  {
+    "id": "114389",
+    "descricao": "*ARROZ CAMIL PRETO 250G",
+    "ean": ""
+  },
+  {
+    "id": "248654",
+    "descricao": "*ARROZ MOMIJI 1KG LONGO ORIENTAL",
+    "ean": ""
+  },
+  {
+    "id": "248655",
+    "descricao": "*ARROZ MOMIJI 5KG CURTO ORIENTAL",
+    "ean": ""
+  },
+  {
+    "id": "1523329",
+    "descricao": "ARROZ ROSALITO 5 KG",
+    "ean": ""
+  }]
+}
+```
+
+O método "DESCRPRODUTOS" é utilizado quando o usuário deseja consultar a Base de dados **iMendes** para relacionar um Produto semelhante ao seu Produto Cadastrado, para que seja possível obter a tributação dos mesmos. [Ver Seção Métodos de Consulta / Método 2](#métodos-de-consulta).
+
+Neste processo, o usuário envia uma descrição sujestiva, e o Sistema deve enviar o CNPJ e o parâmetro **"Contém"** (conforme Manual de Integração) para que a API devolva os Produtos que correspondem à pesquisa.
+
+A **API** retornará um **"Código iMendes"**, **"Descrição Completa"** e um **"EAN"**. Se o usuário optar por relacionar este Produto, o **Código iMendes** deve ser gravado no campo específico do Cadastro de Produtos ([Ver Seção Cadastro de Produtos / Novos Campos](#cadastro-de-produtos)), para que possa ser utilizado em novas consultas.
+
+### Método Remove Devolvidos
+
+O método "REMOVEDEVOLVIDOS" é utilizado quando o usuário deseja remover os Produtos que enviou para revisão pela **iMendes**. Possui estrutura distinta dos demais métodos, além disso, permite que sejam removidos produtos "Devolvidos" que não foram possível classificar devido à falta de informações. Abaixo exemplos de envio e retorno:
+
+```JSON
+  
+  /* Envio */
+  {
+    "nomeServico": "REMOVEDEVOLVIDOS",
+    "dados": "{ \"cnpj\": \"04391715000173\",
+    \"produtos\": [
+      { \"id\": 131375998 },
+      { \"id\": 19550061 },
+      { \"id\": 19555364 }
+    ]}"
+  }
+
+  /* Retorno */
+  {
+    "sucesso": true,
+    "mensagem": "3 removido(s) com sucesso." 
+  }
+```
+Apenas os IDs dos Produtos a serem removidos são necessários. A API retornará mensagem de Sucesso ou Falha, e a quantidade de Produtos removidos. 
+
+Produtos que não foram classificados pela **iMendes** são devolvidos pelo método "HISTORICOACESSO" descrito abaixo:
+
+### Método Histórico de Acesso
+
+O Método Histórico de Acesso retorna dados como: 
+- **Número de Produtos Pendentes de Classificação por Código Interno** | Campo `produtosPendentes_Interno`
+- **Número de Produtos Pendentes de Classificação por EAN** | Campo `produtosPendentes_EAN`
+- **Número de Produtos que não serão Classificados de acordo com Motivo Específico** | Campo `produtosPendentes_Devolvidos`, o Motivo é disponibilizado por Produto na Tag `prodDevolvidos` campo `motivodevolucao` conforme relação abaixo:
+  - DI - Descrição Insuficiente.
+  - SC - Produto sem Código.
+  - CV - Código de Barras com dígito verificador inválido.
+- **Data de Pendência do Produto mais antigo não Classificado** | Campo `produtosPendentes_DataInicio`
+
+Além dos dados mencionados, retorna na Tag `detalhes`, o **Número de Requisições à API, Número de Produtos Enviados e Retornados** e na Tag `prodDevolvidos`
+
+Exemplo de Requisição JSON
+
+```JSON
+  /* Envio */
+  {
+    "nomeServico": "HISTORICOACESSO",
+    "dados": "04391715000173"
+  }
+
+  /* Retorno */
+    {
+      "resumo": {
+        "dataPrimeiroConsumo": "null",
+        "dataUltimoConsumo": "2018-02-23",
+        "produtosPendentes_Interno": 4406,
+        "produtosPendentes_EAN": 0,
+        "produtosPendentes_Devolvidos": 4013,
+        "produtosPendentes_DataInicio": "2017-11-21"
+      },
+      "detalhes": [{
+        "data": "2018-01-15",
+        "metodo": "ViaAPI_tpConsulta_2 ConfigTrib",
+        "msg": "OK",
+        "requisicoes": 13,
+        "enviados": 25775,
+        "retornados": 22131
+      },
+      {
+        "data": "2018-02-23",
+        "metodo": "ViaAPI_tpConsulta_2 Federal",
+        "msg": "OK",
+        "requisicoes": 14,
+        "enviados": 26132,
+        "retornados": 22778
+      }],
+        "prodDevolvidos": [{
+          "id": 131375998,
+          "codigo": "0000011128014",
+          "descricao": "*****************************",
+          "dtinclusao": "2018-02-14",
+          "dtdevolucao": "2018-02-26",
+          "motivodevolucao": "DI"
+          },
+          {
+          "id": 19550061,
+          "codigo": "6931654820369",
+          "descricao": "CARREGADOR SUPER RAPIDO AAX4",
+          "dtinclusao": "2017-11-21",
+          "dtdevolucao": "2018-02-26",
+          "motivodevolucao": "CV"
+          },
+          {
+          "id": 19555364,
+          "codigo": "0077648210009",
+          "descricao": "FORMULA 648210 ALCIDES REIS HERNANDES",
+          "dtinclusao": "2017-11-21",
+          "dtdevolucao": "2017-12-27",
+          "motivodevolucao": "DI"
+          }]
+  }
 ```
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
