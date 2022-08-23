@@ -636,7 +636,7 @@ A requisição acima, retorna a seguinte Estrutura de Dados:
 Após Processo de Envio e Captura de Retorno, os seguintes passos devem ocorrer:
 
 1. Os dados devem ser Interpretados e Relacionados com seus respectivos campos, conforme descrito em [**Relação de Campos Ganso x Integrador Fiscal / Coluna "Ganso" e "Retorno iMendes"**](#relação-de-campos-ganso-x-integrador-fiscal).
-2. O Usuário precisa visualizar os dados relacionados utilizando a [**Nova Tela - Comprativo de Tributos (Antes x Depois)**](#nova-tela---comparativo-de-tributos-antes-x-depois) e decidir quais **Tributos** deverão ser atualizados. O Sistema Ganso deve considerar os [Parâmetros do Sistema](#parâmetros-imendes) e [Acessos Restritos](#acessos-restritos) nesta operação.
+2. O Usuário precisa visualizar os dados relacionados utilizando a [**Nova Tela - Comparativo de Tributos (Antes x Depois)**](#nova-tela---comparativo-de-tributos-antes-x-depois) e decidir quais **Tributos** deverão ser atualizados. O Sistema Ganso deve considerar os [Parâmetros do Sistema](#parâmetros-imendes) e [Acessos Restritos](#acessos-restritos) nesta operação.
 3. Após confirmação, os dados Tributários devem ser **efetivados** para o Produto, e os [**Logs**](#logs) gerados e gravados corretamente.
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
