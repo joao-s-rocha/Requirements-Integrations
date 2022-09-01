@@ -132,7 +132,7 @@ Obtidos os dados do Perfil, a Tag de `"produtos"` é um _array_ de Produtos e de
 
 A Estrutura abaixo exemplifica uma Consulta do Produto **Água Mineral** através do **Cadastro de Produtos** para **Operação de Saída a Consumidor Final** para o Estado de **MS** (Operação Interna). Na Tag `perfil/uf` é enviada apenas a UF correspondente à UF da Empresa Filial, ou seja, da Tag `emit/uf`.
 
-```JSON
+```JSON 
 {
   "emit": {
     "amb": 1,

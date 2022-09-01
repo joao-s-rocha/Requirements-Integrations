@@ -4,6 +4,7 @@
 
 - [Documentação de Requisitos - Integrações Fiscais](#documentação-de-requisitos---integrações-fiscais)
 - [Introdução](#introdução)
+- [Relação de Rotinas Afetadas](#relação-de-rotinas-afetadas)
 - [Roadmap](#roadmap)
 - [Requisitos](#requisitos)
   - [Cadastro de Empresas](#cadastro-de-empresas)
@@ -23,6 +24,7 @@
   - [Tabela Produto Parâmetros](#tabela-produto-parâmetros)
   - [Campos Dependentes](#campos-dependentes)
   - [Regra Fiscal x Integrador Fiscal](#regra-fiscal-x-integrador-fiscal)
+- [Camada de Tratamento de Dados](#camada-de-tratamento-de-dados)
 - [Requisitos de Segurança](#requisitos-de-segurança)
   - [Acessos Restritos](#acessos-restritos)
   - [Logs](#logs)
@@ -33,6 +35,31 @@
 
 - O presente documento objetiva descrever em detalhes a Estrutura Necessária para Integrações Fiscais de Consulta Tributária de qualquer parceiro no Sistema Ganso.
 - No Modelo de Integração adotado, o Sistema Ganso comunica-se com o portal tributário do Parceiro Integrador através de uma **API**, e realiza a consulta da Tributação dos produtos, e obtém dados para a **Formação de Base de Dados de Regras Fiscais** que serão consumidas pelas Rotinas do Sistema Ganso.
+
+# Relação de Rotinas Afetadas
+
+A Integração com Parceiro Fiscal afeta a estrutura base do Sistema Ganso, que deverá ser adaptada às novas Regras de Negócio descritas nesta documentação. Abaixo a relação completa das Rotinas afetadas e os dados envolvidos.
+
+| Nome da Rotina | Descritivo | Dados Envolvidos | Tratativa |
+| :------------- | :--------- | :--------------- | :-------- |
+| Cadastro de Empresas | Dados da Empresa Filial | Novos Campos e Alteração de Campos | Criar o complemento do CRT e Mover os dados do PIS e Cofins para a Regra Fiscal |
+| Parâmetros do Sistema | Parâmetros existentes e Novos Parâmetros | Valores Padrão para Cadastro de Produto. Valores Padrão para NFC-e | Mover campos de tributação Padrão para Regra Fiscal |
+| Cadastro de Clientes | Adição de Dados no Cadastro do Cliente | Perfil Fiscal | Vincular o Perfil Fiscal | 
+| Cadastro de Produtos | Dados do Produto | Guia Tributação, Guia Fórmula e dados internos | Remover Dados da Guia de Tributação. Mover campos para Regra Fiscal | 
+| Manutenção de Produtos | Rotina de Atualização em Massa | Todos os Filtros e Dados da Grid | Remover os Filtros relativos à impostos, remover as colunas de tributos relativos da Grid, adicionar novas Regras de Negócio para segurança | 
+| Cadastro de Espelhamento de Produtos | Rotina de Replicação de Dados entre filiais | Todos os Tributos | A replicação de dados de custo deve permanecer. A regra fiscal pode aplicar-se à mais de uma filial |
+| Cadastro de Finalidade de Operações | Operações do Usuário | Novos campos | Criar novos campos para aprimorar a integração e regra fiscal |
+| Cadastro de Perfil | Perfil Fiscal Cliente/Fornecedor | Novos campos | Criar novos campos para aprimorar a integração e regra fiscal |
+| Cadastro de Regra Fiscal | Regras Fiscais de Entrada e Saída | Todos os dados tributários | Adicionar campos inexistentes. Criar regras de negócio e validações |
+| Fórmulas de Custo e Venda | Fórmulas de Cálculo | Todos os dados tributários | Implementar Regras de Negócio para busca de regra específica de "Venda a consumidor final" |
+| Venda Retaguarda | Rotina de Vendas | Campos de Tributos do Item | Revisar os campos de tributos existentes no item | 
+| Venda PDV | Rotina de Venda PDV/NFC-e | Dados Tributários | Revisar os campos de tributos existentes na rotina |
+| Devolução de Vendas | Rotina de Devoluções | Campos de Tributos do Item | Revisar os campos de Tributos do Item Devolvido |
+| Recebimento Fiscal | Entrada de Produtos | Itens do Documento Fiscal e Derivação de Item | Alterar dados do Cadastro de Produtos exibidos em tela |
+| Documentos Fiscais DF-e | Rotina de Emissão de Documentos | Todos os dados tributários, finalidade de operação e perfil fiscal | Revisar Fórmulas de Processamento de Cálculo, criar novas Regras de Negócio |
+| Relatórios | Relatórios Personalizados e Padrões | Campos de Tributos mencionados em relatórios | Identificar individualmente cada caso |
+| Gerador de Etiquetas | Geração de Etiquetas e Cartazes do Produto | Dados Tributários disponibilizados para utilização | Remover os campos dos dados disponibilizados |
+
 
 # Roadmap
 
@@ -329,6 +356,10 @@ Os Integradores Fiscais possuem dados para alimentar a Regra Fiscal de Entrada e
 | sugere_ipi_aliq             | produto_prf         | Alíquota de IPI de Entrada                                 |                       `Grupos/iPI/aliqipi`                       |                                              -                                              |                                              -                                              | Preencher com a informação do campo retornado.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | origem_aliquota_icms        | **produto_prf_mva** | Alíquota de Origem do MVA                                  |                `CaracTrib/aliqIcmsInterestadual`                 |                                      `aliqIcmsInterna`                                      |                              `aliq_icms ou aliq_icms_entrada`                               | Preencher com a informação do campo retornado apenas se maior que Zero, e se o campo **icmsst_lancamento** for definido como 'D' ou 'F'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | mva                         | **produto_prf_mva** | MVA - Margem de Valor Agregado Ajustada                    |                       `CaracTrib/iVAAjust`                       |                                    `perMvaInterestadual`                                    |                                            `mva`                                            | Preencher com a informação do campo retornado apenas se o maior que Zero, e se o campo **icmsst_lancamento** for definido como 'D' ou 'F'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
+# Camada de Tratamento de Dados
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
