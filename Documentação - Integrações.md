@@ -65,7 +65,7 @@ A Integração com Parceiro Fiscal afeta a estrutura base do Sistema Ganso, que 
 
 O **Roadmap** abaixo indicará o caminho em uma ordem lógica para a implementação dos Recursos Necessários descritos neste documento.
 
-![Roadmap Completo](./Roadmap-Generic.png)
+![Roadmap Completo](./Roadmap-Global.png)
 
 Além do mapa Mapa, a ideia de Integração pode ser visualizada através do Fluxo abaixo:
 
