@@ -40,26 +40,25 @@
 
 A Integração com Parceiro Fiscal afeta a estrutura base do Sistema Ganso, que deverá ser adaptada às novas Regras de Negócio descritas nesta documentação. Abaixo a relação completa das Rotinas afetadas e os dados envolvidos.
 
-| Nome da Rotina | Descritivo | Dados Envolvidos | Tratativa |
-| :------------- | :--------- | :--------------- | :-------- |
-| Cadastro de Empresas | Dados da Empresa Filial | Novos Campos e Alteração de Campos | Criar o complemento do CRT e Mover os dados do PIS e Cofins para a Regra Fiscal |
-| Parâmetros do Sistema | Parâmetros existentes e Novos Parâmetros | Valores Padrão para Cadastro de Produto. Valores Padrão para NFC-e | Mover campos de tributação Padrão para Regra Fiscal |
-| Cadastro de Clientes | Adição de Dados no Cadastro do Cliente | Perfil Fiscal | Vincular o Perfil Fiscal | 
-| Cadastro de Produtos | Dados do Produto | Guia Tributação, Guia Fórmula e dados internos | Remover Dados da Guia de Tributação. Mover campos para Regra Fiscal | 
-| Manutenção de Produtos | Rotina de Atualização em Massa | Todos os Filtros e Dados da Grid | Remover os Filtros relativos à impostos, remover as colunas de tributos relativos da Grid, adicionar novas Regras de Negócio para segurança | 
-| Cadastro de Espelhamento de Produtos | Rotina de Replicação de Dados entre filiais | Todos os Tributos | A replicação de dados de custo deve permanecer. A regra fiscal pode aplicar-se à mais de uma filial |
-| Cadastro de Finalidade de Operações | Operações do Usuário | Novos campos | Criar novos campos para aprimorar a integração e regra fiscal |
-| Cadastro de Perfil | Perfil Fiscal Cliente/Fornecedor | Novos campos | Criar novos campos para aprimorar a integração e regra fiscal |
-| Cadastro de Regra Fiscal | Regras Fiscais de Entrada e Saída | Todos os dados tributários | Adicionar campos inexistentes. Criar regras de negócio e validações |
-| Fórmulas de Custo e Venda | Fórmulas de Cálculo | Todos os dados tributários | Implementar Regras de Negócio para busca de regra específica de "Venda a consumidor final" |
-| Venda Retaguarda | Rotina de Vendas | Campos de Tributos do Item | Revisar os campos de tributos existentes no item | 
-| Venda PDV | Rotina de Venda PDV/NFC-e | Dados Tributários | Revisar os campos de tributos existentes na rotina |
-| Devolução de Vendas | Rotina de Devoluções | Campos de Tributos do Item | Revisar os campos de Tributos do Item Devolvido |
-| Recebimento Fiscal | Entrada de Produtos | Itens do Documento Fiscal e Derivação de Item | Alterar dados do Cadastro de Produtos exibidos em tela |
-| Documentos Fiscais DF-e | Rotina de Emissão de Documentos | Todos os dados tributários, finalidade de operação e perfil fiscal | Revisar Fórmulas de Processamento de Cálculo, criar novas Regras de Negócio |
-| Relatórios | Relatórios Personalizados e Padrões | Campos de Tributos mencionados em relatórios | Identificar individualmente cada caso |
-| Gerador de Etiquetas | Geração de Etiquetas e Cartazes do Produto | Dados Tributários disponibilizados para utilização | Remover os campos dos dados disponibilizados |
-
+| Nome da Rotina                       | Descritivo                                  | Dados Envolvidos                                                   | Tratativa                                                                                                                                   |
+| :----------------------------------- | :------------------------------------------ | :----------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ |
+| Cadastro de Empresas                 | Dados da Empresa Filial                     | Novos Campos e Alteração de Campos                                 | Criar o complemento do CRT e Mover os dados do PIS e Cofins para a Regra Fiscal                                                             |
+| Parâmetros do Sistema                | Parâmetros existentes e Novos Parâmetros    | Valores Padrão para Cadastro de Produto. Valores Padrão para NFC-e | Mover campos de tributação Padrão para Regra Fiscal                                                                                         |
+| Cadastro de Clientes                 | Adição de Dados no Cadastro do Cliente      | Perfil Fiscal                                                      | Vincular o Perfil Fiscal                                                                                                                    |
+| Cadastro de Produtos                 | Dados do Produto                            | Guia Tributação, Guia Fórmula e dados internos                     | Remover Dados da Guia de Tributação. Mover campos para Regra Fiscal                                                                         |
+| Manutenção de Produtos               | Rotina de Atualização em Massa              | Todos os Filtros e Dados da Grid                                   | Remover os Filtros relativos à impostos, remover as colunas de tributos relativos da Grid, adicionar novas Regras de Negócio para segurança |
+| Cadastro de Espelhamento de Produtos | Rotina de Replicação de Dados entre filiais | Todos os Tributos                                                  | A replicação de dados de custo deve permanecer. A regra fiscal pode aplicar-se à mais de uma filial                                         |
+| Cadastro de Finalidade de Operações  | Operações do Usuário                        | Novos campos                                                       | Criar novos campos para aprimorar a integração e regra fiscal                                                                               |
+| Cadastro de Perfil                   | Perfil Fiscal Cliente/Fornecedor            | Novos campos                                                       | Criar novos campos para aprimorar a integração e regra fiscal                                                                               |
+| Cadastro de Regra Fiscal             | Regras Fiscais de Entrada e Saída           | Todos os dados tributários                                         | Adicionar campos inexistentes. Criar regras de negócio e validações                                                                         |
+| Fórmulas de Custo e Venda            | Fórmulas de Cálculo                         | Todos os dados tributários                                         | Implementar Regras de Negócio para busca de regra específica de "Venda a consumidor final"                                                  |
+| Venda Retaguarda                     | Rotina de Vendas                            | Campos de Tributos do Item                                         | Revisar os campos de tributos existentes no item                                                                                            |
+| Venda PDV                            | Rotina de Venda PDV/NFC-e                   | Dados Tributários                                                  | Revisar os campos de tributos existentes na rotina                                                                                          |
+| Devolução de Vendas                  | Rotina de Devoluções                        | Campos de Tributos do Item                                         | Revisar os campos de Tributos do Item Devolvido                                                                                             |
+| Recebimento Fiscal                   | Entrada de Produtos                         | Itens do Documento Fiscal e Derivação de Item                      | Alterar dados do Cadastro de Produtos exibidos em tela                                                                                      |
+| Documentos Fiscais DF-e              | Rotina de Emissão de Documentos             | Todos os dados tributários, finalidade de operação e perfil fiscal | Revisar Fórmulas de Processamento de Cálculo, criar novas Regras de Negócio                                                                 |
+| Relatórios                           | Relatórios Personalizados e Padrões         | Campos de Tributos mencionados em relatórios                       | Identificar individualmente cada caso                                                                                                       |
+| Gerador de Etiquetas                 | Geração de Etiquetas e Cartazes do Produto  | Dados Tributários disponibilizados para utilização                 | Remover os campos dos dados disponibilizados                                                                                                |
 
 # Roadmap
 
@@ -234,6 +233,14 @@ A seguir, o _Protótipo_ que exemplifica os elementos descritos na Tabela acima:
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 ### Regras e Interações da Nova Tela
+
+De acordo com a disponibilidade do Recurso no Integrador, o usuário poderá aplicar parcialmente a Tributação de um Produto decidindo quais dados serão ignorados, contudo, determinados Impostos possuem dados dependentes, ou seja, quando um dos tributos é ignorado, os demais dependentes também deverão ser ignorados. Abaixo estão descritas as Regras de Negócio e Tratamento conforme ação do Usuário.
+
+| Ação do Usuário | Regra de Negócio | Tratamento |
+| :-------------- | :--------------- | :--------- |
+| Desmarcar um Campo na Tela | Verificar se Usuário possui permissão para executar ação e verificar se campo desmarcado possui dependência, conforme relacionado em [**Campos Dependentes**](#campos-dependentes) | Desmarcar os campos dependentes não clicados. Gravar Log desta ação |
+| Desmarcar todos os Campos da Tela | Verificar se Usuário possui permissão para executar ação | Se permitido, enviar mensagem ao Usuário informando que o mesmo decidiu não acatar as alterações tributárias do Integrador. Gravar Log desta ação |
+
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
