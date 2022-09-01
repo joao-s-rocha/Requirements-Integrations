@@ -15,6 +15,7 @@
     - [Funções](#funções)
     - [Novos Campos](#novos-campos)
   - [Cadastro de Regra Fiscal](#cadastro-de-regra-fiscal)
+    - [Regras de Negócio da Regra Fiscal](#regras-de-negócio-da-regra-fiscal)
   - [Nova Tela - Gerenciador Tributário](#nova-tela---gerenciador-tributário)
   - [Nova Tela - Comparativo de Tributos (Antes x Depois)](#nova-tela---comparativo-de-tributos-antes-x-depois)
     - [Regras e Interações da Nova Tela](#regras-e-interações-da-nova-tela)
@@ -180,6 +181,23 @@ Nesta Seção são descritos os Ajustes e Novos Campos necessários para que as 
 Abaixo o Protótipo de Tela com as definições da tabela anterior.
 
 ![Wireframe Regra Fiscal](./Wireframe-Regra-Fiscal-New.png)
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
+### Regras de Negócio da Regra Fiscal
+
+| Regra de Negócio | Descritivo                                                                                                                                                                                                                                                                                                                                                   |
+| :--------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     **RN1**      | Se **Tipo de Regra** igual a **Saída**, permitir definir apenas uma **Finalidade da Operação** cujo **Tipo de Movimentação** seja igual a **Saída**                                                                                                                                                                                                          |
+|     **RN2**      | Se **Tipo de Regra** igual a **Entrada**, permitir definir uma **Finalidade da Operação** cujo **Tipo de Movimentação** seja igual a **Entrada**                                                                                                                                                                                                             |
+|     **RN3**      | Se **Finalidade de Operação** for de uma **Operação** de **Venda a Consumidor Final**, não permitir incluir **UFs de Destino** diferentes das UFs das Filiais informadas no campo **Empresas**                                                                                                                                                               |
+|     **RN4**      | Se **Tipo de Regra** igual a **Saída** e **Finalidade de Operação** for diferente de uma **Operação** de **Venda a Consumidor Final** e **UF** de Origem/Destino diferente das UFs das Filiais informadas no campo **Empresas**, listar apenas **CFOP** iniciado em "6". <br><br>Se **Regra criada pelo Integrador** aplicar o **CFOP Padrão Interestadual** |
+|     **RN5**      | Se **Tipo de Regra** igual a **Entrada** e **Finalidade de Operação** e **UF** de Origem/Destino diferente das UFs das Filiais informadas no campo **Empresas**, listar apenas **CFOP** iniciado em "2". <br><br>Se **Regra criada pelo Integrador** aplicar o **CFOP Padrão Interestadual**                                                                 |
+|     **RN6**      | Se **Integrador com Mix Fiscal**, **Tipo de Regra** igual a **Saída** e **CST do ICMS** igual a **"60"** e **Alíquota do ICMS ST** igual a **"0,00"**, **Zerar Base de Cálculo e Valores do ICMS ST**.                                                                                                                                                       |
+|     **RN7**      | Se Usuário **Editar e Alterar** o **Tipo de Regra**, limpar os campos **Finalidade de Operação, Perfil Fiscal e Definir CFOP**                                                                                                                                                                                                                               |
+|     **RN8**      | Se Usuário **Replicar** uma Regra Fiscal, exibir uma Mensagem informando que os dados da Nova Regra a criar devem ser diferentes da Regra replicada, para que não haja duplicidade.                                                                                                                                                                          |
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 ## Nova Tela - Gerenciador Tributário
 
