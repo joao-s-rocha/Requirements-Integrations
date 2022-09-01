@@ -64,7 +64,7 @@ A Integração com Parceiro Fiscal afeta a estrutura base do Sistema Ganso, que 
 
 O **Roadmap** abaixo indicará o caminho em uma ordem lógica para a implementação dos Recursos Necessários descritos neste documento.
 
-![Roadmap Completo](./Roadmap-Global.png)
+![Roadmap Completo](./Roadmap-Generic.png)
 
 Além do mapa Mapa, a ideia de Integração pode ser visualizada através do Fluxo abaixo:
 
@@ -236,11 +236,10 @@ A seguir, o _Protótipo_ que exemplifica os elementos descritos na Tabela acima:
 
 De acordo com a disponibilidade do Recurso no Integrador, o usuário poderá aplicar parcialmente a Tributação de um Produto decidindo quais dados serão ignorados, contudo, determinados Impostos possuem dados dependentes, ou seja, quando um dos tributos é ignorado, os demais dependentes também deverão ser ignorados. Abaixo estão descritas as Regras de Negócio e Tratamento conforme ação do Usuário.
 
-| Ação do Usuário | Regra de Negócio | Tratamento |
-| :-------------- | :--------------- | :--------- |
-| Desmarcar um Campo na Tela | Verificar se Usuário possui permissão para executar ação e verificar se campo desmarcado possui dependência, conforme relacionado em [**Campos Dependentes**](#campos-dependentes) | Desmarcar os campos dependentes não clicados. Gravar Log desta ação |
-| Desmarcar todos os Campos da Tela | Verificar se Usuário possui permissão para executar ação | Se permitido, enviar mensagem ao Usuário informando que o mesmo decidiu não acatar as alterações tributárias do Integrador. Gravar Log desta ação |
-
+| Ação do Usuário                   | Regra de Negócio                                                                                                                                                                   | Tratamento                                                                                                                                        |
+| :-------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Desmarcar um Campo na Tela        | Verificar se Usuário possui permissão para executar ação e verificar se campo desmarcado possui dependência, conforme relacionado em [**Campos Dependentes**](#campos-dependentes) | Desmarcar os campos dependentes não clicados. Gravar Log desta ação                                                                               |
+| Desmarcar todos os Campos da Tela | Verificar se Usuário possui permissão para executar ação                                                                                                                           | Se permitido, enviar mensagem ao Usuário informando que o mesmo decidiu não acatar as alterações tributárias do Integrador. Gravar Log desta ação |
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
