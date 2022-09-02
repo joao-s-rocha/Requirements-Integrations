@@ -7,6 +7,9 @@
   - Se **Regra criada pelo Integrador** aplicar o **CFOP Padrão Interestadual**
 - Se **Tipo de Regra** igual a **Entrada** e **Finalidade de Operação** e **UF** de Origem/Destino diferente das UFs das Filiais informadas no campo **Empresas**, listar apenas **CFOP** iniciado em "2"
   - Se **Regra criada pelo Integrador** aplicar o **CFOP Padrão Interestadual**
+- Se **Tipo de Regra** igual a **Saída**, o campo "Destaque" do ICMS ST deverá ser preenchido conforme as regras:
+  - Se **Finalidade da Operação** indicar que haverá o Destaque do ICMS ST, utilizar **Dentro da NF**
+  - Se **Finalidade da Operação** indicar que não haverá o Destaque do ICMS ST, utilizar **Manter Original**
 
 ## Integrado com Mix Fiscal
 
@@ -44,9 +47,27 @@
 
 ### iMendes
 
-1. Primeio Lote de Consulta deverá ser para Regras de "Venda a Consumidor Final".
-2. Seleciona os Produtos por Código de Barras, Descrição, Operação e Perfil definidos na Consulta para "Venda a Consumidor Final"
-3. Prepara a Estrutura e envia à API.
-4. Captura o Retorno, e envia à **Camada de Tratamento**
-5. 
-   
+1. O Usuário deverá definir as suas Respectivas Operações e cadastrá-las em Finalidade de Operação.
+2. O Usuário deverá definir os Perfis Fiscais e relacioná-los com os Fornecedores e Clientes
+3. O Primeiro Lote de Consulta deverá, obrigatoriamente, ser para Regras de "Venda a Consumidor Final".
+4. Seleciona os Produtos por Código de Barras, Descrição, Operação e Perfil definidos na Consulta para "Venda a Consumidor Final"
+5. Prepara a Estrutura e envia à API.
+6. Captura o Retorno, e envia à **Camada de Tratamento**
+7. A **Camada de Tratamento** interpreta os dados retornados e efetua um Comparativo de Dados entre a Regra Fiscal vinculada aos Produtos e os dados retornados pelo Integrador.
+   1. Se pelo menos 1 dos Parâmetros retornados pelo Integrador for diferente para um mesmo Código de Regra criado anteriormente, é necessário criar uma Nova Regra Fiscal contendo os dados iguais e os dados diferentes, relacionando este novo código ao Produto de Tributação diferente.
+   2. Se não houver diferenças nos Parâmetros, atualizar a Regra Fiscal existente com os dados retornados pelo Integrador.
+8. Grava os devidos Logs e informações.
+9. As demais Operações devem ser Consultadas pelo Usuário, conforme definir
+
+### Mix Fiscal
+
+1. O Usuário deverá definir as suas Respectivas Operações e cadastrá-las em Finalidade de Operação, e Criar os Respectivos Cenários para Entrada e Saída.
+2. O Usuário deverá definir os Perfis Fiscais e relacioná-los com os Fornecedores e Clientes.
+3. Coleta todos os Produtos e Gera o Envio do Registro 0200, com os dados tributários da Regra Fiscal Padrão de "Venda a Consumidor Final" com todos os Cenários específicos criados no Passo 1.
+4. Prepara a Estrutura e envia à API.
+5. Captura o Retorno, e envia à **Camada de Tratamento**
+6. A **Camada de Tratamento** interpreta os dados retornados e efetua um Comparativo de Dados entre a Regra Fiscal vinculada aos Produtos e os dados retornados pelo Integrador, observando cada **Cenário** criado anteriormente.
+   1. Compara os dados do **Cenário de Retorno** e Dados da Regra Fiscal que possua o mesmo ID de Cenário vinculado, e define se há necessidade em criar Novas Regras Fiscais ou simplesmente atualizar as existentes com base nos Critérios:
+      1. Se pelo menos 1 dos Parâmetros retornados pelo Integrador for diferente para um mesmo Código de Regra criado anteriormente, é necessário criar uma Nova Regra Fiscal contendo os dados iguais e os dados diferentes, relacionando este novo código ao Produto de Tributação diferente.
+      2. Se não houver diferenças nos Parâmetros, atualizar a Regra Fiscal existente com os dados retornados pelo Integrador.
+7. Grava os devidos Logs e informações.
