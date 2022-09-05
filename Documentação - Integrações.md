@@ -195,6 +195,7 @@ Além dos Novos Campos, é necessário Mover os Dados Tributários atuais do Pro
 | NFC-e      | CFOP                                | **codigo_cfop_nfc**                                                                          | Código do CFOP para Operação de Venda a Consumidor Final                                                                                                  |        :x:         | :white_check_mark: | :white_check_mark: | **sugere_cfop**                          |
 | NFC-e      | CST / CSOSN                         | **cst_nfc / csosn_nfc**                                                                      | CST ou CSOSN para Operação de Venda a Consumidor Final                                                                                                    |        :x:         | :white_check_mark: | :white_check_mark: | **sugere_icms_cstcsosn**                 |
 
+
 ## Cadastro de Regra Fiscal
 
 Nesta Seção são descritos os Ajustes e Novos Campos necessários para que as Integrações Fiscais sejam padronizadas.
