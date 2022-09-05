@@ -10,6 +10,7 @@
 - Se **Tipo de Regra** igual a **Saída**, o campo "Destaque" do ICMS ST deverá ser preenchido conforme as regras:
   - Se **Finalidade da Operação** indicar que haverá o Destaque do ICMS ST, utilizar **Dentro da NF**
   - Se **Finalidade da Operação** indicar que não haverá o Destaque do ICMS ST, utilizar **Manter Original**
+- Se **Tipo de Regra** igual a **Saída** e **Código do Tributo** indicar um Tributo cuja **Situação Tributária** estiver entre "F", "I" ou "N", **Zerar ICMS** deve ser marcado como "S".
 
 ## Integrado com Mix Fiscal
 
