@@ -188,7 +188,7 @@ Nesta Seção são descritos os Ajustes e Novos Campos necessários para que as 
 
 Abaixo o Protótipo de Tela com as definições da tabela anterior.
 
-![Wireframe Regra Fiscal](./Wireframe-Regra-Fiscal-New.png)
+![Wireframe Regra Fiscal](./Wireframe-Regra-Fiscal.png)
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
