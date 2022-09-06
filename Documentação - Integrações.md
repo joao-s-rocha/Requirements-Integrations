@@ -335,6 +335,22 @@ A Rotina de **Recebimento Fiscal** ou Entrada de Mercadorias, requer ajustes em 
 
 ## Relatórios
 
+A alteração da Regra de Negócio implica em atualizar os relatórios do Sistema para que as informações tributárias utilizadas sejam lidas do caminho correto. Abaixo a lista de Relatórios afetados.
+
+| Nome do Relatório | Caminho | Dados Envolvidos | Regra de Negócio |
+|:---|:---|:---|:---|
+| Usabilidade de Relatórios | **Usuários / Usabilidade de Relatórios > Verificar Compatibilidade** | Campos de Tributos direcionados para a Regra Fiscal listados em [Cadastro de Produtos / Alterações de Campos](#alterações-de-campos) | Ajustar a Condição de Leitura dos Campos para agregar os campos movidos para a Regra Fiscal, os não movidos deverão permanecer na condição.
+| Alíquota de ICMS de Produtos | **Estoque / Alíquotas de ICMS de Produtos** | Código do Tributo e Alíquota do ICMS exibidos no Relatório | Identificar uma Regra Fiscal de Saída de **Operação de Venda a Consumidor Final** e obter os dados
+| Análise Comparativo de Vendas | **Vendas / Análise Comparativo de Vendas** | Valores de Impostos expressos no Relatório. | Verificar a origem dos impostos relacionados no Relatório. Caso necessário, obter os dados de uma Regra Fiscal de Saída de **Operação de Venda a Consumidor Final**.
+| **Sintegra de Entrada** | **Informativos / Sintegra** | Dados de Tributos para o Registro 75 que são lidos do Cadastro do Produto. <br><br>Revisar Procedure **SP_SINTEGRA_R54e**| Utilizar uma Regra Fiscal de Saída de **Operação de Venda a Consumidor Final** para obter os mesmos campos.
+| **Sintegra de Saída ECF** | **Informativos / Sintegra** | Procedures do Arquivo. | Utilizar uma Regra Fiscal de Saída de **Operação de Venda a Consumidor Final** para obter os mesmos campos do Cadastro de Produtos, se necessário. [Ver Seção Cadastro de Produtos / Alterações de Campos](#alterações-de-campos)
+| **Sintegra de Saída NFs** | **Informativos / Sintegra** | Dados de Tributos para o Registro 75 que são lidos do Cadastro do Produto. <br><br>Revisar Procedure **SP_SINTEGRA_R54S** <br><br>Revisar Consulta Principal, dados do cadastro são lidos para tributação. | Utilizar uma Regra Fiscal de Saída de **Operação de Venda a Consumidor Final** para obter os mesmos campos.
+| **Sintegra Unificado** | **Informativos / Sintegra** | Todos os dados. | Revisar todas as Consultas do Relatório, que une todos os dados dos Sintegras Anteriores.  
+| **SPED Fiscal** | **Informativos / SPED Fiscal** | Registros 0200 e SQLs, C170 e SQLs | Revisar todas as Consultas substituir informações tributárias de Saída por dados de uma Regra Fiscal de **Operação de Venda a Consumidor Final** conforme relação de campos.
+| **SPED Contribuições** | **Informativos / SPED Contribuições** | Registros 0200 e SQLs, C170 e SQLs, C481 e C485. | Revisar todas as Consultas substituir informações tributárias de Saída por dados de uma Regra Fiscal de **Operação de Venda a Consumidor Final** conforme relação de campos.
+| **Apuração de ICMS** | **Fiscal / Apuração de ICMS** | Registros C170, C175, C470 | Revisar todas as Consultas substituir informações tributárias de Saída por dados de uma Regra Fiscal de **Operação de Venda a Consumidor Final** conforme relação de campos.
+| **Documentos Fiscais** | **Fiscal / Documentos Fiscais** | SP_REL_DOCS_FISCAIS | Revisar a Procedure. Se necessário obter os dados lidos do Cadastro de uma Regra Fiscal de **Operação de Venda a Consumidor Final** conforme relação de campos.
+
 ## Gerador de Etiquetas
 
 O Gerador de Etiquetas é uma ferramenta que permite a criação de Layouts com base nas informações do Produtos, Clientes ou Fornecedor. Para a Geração de Etiquetas de Produtos, os dados do Cadastro de Produtos são carregados, e a partir da Nova Regra de Negócio, os dados de Tributos disponibilizados deverãos ser carregados de uma **Regra de Venda a Consumidor Final** conforme a Relação de Campos do Produto a Mover para Regra Fiscal [Ver Seção Cadastro de Produtos / Alteração de Campos](#alterações-de-campos)
