@@ -25,6 +25,9 @@
   - [Devolução de Vendas](#devolução-de-vendas)
   - [Recebimento Fiscal](#recebimento-fiscal)
   - [Documentos Fiscais - DF-e](#documentos-fiscais---df-e)
+    - [Fluxo - Emissão de Documento Fiscal com a Nova Estrutura](#fluxo---emissão-de-documento-fiscal-com-a-nova-estrutura)
+  - [Relatórios](#relatórios)
+  - [Gerador de Etiquetas](#gerador-de-etiquetas)
   - [Nova Tela - Gerenciador Tributário](#nova-tela---gerenciador-tributário)
   - [Nova Tela - Comparativo de Tributos (Antes x Depois)](#nova-tela---comparativo-de-tributos-antes-x-depois)
     - [Regras e Interações da Nova Tela](#regras-e-interações-da-nova-tela)
@@ -181,6 +184,7 @@ Nesta Seção são descritos os Ajustes e Novos Campos necessários para que as 
 | **Ajuste de Campo**          | **CST de PIS e Cofins de Entrada e Saída**   | Utilizar apenas um campo para informar o CST de PIS e Cofins de Entrada e um campo para informar o CST de PIS e Cofins de Saída. **O PIS e Cofins são impostos gêmeos, portanto o CST de PIS e Cofins são sempre iguais, diferenciando-se apenas por operação (Entrada ou Saída)**                                       | -                                                                                                                                                                        |
 | **Caixa de Seleção e Campo** | IPI / **CST de Saída**                       | Novo campo para informar o CST de IPI de Saída                                                                                                                                                                                                                                                                           | -                                                                                                                                                                        |
 | **Caixa de Seleção e Campo** | IPI / **Enquadramento**                      | Novo campo para informar o Código do Enquadramento do IPI                                                                                                                                                                                                                                                                | -                                                                                                                                                                        |
+| **Texto** | Regra Fiscal aplicável a (x) Produtos | Campo que exibe como informação a quantidade de Produtos afetados pela Regra Fiscal criada com base no NCM do Produto e NCM da Regra Fiscal. | Se Regra definida por Produto, não exibir esta informação.
 
 Abaixo o Protótipo de Tela com as definições da tabela anterior.
 
@@ -319,6 +323,21 @@ A Rotina de **Recebimento Fiscal** ou Entrada de Mercadorias, requer ajustes em 
 - Para cada Operação (Tipo de Movimentação) existe uma fórmula específica. Este processo deverá permanecer, contudo, os Dados Tributários não serão mais coletados do Cadastro de Produtos, e sim de uma **Regra Fiscal cuja Finalidade corresponda ao Tipo de Movimentação e Perfil Fiscal do Destinatário**.
 - Todos os Dados relativos à ICMS, IPI, PIS, COFINS, Imposto de Importação e DIFAL, deverão ser lidos de uma **Regra Fiscal**.
 - Não havendo Regra Fiscal para a Operação, o Usuário deve ser indagado a criar uma Regra ou preencher manualmente as informações.
+
+### Fluxo - Emissão de Documento Fiscal com a Nova Estrutura
+
+1. Efetua a Leitura do **Perfil Fiscal** do Destinatário
+   1. Se **Perfil Fiscal** não informado para o Destinatário, avisar Usuário para informar o Perfil.
+2. Efetua a Leitura da **Operação**
+3. Busca Regras Fiscais cuja **Finalidade de Operação e Perfil Fiscal** sejam iguais às informadas no Documento Fiscal.
+4. Analisa **Item a Item** e Aplica Regras Fiscais aos Itens.
+   1. Se houver **Regras Duplicadas**, informar ao Usuário e exibir uma Tela para determinar **Regra Fiscal** a Aplicar, por Item.
+
+## Relatórios
+
+## Gerador de Etiquetas
+
+O Gerador de Etiquetas é uma ferramenta que permite a criação de Layouts com base nas informações do Produtos, Clientes ou Fornecedor. Para a Geração de Etiquetas de Produtos, os dados do Cadastro de Produtos são carregados, e a partir da Nova Regra de Negócio, os dados de Tributos disponibilizados deverãos ser carregados de uma **Regra de Venda a Consumidor Final** conforme a Relação de Campos do Produto a Mover para Regra Fiscal [Ver Seção Cadastro de Produtos / Alteração de Campos](#alterações-de-campos)
 
 ## Nova Tela - Gerenciador Tributário
 
