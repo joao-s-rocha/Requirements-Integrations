@@ -18,6 +18,7 @@
     - [Funções](#funções)
     - [Novos Campos](#novos-campos)
     - [Alterações de Campos](#alterações-de-campos)
+    - [Alterações da Aba Grade Fiscal](#alterações-da-aba-grade-fiscal)
   - [Manutenção de Produtos](#manutenção-de-produtos)
   - [Cadastro de Espelhamento de Produtos](#cadastro-de-espelhamento-de-produtos)
   - [Fórmulas de Preço de Custo, Preço de Venda e Preço de Venda Mínimo](#fórmulas-de-preço-de-custo-preço-de-venda-e-preço-de-venda-mínimo)
@@ -254,6 +255,15 @@ Além dos Novos Campos, é necessário Mover os Dados Tributários atuais do Pro
 | IPI        | CST Entrada e Saída                 | **cst_ipi_compra / cst_ipi**                                                                 | CST de Entrada e Saída para IPI                                                                                                                           |        :x:         | :white_check_mark: | :white_check_mark: | **sugere_ipi_cst**                       |
 | NFC-e      | CFOP                                | **codigo_cfop_nfc**                                                                          | Código do CFOP para Operação de Venda a Consumidor Final                                                                                                  |        :x:         | :white_check_mark: | :white_check_mark: | **sugere_cfop**                          |
 | NFC-e      | CST / CSOSN                         | **cst_nfc / csosn_nfc**                                                                      | CST ou CSOSN para Operação de Venda a Consumidor Final                                                                                                    |        :x:         | :white_check_mark: | :white_check_mark: | **sugere_icms_cstcsosn**                 |
+
+### Alterações da Aba Grade Fiscal
+Além das alterações de campos e adição de funções, a aba **Grade Fiscal** do Cadastro de Produtos também precisará de mudanças para adequar a experiência do Usuário. Atualmente esta aba exibe as Regras Fiscais aplicáveis ao Produto, e deverá organizar as informações de uma maneira mais clara, visto que Regras de várias operações serão exibidas, tanto para Entrada quanto para Saída.
+
+| Tipo de Ajuste | Tipo de Elemento | Descritivo | Informações a exibir |
+| :--- | :--- | :--- | :--- |
+| **Adicionar Elemento** | Grade de Dados | Regras de Saída do Produto | Código da Regra, Descrição, Especificada por, NCM, CEST, Finalidade da Operação, Tipo de Operação (da Finalidade de Operação), Perfil Fiscal, UFs Destino, Filiais, Vigência, e demais dados exibidos na Grade Atual.
+| **Adicionar Elemento** | Botão de Ação | Botão para acionar a Tela de Cadastro da Regra Fiscal em modo Inserção | Texto "Nova Regra" |
+| **Adicionar Elemento** | Atalho duplo clique | Atalho em duplo clique no registro da Grade de Dados que direciona à Tela de Cadastro da Regra Fiscal, com os dados da respectiva regra carregados. | - 
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
