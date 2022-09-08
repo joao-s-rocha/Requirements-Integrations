@@ -262,7 +262,7 @@ Além das alterações de campos e adição de funções, a aba **Grade Fiscal**
 | Tipo de Ajuste | Tipo de Elemento | Descritivo | Informações a exibir |
 | :--- | :--- | :--- | :--- |
 | **Adicionar Elemento** | Grade de Dados | Regras de Saída do Produto | Código da Regra, Descrição, Especificada por, NCM, CEST, Finalidade da Operação, Tipo de Operação (da Finalidade de Operação), Perfil Fiscal, UFs Destino, Filiais, Vigência, e demais dados exibidos na Grade Atual.
-| **Adicionar Elemento** | Botão de Ação | Botão para acionar a Tela de Cadastro da Regra Fiscal em modo Inserção | Texto "Nova Regra" |
+| **Adicionar Elemento** | Botão de Ação | Botão para acionar a Tela de Cadastro da Regra Fiscal em modo Inserção | Texto "Nova Regra" e Tela de Cadastro da Regra Fiscal |
 | **Adicionar Elemento** | Atalho duplo clique | Atalho em duplo clique no registro da Grade de Dados que direciona à Tela de Cadastro da Regra Fiscal, com os dados da respectiva regra carregados. | - 
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
@@ -312,6 +312,7 @@ Os demais campos presentes nas Fórmulas devem ser mantidos, pois os respectivos
 
 - A Rotina de **Vendas Retaguarda** do Sistema Ganso coleta determinados dados e os grava nos Itens da Venda nos campos: **PAF_ALIQUOTA e PAF_SITUACAO_TRIBUTARIA**
 - A Rotina de **Vendas PDV** recebe os dados Tributários do Produto, que deverão ser lidos de uma **Regra Fiscal de Venda a Consumidor Final**
+  - O Banco de dados do PDV deverá contemplar as **Regras Fiscais de Saída a Consumidor Final** a fim de agilizar a consulta aos dados e garantir que a informação correta seja utilizada na Transmissão do Documento Fiscal
 
 ## Devolução de Vendas
 
@@ -562,6 +563,8 @@ Os Integradores Fiscais possuem dados para alimentar a Regra Fiscal de Entrada e
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
 # Camada de Tratamento de Dados
+
+Nesta seção, são descritas as Regras de Negócio da Camada de Tratamento de Dados que direciona corretamente as informações consultadas no Integrador Fiscal.
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
