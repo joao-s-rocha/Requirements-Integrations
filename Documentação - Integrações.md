@@ -368,6 +368,7 @@ A Rotina de **Recebimento Fiscal** ou Entrada de Mercadorias, requer ajustes em 
    1. Se houver **Regras Duplicadas** ou que geram dúvidas quanto à aplicação (Processo incomum, contudo pode ocorrer para movimentações do Tipo Manual), informar ao Usuário e exibir uma Tela para determinar **Regra Fiscal** a Aplicar por Item.
 
 O fluxo descrito acima pode ser observado na imagem abaixo:
+
 ![Fluxo Documentos Fiscais](./Flow-Documents-post-implements.png)
 
 ## Relatórios
