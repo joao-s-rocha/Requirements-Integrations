@@ -359,13 +359,13 @@ A Rotina de **Recebimento Fiscal** ou Entrada de Mercadorias, requer ajustes em 
 ### Fluxo - Emissão de Documento Fiscal com a Nova Estrutura
 
 1. Efetua a Leitura do **Perfil Fiscal** do Destinatário e demais informações.
-   1. Se **Perfil Fiscal** não informado para o **Destinatário**, avisar Usuário para informar o Perfil.
-   2. Se **Documento Fiscal** do tipo **Manual** e Dados do Destinatário preenchidos Manualmente, verificar as informações do Destinatário preenchidas nos campos **Contribuinte ICMS** e **Regime de Apuração**, e indicativo de **Consumidor Final** do Documento Fiscal. Utilizar os respectivos dados para localizar uma Regra Fiscal que contenha uma Finalidade que corresponda aos dados verificados.
+   1. Se **Perfil Fiscal** não informado para o **Destinatário**, informar Usuário por Mensagem e continuar o Processo.
+      1. Se **Documento Fiscal** do tipo **Manual** e Dados do Destinatário preenchidos Manualmente, verificar as informações do Destinatário preenchidas nos campos **Contribuinte ICMS** e **Regime de Apuração**, e indicativo de **Consumidor Final** do Documento Fiscal, para determinar o **Perfil Fiscal**. 
 2. Efetua a Leitura da **Operação** (Tipo de Movimentação)
-   1. Se Tipo **Manual** identificar os demais parâmetros para localizar uma Regra Fiscal.
-3. Busca Regras Fiscais cuja **Finalidade de Operação e Perfil Fiscal** sejam correspondentes ao informado no Documento Fiscal.
+   1. Se Tipo **Manual** identificar os demais parâmetros para localizar uma Regra Fiscal, e **Perfil Fiscal**.
+3. Busca Regras Fiscais cuja **Finalidade de Operação e Perfil Fiscal** sejam correspondentes ao informado/obtido no Documento Fiscal.
 4. Analisa **Item a Item** e Aplica Regras Fiscais aos Itens.
-   1. Se houver **Regras Duplicadas** ou que geram dúvidas quanto à aplicação, informar ao Usuário e exibir uma Tela para determinar **Regra Fiscal** a Aplicar, por Item.
+   1. Se houver **Regras Duplicadas** ou que geram dúvidas quanto à aplicação (Processo incomum, contudo pode ocorrer para movimentações do Tipo Manual), informar ao Usuário e exibir uma Tela para determinar **Regra Fiscal** a Aplicar por Item.
 
 ## Relatórios
 
