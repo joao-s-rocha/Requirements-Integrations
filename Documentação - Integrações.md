@@ -111,21 +111,21 @@ A Integração com Parceiro Fiscal afeta a estrutura base do Sistema Ganso, que 
 
 # Roadmap
 
-O **Roadmap** abaixo indicará o caminho em uma ordem lógica para a implementação dos Recursos Necessários descritos neste documento.
+O **Roadmap** abaixo organiza em tópicos principais a implementação dos Recursos Necessários descritos neste documento.
 
 ![Roadmap Completo](./Roadmap-Generic.png)
 
-Além do Mapa, o resultado após uma Integração pode ser visualizado através do Fluxo abaixo:
+De modo simplificado, o Fluxo Operacional após implementações desta documentação e Integração com Parceiro Fiscal pode ser visualizado através da imagem abaixo:
 
 ![Fluxo de Consulta e Regras Fiscais](./Flow-Start02.png)
 
 # Requisitos
 
-Nesta Seção, são descritos os **Requisitos Globais** obrigatórios e comuns a todas as Integrações. Conforme definido no [Roadmap](#recursos-globais), o primeiro passo é adequação das Rotinas do Sistema Ganso para permitir Integrações Fiscais, que serão descritas organizadas em **Seções** específicas para cada recurso.
+Nesta Seção, são descritos os **Requisitos Globais** obrigatórios e comuns a todas as Integrações. Conforme expresso no [Roadmap](#recursos-globais), o **primeiro passo** é adequação das Rotinas do Sistema Ganso para permitir Integrações Fiscais, que serão descritas organizadas em **Seções** específicas para cada recurso a partir deste ponto, que segue:
 
 ## Cadastro de Empresas
 
-Determinados Integradores requerem informações específicas da Empresa que são utilizadas durante uma requisição à API, deste modo, novos campos são necessários e estão relacionados abaixo:
+Determinados Integradores requerem informações específicas da Empresa Integrada que serão utilizadas durante uma requisição à API, deste modo, novos campos são necessários e estão relacionados abaixo:
 
 | Nome              | Descritivo                                                                                                                                                                                                              | Validações                                                                                                                                                                                          | Obrigatório |
 | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------: |
@@ -136,7 +136,7 @@ Determinados Integradores requerem informações específicas da Empresa que sã
 
 ## Parâmetros do Sistema
 
-Os Parâmetros específicos relativos aos Integradores Fiscais serão descritos e suas Respectivas Documentações. No ambito geral, foram levantadas as seguintes alterações e inclusões de Parâmetros do Sistema:
+Os Parâmetros específicos relativos aos Integradores Fiscais **serão descritos em suas Respectivas Documentações**. No ambito geral, foram levantadas as seguintes alterações e inclusões de Parâmetros do Sistema:
 
 | Tipo          | Elemento                                    | Nome/Texto                               | Descritivo                                                                                                                                                    | Regra de Negócio                                                                                                                                                                                                    |
 | :------------ | :------------------------------------------ | :--------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
