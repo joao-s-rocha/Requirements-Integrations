@@ -4,6 +4,7 @@
 
 - [Documentação de Requisitos - Integrações Fiscais](#documentação-de-requisitos---integrações-fiscais)
 - [Introdução](#introdução)
+- [Resumo](#resumo)
 - [Relação de Rotinas Afetadas](#relação-de-rotinas-afetadas)
 - [Roadmap](#roadmap)
 - [Requisitos](#requisitos)
@@ -51,6 +52,34 @@
 - O presente documento objetiva descrever em detalhes a Estrutura necessária para Integrações Fiscais de Consulta Tributária de qualquer parceiro no Sistema Ganso.
 - No Modelo de Integração adotado, o Sistema Ganso comunica-se com o portal tributário do Parceiro Integrador através de uma **API**, e realiza a consulta da Tributação dos produtos, e obtém dados para a **Formação de Base de Dados de Regras Fiscais** que serão consumidas pelas Rotinas do Sistema Ganso.
 - A partir das Implementações deste modelo, o Sistema Ganso concentrará as informações Tributárias em **Regras Fiscais** de Entrada e Saída, em todos os cenários (Integrado ou não).
+
+# Resumo
+1. Realizar Adaptações no Sistema
+   1. Analisar todas as [Rotinas Afetadas](#relação-de-rotinas-afetadas)
+   2. Implementar os Requisitos do [Cadastro de Empresas](#cadastro-de-empresas)
+   3. Implementar os Requisitos dos [Parâmetros do Sistema](#parâmetros-do-sistema)
+   4. Implementar os Requisitos do [Cadastro de Clientes](#cadastro-de-clientes)
+   5. Implementar os Requisitos do [Cadastro de Fornecedores](#cadastro-de-fornecedores)
+   6. Implementar os Requisitos do [Cadastro de Finalidade de Operação](#cadastro-de-finalidade-de-operações)
+   7. Implementar os Requisitos do [Cadastro de Perfil Fiscal](#cadastro-de-perfil-fiscal)
+   8. Implementar os Requisitos do [Cadastro de Regra Fiscal](#cadastro-de-regra-fiscal)
+   9. Implementar os Requisitos do [Cadastro de Produtos](#cadastro-de-produtos)
+   10. Implementar os Requisitos da [Manutenção de Produtos](#manutenção-de-produtos)
+   11. Implementar os Requisitos do [Espelhamento de Produtos](#cadastro-de-espelhamento-de-produtos)
+   12. Implementar os Requisitos das [Fórmulas de Custo e Venda](#fórmulas-de-preço-de-custo-preço-de-venda-e-preço-de-venda-mínimo)
+   13. Implementar os Requisitos da [Venda Retaguarda e Venda PDV](#venda-retaguarda-e-vendas-pdv)
+   14. Implementar os Requisitos da [Devolução de Vendas](#devolução-de-vendas)
+   15. Implementar os Requisitos do [Recebimento Fiscal](#recebimento-fiscal)
+   16. Implementar os Requisitos dos [Documentos Fiscais](#documentos-fiscais---df-e)
+   17. Implementar os Requisitos dos [Relatórios](#relatórios)
+   18. Implementar os Requisitos do [Gerador de Etiquetas](#gerador-de-etiquetas)
+   19. Implementar os Requisitos da [Nova Tela de Gerenciador Tributário](#nova-tela---gerenciador-tributário)
+   20. Implementar os Requisitos da [Nova Tela de Comparativo de Tributos](#nova-tela---comparativo-de-tributos-antes-x-depois)
+   21. Implementar os Requisitos da [Nova Tela de Consulta por Descrição de Produto](#nova-tela---consulta-por-descrição-de-produto)
+   22. Implementar os Requisitos da [Camada de Tratamento de Dados](#camada-de-tratamento-de-dados)
+   23. Implementar os Requisitos de [Segurança](#requisitos-de-segurança)
+2.  Analisar Documentações Individuais para cada **Integrador Fiscal**
+
 
 # Relação de Rotinas Afetadas
 
@@ -591,7 +620,10 @@ Os Integradores Fiscais possuem dados para alimentar a Regra Fiscal de Entrada e
 
 # Camada de Tratamento de Dados
 
-Nesta seção, são descritas as Regras de Negócio da Camada de Tratamento de Dados que direciona corretamente as informações consultadas no Integrador Fiscal.
+Nesta seção, são descritas as Regras de Negócio da Camada de Tratamento de Dados que direciona corretamente as informações consultadas no Integrador Fiscal para a **Regra Fiscal Ganso**.
+
+- A partir desta Implementação, o Sistema Ganso deverá oferecer **Pontos de Entrada de Dados** para a **Regra Fiscal** de modo que, utilizando as informações de qualquer Integrador Fiscal, seja possível obter Regras Aplicáveis.
+- A **Camada de Tratamento** deve absorver as Regras de Negócio da Integração para direcionar corretamente a criação de dados. 
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
 
