@@ -41,9 +41,12 @@
   - [Campos Dependentes](#campos-dependentes)
   - [Regra Fiscal x Integrador Fiscal](#regra-fiscal-x-integrador-fiscal)
 - [Camada de Tratamento de Dados](#camada-de-tratamento-de-dados)
+  - [Regras de Negócio Padrão](#regras-de-negócio-padrão)
 - [Requisitos de Segurança](#requisitos-de-segurança)
   - [Acessos Restritos](#acessos-restritos)
   - [Logs](#logs)
+- [Simulações](#simulações)
+  - [Processo de Atualização do Sistema após implementações](#processo-de-atualização-do-sistema-após-implementações)
 
 ---
 
@@ -221,6 +224,7 @@ Nesta Seção são descritos os Ajustes e Novos Campos necessários, e descreve 
 | Texto                        | Data, Hora e Usuário de Modificação da Regra | Campo para exibir a Data, Hora e Usuário de Modificação da Regra Fiscal. Inclusive identificar o Integrador, em casos que a Regra Fiscal seja alterada deste modo.                                                                                                                                                       | Apenas Texto somente leitura destacado.                                                                                                                                  |
 | **Campo Numérico**           | **Código Regra Integrador**                  | Campo para armazenar o Código da Regra Fiscal da Base do Integrador, quando devolvido pela API. Esta informação será utilizada para eventuais atualizações da Própria Regra do Integrador, para evitar que Regras Fiscais em duplicidade possam ser criadas (quando for o caso), e para eventuais soluções de problemas. | Armazenar o Código da Regra retornado pela API no campo especificado na **Documentação do Integrador**.                                                                  |
 | **Ajuste de Campo**          | UFs de Origem                                | Alterar a exibição do Texto conforme o Tipo de Regra (Entrada ou Saída). Se Entrada, exibir "UFs de Origem. Se Saída, exibir UFs de Destino.                                                                                                                                                                             | Preenchimento Obrigatório.                                                                                                                                               |
+| **Ajuste de Text**          | **Parâmetros Aplicáveis**                                | Alterar o Texto "Parâmetros Aplicáveis" para **"Impostos"**                                                                                                                                                                             | - |
 | **Caixa de Seleção**         | Alíquota Interna do ICMS                     | Seleção para habilitar o preenchimento da Alíquota Interna retornada pelo Integrador Fiscal e utilizada em Documentos Fiscais.                                                                                                                                                                                           | Quando selecionada, habilita o campo de preenchimento da Alíquota.                                                                                                       |
 | **Caixa de Combinação**      | Seleção da Alíquota Interna do ICMS          | Campo de Preenchimento da Alíquota Interna retornada pelo Integrador Fiscal, ou para preenchimento manual (Regra Fiscal Manual).                                                                                                                                                                                         | Listar Alíquotas do Cadastro de Tributos.                                                                                                                                |
 | **Ajuste de Texto**          | Alíquota ICMS                                | Alterar para **"Alíquota Efetiva"** que descreve a Alíquota Final a aplicar no Produto.                                                                                                                                                                                                                                  | -                                                                                                                                                                        |
@@ -245,14 +249,15 @@ Abaixo o Protótipo de Tela com as definições da tabela anterior.
 
 | Regra de Negócio | Descritivo                                                                                                                                                                                                                                                                                                                                                   |
 | :--------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|     **RN1**      | Se **Tipo de Regra** igual a **Saída**, permitir definir apenas uma **Finalidade da Operação** cujo **Tipo de Movimentação** seja igual a **Saída**                                                                                                                                                                                                          |
-|     **RN2**      | Se **Tipo de Regra** igual a **Entrada**, permitir definir uma **Finalidade da Operação** cujo **Tipo de Movimentação** seja igual a **Entrada**                                                                                                                                                                                                             |
-|     **RN3**      | Se **Finalidade de Operação** for de uma **Operação** de **Venda a Consumidor Final**, não permitir incluir **UFs de Destino** diferentes das UFs das Filiais informadas no campo **Empresas**                                                                                                                                                               |
-|     **RN4**      | Se **Tipo de Regra** igual a **Saída** e **Finalidade de Operação** for diferente de uma **Operação** de **Venda a Consumidor Final** e **UF** de Origem/Destino diferente das UFs das Filiais informadas no campo **Empresas**, listar apenas **CFOP** iniciado em "6". <br><br>Se **Regra criada pelo Integrador** aplicar o **CFOP Padrão Interestadual** |
-|     **RN5**      | Se **Tipo de Regra** igual a **Entrada** e **Finalidade de Operação** e **UF** de Origem/Destino diferente das UFs das Filiais informadas no campo **Empresas**, listar apenas **CFOP** iniciado em "2". <br><br>Se **Regra criada pelo Integrador** aplicar o **CFOP Padrão Interestadual**                                                                 |
-|     **RN6**      | Se **Integrador Mix Fiscal**, **Tipo de Regra** igual a **Saída** e **CST do ICMS** igual a **"60"** e **Alíquota do ICMS ST** igual a **"0,00"**, **Zerar Base de Cálculo e Valores do ICMS ST**.                                                                                                                                                           |
-|     **RN7**      | Se Usuário **Editar e Alterar** o **Tipo de Regra**, limpar os campos **Finalidade de Operação, Perfil Fiscal e Definir CFOP**                                                                                                                                                                                                                               |
-|     **RN8**      | Se Usuário **Replicar** uma Regra Fiscal, exibir uma Mensagem informando que os dados da Nova Regra a criar devem ser diferentes da Regra replicada, para que não haja duplicidade.                                                                                                                                                                          |
+|     **RN1**      | Incluir todos os **Critérios** e **Impostos** da Regra Fiscal como **Chave Única**.|
+|     **RN2**      | Se **Tipo de Regra** igual a **Saída**, permitir definir apenas uma **Finalidade da Operação** cujo **Tipo de Movimentação** seja igual a **Saída**                                                                                                                                                                                                          |
+|     **RN3**      | Se **Tipo de Regra** igual a **Entrada**, permitir definir uma **Finalidade da Operação** cujo **Tipo de Movimentação** seja igual a **Entrada**                                                                                                                                                                                                             |
+|     **RN4**      | Se **Finalidade de Operação** for de uma **Operação** de **Venda a Consumidor Final**, não permitir incluir **UFs de Destino** diferentes das UFs das Filiais informadas no campo **Empresas**                                                                                                                                                               |
+|     **RN5**      | Se **Tipo de Regra** igual a **Saída** e **Finalidade de Operação** for diferente de uma **Operação** de **Venda a Consumidor Final** e **UF** de Origem/Destino diferente das UFs das Filiais informadas no campo **Empresas**, listar apenas **CFOP** iniciado em **"6"**. <br><br>Se **Regra criada pelo Integrador** aplicar o **CFOP Padrão da Finalidade de Operação** ou de **Retorno da Consulta** |
+|     **RN6**      | Se **Tipo de Regra** igual a **Entrada** e **Finalidade de Operação** e **UF** de Origem/Destino diferente das UFs das Filiais informadas no campo **Empresas**, listar apenas **CFOP** iniciado em **"2"**. <br><br>Se **Regra criada pelo Integrador** aplicar o **CFOP Padrão da Finalidade de Operação** ou de **Retorno da Consulta**                                                                 |
+|     **RN7**      | Se **Integrador Mix Fiscal**, **Tipo de Regra** igual a **Saída** e **CST do ICMS** igual a **"60"** e **Alíquota do ICMS ST** igual a **"0,00"**, **Zerar Base de Cálculo e Valores do ICMS ST**.                                                                                                                                                           |
+|     **RN8**      | Se Usuário **Editar e Alterar** o **Tipo de Regra**, limpar os campos **Finalidade de Operação, Perfil Fiscal e Definir CFOP**                                                                                                                                                                                                                               |
+|     **RN9**      | Se Usuário **Replicar** uma Regra Fiscal, exibir uma Mensagem informando que os dados da Nova Regra a criar devem ser diferentes da Regra replicada, para que não haja duplicidade.                                                                                                                                                                          |
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
@@ -620,10 +625,23 @@ Os Integradores Fiscais possuem dados para alimentar a Regra Fiscal de Entrada e
 
 # Camada de Tratamento de Dados
 
-Nesta seção, são descritas as Regras de Negócio da Camada de Tratamento de Dados que direciona corretamente as informações consultadas no Integrador Fiscal para a **Regra Fiscal Ganso**.
+Nesta seção, é descrita a  **Camada de Tratamento de Dados** que objetiva tratar as informações consultadas na API Integrador Fiscal e direcioná-las corretamente para a **Regra Fiscal Ganso**.
 
-- A partir desta Implementação, o Sistema Ganso deverá oferecer **Pontos de Entrada de Dados** para a **Regra Fiscal** de modo que, utilizando as informações de qualquer Integrador Fiscal, seja possível obter Regras Aplicáveis.
-- A **Camada de Tratamento** deve absorver as Regras de Negócio da Integração para direcionar corretamente a criação de dados. 
+Este Recurso **é útil apenas quando há Integração Fiscal ativada**, uma vez que, dados de _input_ serão retornados pelos Integradores Fiscais, e necessitam serem convertidos para a Estrutura Ganso. O recurso deve fornecedor as seguintes funcionalidades mínimas:
+
+1. Relacionamento de Campos da Regra Fiscal - A rotina deve interpretar os campos de Origem e definir como Destino os campos da Regra Fiscal, de acordo com o relacionado nas Documentações de cada Integrador.
+2. Conter Regras de Negócio para o Tratamento e Criação de Regras de Entrada e Saída - A rotina define a coerência das informações e consistência de dados, com base em combinações de dados Padronizados com as demais informações utilizadas para Consulta ao Integrador.
+3. Efetuar Direcionamento de Dados Tratados para a Regra Fiscal - A rotina deve verificar a existência de Regras e definir a Atualização ou Criação de novas Regras, com finalidade de evitar redundâncias.
+
+Em suma, o esquema ilustrado abaixo exemplifica o fluxo:
+
+![Esquema Camada de Tratamento](./Flow-Scheme-Threat-Layer.png)
+
+## Regras de Negócio Padrão
+| Regra de Negócio | Descritivo | Padronizações |
+| :--- | :--- | :--- |
+| RN1 | Integrador oferece **Código do CFOP** no Retorno da Consulta | Verificar a Finalidade de Operação enviada na Consulta ao Integrador para determinar se deve: <br>- Criar Regra de Entrada se CFOP retornado iniciar com 1, 2 ou 3. <br>-Criar Regra de Saída se CFOP retornado iniciar com 5, 6 ou 7. |
+| RN2 | Integrador não oferece Regras de Entrada | Verificar Regras de Saída para "Venda a Consumidor Final", confrontar os dados e Atualizar ou Criar uma Nova Regra. |
 
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
@@ -658,3 +676,20 @@ A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras 
 
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
+
+# Simulações
+
+## Processo de Atualização do Sistema após implementações
+
+1. Organizar todos os Produtos e suas informações Tributárias para criar uma Regra Padrão de **"Venda a Consumidor Final"** por **Produto**.
+   1. Devem ser criadas Regras por Lotes, uma vez que há diferenças de Tributação entre **Tributados, Não Tributados e Substituição Tributária**.
+2. Criar o Perfil Fiscal **"Consumidor Final"**, definido a Característica Tributária como **"Pessoa Física não Contribuinte do ICMS"** e Contribuinte do ICMS como **Não Contribuinte**.
+3. Criar o Perfil Fiscal **"Pessoa Jurídica Contribuinte do ICMS"**, definido a Característica Tributária como **"Pessoa Jurídica Contribuinte do ICMS"** e Contribuinte do ICMS como **Contribuinte do ICMS**.
+4. Executar Atualização dos **Cadastros de Clientes** definindo o **Regime Tributário** como **"Consumidor Final"** e **Perfil Fiscal** criado no passo 2, onde o Cliente é **Pessoa Física**.
+5. Executar Atualização dos **Cadastros de Clientes** definindo o **Regime Tributário** como **"Lucro Real"** e **Perfil Fiscal** criado no passo 3, onde o Cliente é **Pessoa Jurífica** e **Contribuinte do ICMS** anteriormente definido como **"Sim"**.
+6. Criar a **Finalidade Operação** **"Venda a Consumidor Final Tributado Estadual"**, definindo a Operação como **"Venda a Consumidor Final"**, Tipo de Movimentação como **"Saída"**, CFOP Padrão como **"5102"**.
+   1. Quando o Produto possuir Alíquota de ICMS diferente de "Subst. Trib." e CST Estadual entre "000,020,040,041", utilizar esta Regra.
+7. Criar a **Finalidade de Operação "Venda a Consumidor ST Estadual"**, definindo a Operação com **"Venda a Consumidor Final"**, Tipo de Movimentação como **"Saída"**, CFOP Padrão como **"5405"**.
+   1. Quando o Produto possuir Alíquota de ICMS igual a "Subst. Trib." e CST Estadual igual a "060", utilizar esta Regra.
+8. Criar **Regras Fiscais** e Relacionar o Código do Produto com a Regra Fiscal de Saída criada.
+   1. O Sistema deve relacionar uma Regra a um Produto sempre que a Operação corresponder, NCM e CEST, mantendo a definição da **Chave Única**
