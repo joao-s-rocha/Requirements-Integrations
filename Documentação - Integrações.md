@@ -129,7 +129,7 @@ Determinados Integradores requerem informações específicas da Empresa que sã
 | Regime Tributário | Campo para informar a Subclassificação do CRT "Regime Normal", cuja informação pode ser definida entre "**Lucro Real - LR**" ou "**Lucro Presumido - LP**". Este dado é obrigatório para a obtenção de Regras corretas. | Deve ser permitido informá-lo apenas se o CRT selecionado for igual a "3 - Regime Normal".                                                                                                          |   **Sim**   |
 | Área da Loja      | Campo para informar o tamanho da área fisica ocupada pelo estabelecimento do cliente em Metros Quadrados                                                                                                                | Informação importante para o Integrador Mix Fiscal, que oferece para o Cliente Integrado insights de organização mercadológica de espaços, proximidade de produtos e composição de mix de produtos. |   **Não**   |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Parâmetros do Sistema
 
@@ -141,7 +141,7 @@ Os Parâmetros específicos relativos aos Integradores Fiscais serão descritos 
 | **Alteração** | **Aba Produto/Estoque / Grupo Produto**     | **Valores Padrão para Cadastro**         | Eliminar os campos contidos em "Valores Padrão" presentes na Aba, **exceto** campos para **Unidade de Compra e Venda**.                                       | Para um Cadastro de Produtos novo estes dados não terão mais relevância, visto que será necessário criar pelo menos uma **Regra Fiscal Padrão** ou vincular uma Regra existente.                                    |
 | **Alteração** | **Aba Documentos Fiscais / NFC-e/SAT-CF-e** | **Valores Padrão para Documento Fiscal** | Eliminar os campos relativos ao **CFOP, CST/CSOSN, NCM, CST e Alíquota de PIS e Cofins**. É necessário que exista pelo menos uma Regra Fiscal para o Produto. | Para Emissão de Documento Fiscal de Venda a Consumidor Final (NFC-e ou SAT-CF-e) é necessário garantir que haja uma Regra Fiscal desta Natureza de Operação, que seja única, e aplicável aos Produtos corretamente. |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Cadastro de Clientes
 
@@ -152,7 +152,7 @@ Para que a **Nova Regra de Negócio** para os dados tributários seja aplicada e
 | **Campo**               | Perfil Fiscal     | Campo para Usuário definir um Perfil Fiscal cadastrado corretamente em [Cadastro de Perfil Fiscal](#cadastro-de-perfil-fiscal). Esta informação é importante para que o Sistema selecione corretamente as Regras Fiscais aplicáveis no momento da Emissão de um Documento Fiscal.                                 | Relacionar o Código do Perfil Fiscal ao Cadastro do Cliente. |
 | **Caixa de Combinação** | Regime Tributário | Campo para informar o Regime Tributário do Cliente. Esta informação é muito importante para identificação do Destinatário da Operação, para composição de Regras Fiscais e para criação de Cenários Fiscais. Disponibilizar as opções **"Lucro Real", "Lucro Presumido", "Simples Nacional", "Consumidor Final"** | Preenchimento Obrigatório                                    |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Cadastro de Fornecedores
 
@@ -162,7 +162,7 @@ O Cadastro de Fornecedores possui boa parte das informações que identificam o 
 | :---------------------- | :---------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
 | **Caixa de Combinação** | Regime Tributário | Campo para informar o Regime Tributário vinculado ao Perfil Fiscal. Esta informação é muito importante para identificação do Destinatário da Operação, para composição de Regras Fiscais e criação de Cenários Fiscais. Disponibilizar as opções **"Lucro Real", "Lucro Presumido", "Simples Nacional", "Consumidor Final"** | Preenchimento Obrigatório |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Cadastro de Finalidade de Operações
 
@@ -188,7 +188,7 @@ O Protótipo abaixo ilustra os elementos descritos acima para o Cadastro de Fina
 
 ![Wireframe - Cadastro de Finalidade de Operação](./Wireframe-Cadastro-Finalidade.png)
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Cadastro de Perfil Fiscal
 
@@ -207,7 +207,7 @@ As alterações descritas acima, podem ser visualizadas no exemplo abaixo:
 
 ![Wireframe Perfil Fiscal](./Wireframe-Perfil-Fiscal.png)
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Cadastro de Regra Fiscal
 
@@ -239,7 +239,7 @@ Abaixo o Protótipo de Tela com as definições da tabela anterior.
 
 ![Wireframe Regra Fiscal](./Wireframe-Regra-Fiscal.png)
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ### Regras de Negócio Gerais da Rotina
 
@@ -254,7 +254,7 @@ Abaixo o Protótipo de Tela com as definições da tabela anterior.
 |     **RN7**      | Se Usuário **Editar e Alterar** o **Tipo de Regra**, limpar os campos **Finalidade de Operação, Perfil Fiscal e Definir CFOP**                                                                                                                                                                                                                               |
 |     **RN8**      | Se Usuário **Replicar** uma Regra Fiscal, exibir uma Mensagem informando que os dados da Nova Regra a criar devem ser diferentes da Regra replicada, para que não haja duplicidade.                                                                                                                                                                          |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Cadastro de Produtos
 
@@ -314,7 +314,7 @@ Além das alterações de campos e adição de funções, a aba **Grade Fiscal**
 | **Adicionar Elemento** | Botão de Ação       | Botão para acionar a Tela de Cadastro da Regra Fiscal em modo Inserção                                                                              | Texto "Nova Regra" e Tela de Cadastro da Regra Fiscal                                                                                                                                                                 |
 | **Adicionar Elemento** | Atalho duplo clique | Atalho em duplo clique no registro da Grade de Dados que direciona à Tela de Cadastro da Regra Fiscal, com os dados da respectiva regra carregados. | -                                                                                                                                                                                                                     |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Manutenção de Produtos
 
@@ -328,7 +328,7 @@ A rotina de Manutenção de Produtos permite ao Usuário atualizar dados tribut�
 | **Adicionar**  | Novo Filtro: **Caixa de Seleção** para "Produtos sem Regras Fiscais relacionadas". Esta opção ativará o filtro que identifica quais produtos estão sem Regra Fiscal ativa relacionada (tanto por Produto quanto por NCM), de modo que o usuário possa corrigir o NCM do Produto.                                                                                                                                                                                                                                                                            |
 | **Adicionar**  | **Regra de Negócio** que exiba uma "Mensagem de Aviso ao Usuário" quando o mesmo alterar um NCM de Produto. A mensagem deve informar que as Regras Fiscais aplicáveis ao Produto poderão ser distintas, e pode resultar em impactos tributários.                                                                                                                                                                                                                                                                                                            |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Cadastro de Espelhamento de Produtos
 
@@ -336,7 +336,7 @@ A Rotina de Espelhamento de Produtos foi criada para que os dados tributários e
 
 1. Remover todos os campos e Grupos **ICMS, ICMS ST, PIS/COFINS, IPI e NFC-e**.
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Fórmulas de Preço de Custo, Preço de Venda e Preço de Venda Mínimo
 
@@ -355,7 +355,7 @@ A Rotina de Fórmulas do Sistema Ganso, disponibiliza campos para que sejam cria
 
 Os demais campos presentes nas Fórmulas devem ser mantidos, visto que os respectivos dados devem permanecer no Produto para visualização.
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Venda Retaguarda e Vendas PDV
 
@@ -462,7 +462,7 @@ O Protótipo abaixo exemplifica os elementos descritos acima:
 
 ![Wireframe - Nova Tela - Gerenciador Tributário - Pendencias](./Wireframe-Tax-Manager-Pendents.png)
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Nova Tela - Comparativo de Tributos (Antes x Depois)
 
@@ -483,7 +483,7 @@ A seguir, o _Protótipo_ que exemplifica os elementos descritos na Tabela acima:
 
 ![Wireframe Comparativo](./Wireframe-Screen-Decision.png)
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ### Regras e Interações da Nova Tela
 
@@ -494,7 +494,7 @@ De acordo com a disponibilidade do Recurso no Integrador, o usuário poderá apl
 | Desmarcar um Campo na Tela        | Verificar se Usuário possui permissão para executar ação e verificar se campo desmarcado possui dependência, conforme relacionado em [**Campos Dependentes**](#campos-dependentes) | Desmarcar os campos dependentes não clicados. Gravar Log desta ação                                                                               |
 | Desmarcar todos os Campos da Tela | Verificar se Usuário possui permissão para executar ação                                                                                                                           | Se permitido, enviar mensagem ao Usuário informando que o mesmo decidiu não acatar as alterações tributárias do Integrador. Gravar Log desta ação |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Nova Tela - Consulta por Descrição de Produto
 
@@ -552,7 +552,7 @@ Nesta Seção são descritos os **Relacionamentos das Informações** que são r
 | codigo_tributo                                  | Código do Tributo de ICMS de Saída Estadual para NFC-e/SAT-CF-e               |                      `infPDV/pICMSPDV`                       |                        `perAliqPDVSaida`                        | `aliq_icms/aliq_saida` | Gravar o Código do Tributo que consta na Tabela "PRODUTO_TRIBUTO" onde o campo "SITUACAO" seja igual a 0, "SITUACAO_TRIBUTARIA" seja igua a 'T' e o campo "CST" corresponda ao valor retornado pelo Integrador. Se valor retornado igual a 0, verificar se campo o "SITUACAO_TRIBUTARIA" é igual a:<br> **iMendes:** `infPDV/simbPDV`<br> **FGF**: `tipoTributacaoPDV`<br> **Mix Fiscal**: dependerá do cenário\*.                                                                                                                                                                                                                               |
 | f_icms_venda                                    | Alíquota de ICMS de Saída Estadual para NFC-e/SAT-CF-e                        |                      `infPDV/pICMSPDV`                       |                        `perAliqPDVSaida`                        | `aliq_icms/aliq_saida` | Gravar o valor retornado pelo Integrador.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Campos Dependentes
 
@@ -567,7 +567,7 @@ Alguns Integradores podem disponibilizar recurso para o Usuário decidir quais t
 
 ---
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Regra Fiscal x Integrador Fiscal
 
@@ -616,7 +616,7 @@ Os Integradores Fiscais possuem dados para alimentar a Regra Fiscal de Entrada e
 | origem_aliquota_icms        | **produto_prf_mva** | Alíquota de Origem do MVA                                  |                `CaracTrib/aliqIcmsInterestadual`                 |                                      `aliqIcmsInterna`                                      |                              `aliq_icms ou aliq_icms_entrada`                               | Preencher com a informação do campo retornado apenas se maior que Zero, e se o campo **icmsst_lancamento** for definido como 'D' ou 'F'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | mva                         | **produto_prf_mva** | MVA - Margem de Valor Agregado Ajustada                    |                       `CaracTrib/iVAAjust`                       |                                    `perMvaInterestadual`                                    |                                            `mva`                                            | Preencher com a informação do campo retornado apenas se o maior que Zero, e se o campo **icmsst_lancamento** for definido como 'D' ou 'F'.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 # Camada de Tratamento de Dados
 
@@ -625,7 +625,8 @@ Nesta seção, são descritas as Regras de Negócio da Camada de Tratamento de D
 - A partir desta Implementação, o Sistema Ganso deverá oferecer **Pontos de Entrada de Dados** para a **Regra Fiscal** de modo que, utilizando as informações de qualquer Integrador Fiscal, seja possível obter Regras Aplicáveis.
 - A **Camada de Tratamento** deve absorver as Regras de Negócio da Integração para direcionar corretamente a criação de dados. 
 
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap)
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 # Requisitos de Segurança
 
@@ -654,3 +655,6 @@ A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras 
 | Produto Log Atualização Tributos     | Histórico de Tributos alterados por Produto                              | Armazenar dados dos Tributos que foram **alterados** e os **não alterados** e vincular a um Produto Log Consulta Tributária.                                                  | Código do Produto, Código da Filial, Todos os Campos de Tributos do Produto que foram atualizados, Todos os Campos de Tributos não atualizados, Data, Hora e Usuário. |
 | Produto Log Envio Revisão Tributária | Histórico de Produtos enviados para Revisão Tributária para o Integrador | Armazenar os Produtos que foram enviados para Revisão Tributária, e quando houver retorno de atualização, sinalizar o Status como Revisado e gravar a Data e Hora do revisão. | Código Filial, Código do Produto, Data, Hora, Usuário de Envio, Status da Revisão, Integrador Fiscal                                                                  |
 | Cenário Fiscal                       | Histórico de Alterações de Cenário Fiscal                                | Armazenar dados da atualização do Cenário Fiscal, quando o integrador implementar tal recurso                                                                                 | Código do Cenário do Integrador, Data, Hora, Usuário e Histórico (descritivo da alteração realizada)                                                                  |
+
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
