@@ -640,8 +640,8 @@ Em suma, o esquema ilustrado abaixo exemplifica o fluxo:
 ## Regras de Negócio Padrão
 | Regra de Negócio | Descritivo | Padronizações |
 | :--- | :--- | :--- |
-| RN1 | Integrador oferece **Código do CFOP** no Retorno da Consulta | Verificar a Finalidade de Operação enviada na Consulta ao Integrador para determinar se deve: <br>- Criar Regra de Entrada se CFOP retornado iniciar com 1, 2 ou 3. <br>-Criar Regra de Saída se CFOP retornado iniciar com 5, 6 ou 7. |
-| RN2 | Integrador não oferece Regras de Entrada | Verificar Regras de Saída para "Venda a Consumidor Final", confrontar os dados e Atualizar ou Criar uma Nova Regra. |
+| RN1 | Integrador oferece **Código do CFOP** no Retorno da Consulta | Verificar a Finalidade de Operação enviada na Consulta ao Integrador para determinar se deve: <br>- **Criar Regra de Entrada** se CFOP retornado iniciar com 1, 2 ou 3. <br>- Criar **Regra de Saída** se CFOP retornado iniciar com 5, 6 ou 7. |
+| RN2 | Integrador não oferece Regras de Entrada | Utilizar Regras de Saída de "Venda a Consumidor Final", para confrontar os dados e definir se ocorrerá **Atualização** ou **Criação** de uma Nova Regra. |
 
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
