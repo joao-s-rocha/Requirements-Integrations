@@ -384,6 +384,12 @@ A Rotina de **Recebimento Fiscal** ou Entrada de Mercadorias, requer ajustes em 
 | **Item do Recebimento Fiscal** | Dados de ICMS, PIS e COFINS de Venda, da Tela de **Sugestão de Preço (Fórmulas)(F10 - F.Custos)**. | Buscar dados da **Regra Fiscal de Venda a Consumidor Final**                                                                   |
 | **Derivar Item**               | Dados de Alíquota de ICMS e Alíquota IPI, do grupo "Itens Derivado".                               | Verificar origem dos dados. Se origem igual a "Cadastro de Produtos", buscar da **"Regra Fiscal de Venda a Consumidor Final"** |
 
+Além das alterações de origem de dados, serão necessários criar novos campos para armazenar novos dados que serão retornados das Integrações Fiscais que são:
+
+| Tipo | Posicionamento | Nome/Texto | Descritivo | Regras de Negócio |
+| :--- | :--- | :--- | :--- | :--- |
+| **Campo** | **Item do Recebimento Fiscal** | Valor do Diferencial de Alíquota | Criar campo para exibir o Valor do Diferencial da Alíquotas (DIFAL) calculado através da Regra Fiscal ou através dos dados retornados pelo Integrador Fiscal. Este valor deve ser utilizado apenas para **Formação de Custo** do Produto, pois, não trata-se de Imposto propriamente dito. | Deve ser calculado em Valor conforme cálculo ocorre nas Fórmulas do DF-e.
+
 ## Documentos Fiscais - DF-e
 
 1. Revisar as Fórmulas que processam os dados tributários do Produto e alimentam os campos do **Item no Documento Fiscal**.
