@@ -343,6 +343,7 @@ A rotina de Manutenção de Produtos permite ao Usuário atualizar dados tribut�
 A Rotina de Espelhamento de Produtos foi criada para que os dados tributários e de custo sejam replicados para as Empresas configuradas quando há alterações em um Produto. Contudo, a Regra Fiscal possui recurso de múltiplas filiais, não sendo necessário manter os dados tributários no E**spelhamento e no Processamento**.
 
 1. Remover todos os campos e Grupos **ICMS, ICMS ST, PIS/COFINS, IPI e NFC-e**.
+2. Avaliar a Inclusão dos Códigos das Filiais que antes eram espelhadas nas Regras Fiscais de Venda a Consumidor Final durante o Processo de Atualização do Sistema.
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
@@ -361,7 +362,7 @@ A Rotina de Fórmulas do Sistema Ganso, disponibiliza campos para que sejam cria
 | PIS/COFINS     | Alíquota de PIS e COFINS de Entrada                               | **f_pis_compra / f_cofins_compra**  | **sugere_pis_aliq / sugere_cofins_aliq** |
 | PIS/COFINS     | Alíquota de PIS e COFINS de Saída                                 | **f_pis_venda / f_cofins_venda**    | **sugere_pis_aliq / sugere_cofins_aliq** |
 
-Os demais campos presentes nas Fórmulas devem ser mantidos, visto que os respectivos dados devem permanecer no Produto para visualização.
+Os demais campos presentes nas Fórmulas devem ser mantidos, visto que os respectivos dados são provenientes da Última Entrada de Mercadorias e devem permanecer no Produto para visualização.
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
@@ -386,16 +387,17 @@ A Rotina de **Recebimento Fiscal** ou Entrada de Mercadorias, requer ajustes em 
 | **Item do Recebimento Fiscal** | Dados de ICMS, PIS e COFINS de Venda, da Tela de **Sugestão de Preço (Fórmulas)(F10 - F.Custos)**. | Buscar dados da **Regra Fiscal de Venda a Consumidor Final**                                                                   |
 | **Derivar Item**               | Dados de Alíquota de ICMS e Alíquota IPI, do grupo "Itens Derivado".                               | Verificar origem dos dados. Se origem igual a "Cadastro de Produtos", buscar da **"Regra Fiscal de Venda a Consumidor Final"** |
 
-Além das alterações de origem de dados, serão necessários criar novos campos para armazenar novos dados que serão retornados das Integrações Fiscais que são:
+Além das alterações de origem de dados, serão necessários criar novos campos para armazenar novos dados que serão retornados das Integrações Fiscais ou Calculados pela Regra Fiscal que são:
 
 | Tipo | Posicionamento | Nome/Texto | Descritivo | Regras de Negócio |
 | :--- | :--- | :--- | :--- | :--- |
 | **Campo** | **Item do Recebimento Fiscal** | Valor do Diferencial de Alíquota | Criar campo para exibir o Valor do Diferencial da Alíquotas (DIFAL) calculado através da Regra Fiscal ou através dos dados retornados pelo Integrador Fiscal. Este valor deve ser utilizado apenas para **Formação de Custo** do Produto, pois, não trata-se de Imposto propriamente dito. | Deve ser calculado em Valor conforme cálculo ocorre nas Fórmulas do DF-e.
+| **Campo** | **Item do Recebimento Fiscal** | Valor do ICMS Desonerado | Criar campo para exibir o Valor do ICMS Desonerado proveniente do XML do Documento Fiscal ou calculado através da Regra Fiscal. Este valor deve ser utilizado como "Abatimento" no Valor Total do Produto quando Calculado por uma Regra Fiscal Manual ou apenas lido do XML quando ocorrer uma Importação de XML. | Deve ser calculado em Valor conforme cálculo ocorre nas Fórmulas do DF-e.
 
 ## Documentos Fiscais - DF-e
 
 1. Revisar as Fórmulas que processam os dados tributários do Produto e alimentam os campos do **Item no Documento Fiscal**.
-2. Cada Operação (Tipo de Movimentação) exige uma Fórmula específica. Este processo deverá permanecer, contudo, os **Dados Tributários** devem ser obtidos de uma **Regra Fiscal cuja Finalidade corresponda ao Tipo de Movimentação e Perfil Fiscal do Destinatário** informados no Documento Fiscal.
+2. Cada Operação (Tipo de Movimentação) exige uma Fórmula específica. Este processo deverá permanecer, contudo, os **Dados Tributários** devem ser obtidos de uma **Regra Fiscal cuja Finalidade e Operação corresponda ao Tipo de Movimentação e Perfil Fiscal do Destinatário** informados no Documento Fiscal.
 3. Todos os Dados Tributários (ICMS, IPI, PIS, COFINS, Imposto de Importação e DIFAL) deverão ser lidos de uma **Regra Fiscal** correspondente a Operação.
 4. Havendo duplicidade de Regras ou Inexistência da mesma, o usuário deve ser precisamente informado sobre que produtos não tiveram os Tributos processados. Neste cenário, o Usuário deve ser indagado a criar uma Regra ou optar por preencher manualmente as informações.
 
