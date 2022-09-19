@@ -436,7 +436,7 @@ A alteração da Regra de Negócio implica em atualizar os relatórios do Sistem
 
 ## Gerador de Etiquetas
 
-O Gerador de Etiquetas é uma ferramenta que permite a criação de Layouts com base nas informações do Produtos, Clientes ou Fornecedor. Para a Geração de Etiquetas de Produtos, os dados do Cadastro de Produtos são carregados, e a partir da Nova Regra de Negócio, os dados de Tributos disponibilizados deverãos ser carregados de uma **Regra de Venda a Consumidor Final** conforme a Relação de Campos do Produto a Mover para Regra Fiscal [Ver Seção Cadastro de Produtos / Alteração de Campos](#alterações-de-campos)
+O Gerador de Etiquetas é um Recurso que permite a criação de Layouts com base nas informações do Produtos, Clientes ou Fornecedor. Para a Geração de Etiquetas de Produtos, os dados do Cadastro de Produtos são carregados, e a partir da Nova Regra de Negócio, os dados de Tributos disponibilizados deverão ser carregados de uma **Regra de Venda a Consumidor Final** conforme a Relação de Campos do Produto a Mover para Regra Fiscal [Ver Seção Cadastro de Produtos / Alteração de Campos](#alterações-de-campos)
 
 ## Nova Tela - Gerenciador Tributário
 
