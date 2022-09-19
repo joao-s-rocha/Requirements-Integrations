@@ -399,7 +399,7 @@ Além das alterações de origem de dados, serão necessários criar novos campo
 1. Revisar as Fórmulas que processam os dados tributários do Produto e alimentam os campos do **Item no Documento Fiscal**.
 2. Cada Operação (Tipo de Movimentação) exige uma Fórmula específica. Este processo deverá permanecer, contudo, os **Dados Tributários** devem ser obtidos de uma **Regra Fiscal cuja Finalidade e Operação corresponda ao Tipo de Movimentação e Perfil Fiscal do Destinatário** informados no Documento Fiscal.
 3. Todos os Dados Tributários (ICMS, IPI, PIS, COFINS, Imposto de Importação e DIFAL) deverão ser lidos de uma **Regra Fiscal** correspondente a Operação.
-4. Havendo duplicidade de Regras ou Inexistência da mesma, o usuário deve ser precisamente informado sobre que produtos não tiveram os Tributos processados. Neste cenário, o Usuário deve ser indagado a criar uma Regra ou optar por preencher manualmente as informações.
+4. Havendo duplicidade de Regras ou Inexistência da mesma, o usuário deve ser precisamente informado sobre quais produtos não tiveram os Tributos processados. Neste cenário, o Usuário deve ser orientado a criar uma Regra ou optar por preencher manualmente as informações no Documento Fiscal (quando o tipo possibilitar).
 
 ### Fluxo - Emissão de Documento Fiscal com a Nova Estrutura
 
@@ -410,7 +410,7 @@ Além das alterações de origem de dados, serão necessários criar novos campo
    1. Se Tipo **Manual** identificar os demais parâmetros para localizar uma Regra Fiscal, e **Perfil Fiscal**.
 3. Busca Regras Fiscais cuja **Finalidade de Operação e Perfil Fiscal** sejam correspondentes ao informado/obtido no Documento Fiscal.
 4. Analisa **Item a Item** e Aplica Regras Fiscais aos Itens.
-   1. Se houver **Regras Duplicadas** ou que geram dúvidas quanto à aplicação (Processo incomum, contudo pode ocorrer para movimentações do Tipo Manual), informar ao Usuário e exibir uma Tela para determinar **Regra Fiscal** a Aplicar por Item.
+   1. Se houver **Regras Duplicadas** ou que geram dúvidas quanto à aplicação (Processo que deve ter baixa ocorrência, contudo pode ocorrer para movimentações do Tipo Manual), informar ao Usuário e exibir uma Tela para determinar **Regra Fiscal** a Aplicar por Item.
 
 O fluxo descrito acima pode ser observado na imagem abaixo:
 
