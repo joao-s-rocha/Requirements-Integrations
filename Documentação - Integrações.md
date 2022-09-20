@@ -77,11 +77,11 @@
    17. Implementar os Requisitos dos [Relatórios](#relatórios)
    18. Implementar os Requisitos do [Gerador de Etiquetas](#gerador-de-etiquetas)
 2. Adaptações de Novos Recursos para Integrações
-   19. Implementar os Requisitos da [Nova Tela de Gerenciador Tributário](#nova-tela---gerenciador-tributário)
-   20. Implementar os Requisitos da [Nova Tela de Comparativo de Tributos](#nova-tela---comparativo-de-tributos-antes-x-depois)
-   21. Implementar os Requisitos da [Nova Tela de Consulta por Descrição de Produto](#nova-tela---consulta-por-descrição-de-produto)
-   22. Implementar os Requisitos da [Camada de Tratamento de Dados](#camada-de-tratamento-de-dados)
-   23. Implementar os Requisitos de [Segurança](#requisitos-de-segurança)
+   1. Implementar os Requisitos da [Nova Tela de Gerenciador Tributário](#nova-tela---gerenciador-tributário)
+   2.  Implementar os Requisitos da [Nova Tela de Comparativo de Tributos](#nova-tela---comparativo-de-tributos-antes-x-depois)
+   3.  Implementar os Requisitos da [Nova Tela de Consulta por Descrição de Produto](#nova-tela---consulta-por-descrição-de-produto)
+   4.  Implementar os Requisitos da [Camada de Tratamento de Dados](#camada-de-tratamento-de-dados)
+   5.  Implementar os Requisitos de [Segurança](#requisitos-de-segurança)
 3. Analisar Documentações Individuais para cada **Integrador Fiscal** e realizar as Implementações.
 
 # Relação de Rotinas Afetadas
