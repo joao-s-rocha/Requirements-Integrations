@@ -669,15 +669,18 @@ A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras 
 
 ## Processo de Atualização do Sistema após implementações
 
-1. Organizar todos os Produtos e suas informações Tributárias para criar uma Regra Padrão de **"Venda a Consumidor Final"** por **Produto**.
+1. Organizar todos os Produtos e suas informações Tributárias para criar uma Regra Padrão de **"Venda a Consumidor Final"** por **Produto ou NCM**.
    1. Devem ser criadas Regras por Lotes, uma vez que há diferenças de Tributação de Produtos entre **Tributados, Não Tributados e Substituição Tributária**.
 2. Criar o Perfil Fiscal **"Consumidor Final"**, definir a Característica Tributária como **"Pessoa Física não Contribuinte do ICMS"** e Contribuinte do ICMS como **Não Contribuinte**.
 3. Criar o Perfil Fiscal **"Pessoa Jurídica Contribuinte do ICMS"**, definido a Característica Tributária como **"Pessoa Jurídica Contribuinte do ICMS"** e Contribuinte do ICMS como **Contribuinte do ICMS**.
 4. Executar Atualização dos **Cadastros de Clientes Pessoa Física** definindo o **Regime Tributário** como **"Consumidor Final"** e **Perfil Fiscal** criado no passo 2 (Consumidor Final).
 5. Executar Atualização dos **Cadastros de Clientes Pessoa Jurídica e Contribuinte do ICMS** anteriormente definido como **"Sim"**, definindo o **Regime Tributário** como **"Lucro Real"** e **Perfil Fiscal** criado no passo 3.
-6. Criar a **Finalidade Operação "Venda a Consumidor Final Tributado Estadual"**, definindo a **Operação** como **"Venda a Consumidor Final"**, Tipo de Movimentação como **"Saída"**, CFOP Padrão como **"5102"** e Finalidade do Produto como **Mercadoria para Revenda**.
-   1. Quando o Produto possuir Alíquota de ICMS **diferente** de **"Subst. Trib."** e **CST Estadual** entre **"000,020,040,041"**, utilizar esta Regra.
-7. Criar a **Finalidade de Operação "Venda a Consumidor ST Estadual"**, definindo a **Operação** como **"Venda a Consumidor Final"**, Tipo de Movimentação como **"Saída"**, CFOP Padrão como **"5405"** e Finalidade do Produto como **Mercadoria para Revenda**.
-   1. Quando o Produto possuir Alíquota de ICMS igual a **"Subst. Trib."** e **CST Estadual** igual a **"060"**, utilizar esta Regra.
-8. Criar **Regras Fiscais** utilizando a Finalidade de Operação e Perfil Fiscal criados nos passos anteriores, e Relacionar o **Código do Produto** com a Regra Fiscal de Saída criada.
-   1. O Sistema deve relacionar uma Regra a um Produto sempre que a Operação corresponder, NCM e CEST, mantendo a definição da **Chave Única**
+6. Criar a **Finalidade Operação "Venda a Consumidor Final"**, definindo a **Operação** como **"Venda a Consumidor Final"**, Tipo de Movimentação como **"Saída"**, CFOP Padrão **"Vazio"** e Finalidade do Produto como **Mercadoria para Revenda**.   
+7. Criar **Regras Fiscais** utilizando a **Finalidade de Operação** criada no passo 6 e **Perfil Fiscal** criado no passo 2, obedecendo as seguintes definições:
+   1. Quando o Produto possuir Alíquota de ICMS **diferente** de **"Subst. Trib."** e **CST Estadual** entre **"000,020,040,041"**, criar a Regra **"VENDA A CONSUMIDOR FINAL TRIBUTADO NCM XXXX UF"**. Utilizar o CFOP **"5102"** na Regra.
+   2. Quando o Produto possuir Alíquota de ICMS igual a **"Subst. Trib."** e **CST Estadual** igual a **"060"**, criar a Regra **"VENDA A CONSUMIDOR FINAL ST NCM XXXX UF"**. Utilizar o CFOP **"5405"** na Regra.
+   3. **Obs.:** O Sistema deve relacionar uma Regra a um Produto sempre que a Operação corresponder, NCM e CEST, mantendo a definição da **Chave Única**
+
+O Fluxo abaixo, ilustra a operação descrita acima.
+
+![Fluxo - Atualização do Sistema após mudanças](./Flow-Upgrading-System.png)
