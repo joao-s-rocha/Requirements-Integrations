@@ -397,22 +397,18 @@ Além das alterações de origem de dados, serão necessários criar novos campo
 
 ## Documentos Fiscais - DF-e
 
-1. Criar novo campo **"Perfil Fiscal"** na Aba **Remetente/Destinátário** para que o Usuário possa informar um Perfil Fiscal cadastrado, quando informado um Destinatários não cadastrado no Sistema.
+1. Criar novo campo **"Perfil Fiscal"** na Aba **Remetente/Destinátário** para que o Usuário possa informar um Perfil Fiscal cadastrado, o Destinatário não estiver cadastrado no Sistema.
 2. Revisar as Fórmulas que processam os dados tributários do Produto e alimentam os campos do **Item no Documento Fiscal**.
 3. Cada Operação (Tipo de Movimentação) exige uma Fórmula específica. Este processo deverá permanecer, contudo, os **Dados Tributários** devem ser obtidos de uma **Regra Fiscal cuja Finalidade e Operação corresponda ao Tipo de Movimentação e Perfil Fiscal do Destinatário** informados no Documento Fiscal.
-4. Todos os Dados Tributários (ICMS, IPI, PIS, COFINS, Imposto de Importação e DIFAL) deverão ser lidos de uma **Regra Fiscal** correspondente a Operação.
-5. Havendo duplicidade de Regras ou Inexistência da mesma, o usuário deve ser precisamente informado sobre quais produtos não tiveram os Tributos processados. Neste cenário, o Usuário deve ser orientado a criar uma Regra ou optar por preencher manualmente as informações no Documento Fiscal (quando o tipo possibilitar).
+4. Todos os Dados Tributários (ICMS, IPI, PIS, COFINS, e Cálculo do DIFAL) deverão ser lidos de uma **Regra Fiscal** correspondente a Operação.
+5. Havendo duplicidade de Regras ou Inexistência da mesma, o usuário deve ser precisamente informado sobre quais produtos não tiveram os Tributos processados. Neste cenário, a orientação deve ser sobre Criar uma Regra, Selecionar uma da Lista ou optar por preencher manualmente as informações no Documento Fiscal (quando o tipo possibilitar).
 
 ### Fluxo - Emissão de Documento Fiscal com a Nova Estrutura
 
-1. Efetua a Leitura do **Perfil Fiscal** do Destinatário e demais informações.
-   1. Se **Perfil Fiscal** não informado para o **Destinatário**, informar Usuário por Mensagem e continuar o Processo.
-      1. Se **Documento Fiscal** do tipo **Manual** e Dados do Destinatário preenchidos Manualmente, verificar as informações do Destinatário preenchidas nos campos **Contribuinte ICMS** e **Regime de Apuração**, e indicativo de **Consumidor Final** do Documento Fiscal, para determinar o **Perfil Fiscal**.
-2. Efetua a Leitura da **Operação** (Tipo de Movimentação)
-   1. Se Tipo **Manual** identificar os demais parâmetros para localizar uma Regra Fiscal, e **Perfil Fiscal**.
-3. Busca Regras Fiscais cuja **Finalidade de Operação e Perfil Fiscal** sejam correspondentes ao informado/obtido no Documento Fiscal.
-4. Analisa **Item a Item** e Aplica Regras Fiscais aos Itens.
-   1. Se houver **Regras Duplicadas** ou que geram dúvidas quanto à aplicação (Processo que deve ter baixa ocorrência, contudo pode ocorrer para movimentações do Tipo Manual), informar ao Usuário e exibir uma Tela para determinar **Regra Fiscal** a Aplicar por Item.
+1. Efetua a Leitura do **Tipo de Movimentação** e **Tipo de Documento Fiscal** para determinar qual a Operação para filtrar **Finalidades da Operação** que contenham a Operação.
+2. Efetua a Leitura do **Perfil Fiscal** do Destinatário informado no DF-e ou no Cadastro para combinar esta informação com a Finalidade obtida no passo anterior.
+3. Efetua a Leitura dos demais Critérios **(UF, NCM, CEST, Código do Produto)**, combina todos os Critérios de Finalidade, Perfil Fiscal, e demais lidos, para retornar as Regras Fiscais nestas condições.
+4. Se para cada Produto, uma única Regra Fiscal for localizada, aplicar imediatamente, senão, exibir quais Produtos não possuem Regras ou possuem mais de uma Regra Fiscal com os critérios identificados.
 
 O fluxo descrito acima pode ser observado na imagem abaixo:
 
@@ -661,7 +657,7 @@ A seguir a Tabela de Acessos Restritos essenciais para Controle da Integração 
 | Grupo | Descritivo | Regra de Negócio | Dependendência |
 |:---|:---|:---|:---|
 | Produto | Consultar Tributação de Produtos através do Integrador Fiscal | Impedir que o usuário execute consultas via função de consulta no Cadastro. | Parâmetro **Permitir Consultar Tributação através do Cadastro de Produtos** |
-| Produto | Vincular Código do Integrador a um Produto Cadastrado | Impedir que o usuário vincule um Código de Produto do Integrador a um Produto durante a Inserção ou Atualização de Cadastro. | Parâmetro **Permitir Consultar Tributação por Descrição do Produto**. <br><br>**Nova Tela: Produtos iMendes - consulta por Descrição** <br><br> **Método de Consulta específico do Integrador** |
+| Produto | Vincular Código do Integrador a um Produto Cadastrado | Impedir que o usuário vincule um Código de Produto do Integrador a um Produto durante a Inserção ou Atualização de Cadastro. | Parâmetro **Permitir Consultar Tributação por Descrição do Produto**. <br><br>**Nova Tela - Consulta por Descrição** <br><br> **Método de Consulta específico do Integrador** |
 | Produto | Ativar parâmetro para não Tributar o Produto por Integradores Fiscais | Impedir que o Usuário ative o parâmetro do produto que impede o mesmo de ser enviado para Classificação Tributária e de Consultar e Atualizar a Tributação (Manualmente ou Automaticamente). <br><br> **Consultar Documentação do Integrador** sobre a disponibilidade do recurso | - |
 | Cadastro de Finalidade de Operação | Criar Cenário Fiscal na API do Integrador | Impedir que o Usuário crie Cenário Fiscal com base nas informações inseridas no Cadastro de Finalidade, quando o Integrador implementar tal recurso. | - |
 | Cadastro de Finalidade da Operação | Atualizar Cenário Fiscal na API do Integrador | Impedir que o Usuário efetue atualização das informações do Cenário Fiscal criado e enviado para uma API anteriormente, quando o Integrador implementar tal recurso. | - |
@@ -685,7 +681,7 @@ A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras 
 ## Processo de Atualização do Sistema após implementações
 
 1. Organizar todos os Produtos e suas informações Tributárias para criar uma Regra Padrão de **"Venda a Consumidor Final"** por **Produto ou NCM**.
-   1. Devem ser criadas Regras por Lotes, uma vez que há diferenças de Tributação de Produtos entre **Tributados, Não Tributados e Substituição Tributária**.
+   1. Devem ser criadas Regras por Conjuntos de Dados Distintos, uma vez que há diferenças de Tributação de Produtos entre **Tributados, Não Tributados e Substituição Tributária**.
 2. Criar o Perfil Fiscal **"Consumidor Final"**, definir a Característica Tributária como **"Pessoa Física não Contribuinte do ICMS"** e Contribuinte do ICMS como **Não Contribuinte**.
 3. Criar o Perfil Fiscal **"Pessoa Jurídica Contribuinte do ICMS"**, definido a Característica Tributária como **"Pessoa Jurídica Contribuinte do ICMS"** e Contribuinte do ICMS como **Contribuinte do ICMS**.
 4. Executar Atualização dos **Cadastros de Clientes Pessoa Física** definindo o **Regime Tributário** como **"Consumidor Final"** e **Perfil Fiscal** criado no passo 2 (Consumidor Final).
