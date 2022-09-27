@@ -167,7 +167,7 @@ A Estrutura abaixo exemplifica uma Consulta do Produto **Água Mineral** atravé
 A requisição acima, retornará a seguinte Estrutura de Dados, também em `JSON`:
 
 ```JSON
-  "Cabecalho": {
+ { "Cabecalho": {
         "sugestao": "Se a comunicação estiver lenta, reduza o número de UF's, Caract. Tributárias e produtos. Nessa ordem.",
         "amb": 1,
         "cnpj": "04391715000173",
@@ -290,6 +290,8 @@ A Consulta Avançada do Integrador iMendes utilizará a [**Nova Tela do Gerencia
 | Filtrar e Selecionar Produtos que requerem **Métodos de Consulta** distintos. [**Ver Seção Métodos de Consulta iMendes**](#métodos-de-consulta) | Tratar cada situação de modo distinto (conforme o Método de Consulta) para assegurar que a consulta seja realizada utilizando a API correta da iMendes. | Informar ao Usuário que determinados Produtos poderão ser consultados por meios distintos e que alguns deverão ser processados individualmente, como por exemplo, Produtos que precisam ser **Consultados na Base iMendes por Descrição**. [Ver Seção Métodos de Consulta - Métodos 2 e 3](#métodos-de-consulta) | Código iMendes, campo "Enviado para Integrador Fiscal" do Cadastro de Produtos                                                                                                                                      | `produtos/codigo`, `produtos/codInterno`, `produtos/codImendes` |
 
 [Voltar ao Sumário](#introdução) | [Voltar ao Roadmap](#roadmap)
+
+### Simulações de Consulta
 
 # Requisitos de Homologação
 
