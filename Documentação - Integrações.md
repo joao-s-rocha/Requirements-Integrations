@@ -261,13 +261,13 @@ Nesta Seção são descritos os Ajustes e Novos Campos necessários, e descreve 
 | Adicionar **Caixa de Seleção e Campo** | IPI / **Enquadramento**                                 | Criar campo para informar o Código do Enquadramento do IPI                                                                                                                                                                                                                                                                     | -                                                                                                                                                                        |
 | Adicionar **Texto**                    | Regra Fiscal aplicável a (x) Produtos                   | Criar campo que exibe como informação a quantidade de Produtos afetados pela Regra Fiscal criada com base no **NCM do Produto e NCM da Regra Fiscal**.                                                                                                                                                                         | Se Regra definida por **Produto**, não exibir esta informação.                                                                                                           |
 
-Abaixo o Protótipo de Tela com as definições da tabela anterior.
+Abaixo o Protótipo de Tela com as definições da tabela anterior:
 
 ![Wireframe Regra Fiscal](./Wireframe-Regra-Fiscal.png)
 
-Abaixo o Protótipo de Tela **Pop-up** que exibe os Produtos que estão consumindo a Regra Fiscal (quando ocorrer).
+Abaixo o Protótipo de Tela **Pop-up** que exibe os Produtos que estão consumindo a Regra Fiscal (quando ocorrer):
 
-![Vireframe Pop-up Produtos da Regra](./Wireframe-Wireframe-Regra-Fiscal-Pop-Up-Produtos.png)
+![Wireframe Pop-up Produtos da Regra](./Wireframe-Regra-Fiscal-Pop-Up-Produtos.png)
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
