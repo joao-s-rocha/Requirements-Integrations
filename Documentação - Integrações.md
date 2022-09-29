@@ -365,7 +365,6 @@ A rotina de Manutenção de Produtos permite ao Usuário atualizar dados tribut�
 | **Adicionar**  | **Regra de Negócio** que exiba uma "Mensagem de Aviso ou de Confirmação ao Usuário" quando o mesmo alterar um NCM de Produto. A mensagem deve informar que as Regras Fiscais aplicáveis ao Produto poderão ser distintas, e pode resultar em impactos tributários.                                                                                                                                                                                                                              |
 
 Após ajustes nesta tela, será necessário reposicionar os elementos de filtros em Tela para melhorar a experiência do Usuário. O protótipo abaixo exemplifica o reposicionamento.
-
 ![Wireframe Manutenção de Produtos](./Wireframe-New-Manutencao-Produtos.png)
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
