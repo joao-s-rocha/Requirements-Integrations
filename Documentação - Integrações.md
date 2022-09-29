@@ -34,7 +34,6 @@
   - [Relatórios](#relatórios)
   - [Gerador de Etiquetas](#gerador-de-etiquetas)
   - [Nova Tela - Gerenciador Tributário](#nova-tela---gerenciador-tributário)
-    - [Regras e Interações da Nova Tela](#regras-e-interações-da-nova-tela)
   - [Nova Tela - Consulta por Descrição de Produto](#nova-tela---consulta-por-descrição-de-produto)
 - [Relação de Campos Ganso x Integrador Fiscal](#relação-de-campos-ganso-x-integrador-fiscal)
   - [Tabela Produto](#tabela-produto)
@@ -513,17 +512,6 @@ O Protótipo abaixo exemplifica os elementos descritos acima:
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
-### Regras e Interações da Nova Tela
-
-De acordo com a disponibilidade do Recurso no Integrador, o usuário poderá aplicar parcialmente a Tributação de um Produto decidindo quais dados serão ignorados, contudo, determinados Impostos possuem dados dependentes, ou seja, quando um dos tributos é ignorado, os demais dependentes também deverão ser ignorados. Abaixo estão descritas as Regras de Negócio e Tratamento conforme ação do Usuário.
-
-| Ação do Usuário                   | Regra de Negócio                                                                                                                                                                   | Tratamento                                                                                                                                        |
-| :-------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Desmarcar um Campo na Tela        | Verificar se Usuário possui permissão para executar ação e verificar se campo desmarcado possui dependência, conforme relacionado em [**Campos Dependentes**](#campos-dependentes) | Desmarcar os campos dependentes não clicados. Gravar Log desta ação                                                                               |
-| Desmarcar todos os Campos da Tela | Verificar se Usuário possui permissão para executar ação                                                                                                                           | Se permitido, enviar mensagem ao Usuário informando que o mesmo decidiu não acatar as alterações tributárias do Integrador. Gravar Log desta ação |
-
-[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
-
 ## Nova Tela - Consulta por Descrição de Produto
 
 Determinados Integradores podem possuir recursos importantes para garantir que o Usuário consiga informações Tributárias de todos os seus Produtos, mesmo os que não possuírem **Código de Barras** padronizado ou dados específicos requeridos. Um dos recursos trata-se da **Pesquisa por Descrição**, em que é oferecida a **Base de Dados de Produtos do Integrador** para que o Usuário relacione o seu Produto e obtenha os dados Tributários conforme desejado. Este recurso deve ser disponibilizado quando o Integrador implementar, apenas quando o usuário optar por **Consultar através do Cadastro de Produtos** e deve ser acionada conforme as Regras de Negócio abaixo:
@@ -717,7 +705,10 @@ A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras 
 ## Processo de Atualização do Sistema após implementações
 
 1. Organizar todos os Produtos e suas informações Tributárias para criar uma Regra Padrão de **"Venda a Consumidor Final"** por **Produto ou NCM**.
-   1. Devem ser criadas Regras por Conjuntos de Dados Distintos, uma vez que há diferenças de Tributação de Produtos entre **Tributados, Não Tributados e Substituição Tributária**.
+   1. Criadas Regras por Conjuntos de Dados Distintos, uma vez que há diferenças de Tributação de Produtos entre **Tributados, Não Tributados e Substituição Tributária**.
+   2. Agrupar os Critérios Principais para determinar se a Regra será criada por NCM ou Produto.
+   3. Quando um Conjunto de Critérios e Tributações abrange muitos Produtos, esta Regra pode ser definida por NCM.
+   4. Quando há mais de uma ocorrência de Conjunto de Critérios e Tributações para um mesmo NCM, avaliar a quantidade de Produtos abrangidos para determinar a criação de Regra por Produto.
 2. Criar o Perfil Fiscal **"Consumidor Final"**, definir a Característica Tributária como **"Pessoa Física não Contribuinte do ICMS"** e Contribuinte do ICMS como **Não Contribuinte**.
 3. Criar o Perfil Fiscal **"Pessoa Jurídica Contribuinte do ICMS"**, definido a Característica Tributária como **"Pessoa Jurídica Contribuinte do ICMS"** e Contribuinte do ICMS como **Contribuinte do ICMS**.
 4. Executar Atualização dos **Cadastros de Clientes Pessoa Física** definindo o **Regime Tributário** como **"Consumidor Final"** e **Perfil Fiscal** criado no passo 2 (Consumidor Final).
@@ -726,8 +717,10 @@ A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras 
 7. Criar **Regras Fiscais** utilizando a **Finalidade de Operação** criada no passo 6 e **Perfil Fiscal** criado no passo 2, obedecendo as seguintes definições:
    1. Quando o Produto possuir Alíquota de ICMS **diferente** de **"Subst. Trib."** e **CST Estadual** entre **"000,020,040,041"**, criar a Regra **"VENDA A CONSUMIDOR FINAL TRIBUTADO NCM XXXX UF"**. Utilizar o CFOP **"5102"** na Regra.
    2. Quando o Produto possuir Alíquota de ICMS igual a **"Subst. Trib."** e **CST Estadual** igual a **"060"**, criar a Regra **"VENDA A CONSUMIDOR FINAL ST NCM XXXX UF"**. Utilizar o CFOP **"5405"** na Regra.
-   3. **Obs.:** O Sistema deve relacionar uma Regra a um Produto sempre que a Operação corresponder, NCM e CEST, mantendo a definição da **Chave Única**
+   3. **Obs.:** O Sistema deve relacionar os Produtos a uma Regra sempre que a Operação corresponder, NCM e CEST, para que não ocorra duplicidade durante a utilização na operação de Venda a Consumidor Final.
 
 O Fluxo abaixo, ilustra a operação descrita acima.
 
 ![Fluxo - Atualização do Sistema após mudanças](./Flow-Upgrading-System.png)
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
