@@ -265,7 +265,7 @@ Abaixo o Protótipo de Tela com as definições da tabela anterior:
 
 ![Wireframe Regra Fiscal](./Wireframe-Regra-Fiscal.png)
 
-Abaixo o Protótipo de Tela **Pop-up** que exibe os Produtos que estão consumindo a Regra Fiscal (quando ocorrer):
+Abaixo o Protótipo de Tela **Pop-up** que exibe os Produtos que estão consumindo a Regra Fiscal, quando usuário clicar no botão/função **Produtos da Regra**:
 
 ![Wireframe Pop-up Produtos da Regra](./Wireframe-Regra-Fiscal-Pop-Up-Produtos.png)
 
