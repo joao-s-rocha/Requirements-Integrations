@@ -441,7 +441,7 @@ Além das alterações de origem de dados, serão necessários criar **Novos Cam
 
 ### Fluxo - Emissão de Documento Fiscal com a Nova Estrutura
 
-1. Efetua a Leitura do **Tipo de Movimentação** e **Tipo de Documento Fiscal** para determinar qual a Operação para filtrar **Finalidades da Operação** que contenham a Operação. Se **Tipo de Movimentação igual a Manual**, solicitar ao Usuário o Preenchimento do campo "Finadiade de Operação" no DF-e.
+1. Efetua a Leitura do **Tipo de Movimentação** e **Tipo de Documento Fiscal** para determinar qual a Operação para filtrar **Finalidades da Operação** que contenham a Operação. Se **Tipo de Movimentação igual a Manual**, solicitar ao Usuário o Preenchimento do campo **"Finalidade de Operação"** no DF-e.
 2. Efetua a Leitura do **Perfil Fiscal** do Destinatário informado no DF-e ou no Cadastro para combinar esta informação com a **Finalidade** obtida no passo anterior.
 3. Efetua a Leitura dos demais Critérios **(UF, NCM, CEST, Código do Produto)**, combina com os demais Critérios de **Finalidade, Perfil Fiscal** lidos para retornar as Regras Fiscais nestas condições.
 4. Se **para cada Produto uma única Regra Fiscal for localizada**, aplicar imediatamente, senão, exibir quais Produtos não possuem Regras ou possuem mais de uma Regra Fiscal com os critérios identificados, para que o Usuário tome as decisões sobre qual regra aplicar.
