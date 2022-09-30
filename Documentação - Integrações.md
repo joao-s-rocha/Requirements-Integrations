@@ -442,7 +442,7 @@ Além das alterações de origem de dados, serão necessários criar **Novos Cam
 
 ### Tela de Decisão de Regras Fiscais a Aplicar
 
-Durante a Emissão de um Documento Fiscal cujo Produto não possui Regra Fiscal para a Operação, deve ser solicitado ao Usuário que defina uma Regra Fiscal. Deste modo é necessário que seja exibida uma Tela de Decisão, semelhante à tela existente na Entrada de Produtos, que deve conter os seguintes elementos:
+Durante a Emissão de um Documento Fiscal cujo Produto não possui Regra Fiscal para a Operação, deve ser solicitado ao Usuário que defina uma Regra Fiscal. Deste modo é necessário que seja criada e exibida uma Tela de Decisão, semelhante à tela existente na Entrada de Produtos, que deve conter os seguintes elementos:
 
 | Elemento       | Nome/Texto                | Descritivo                                                                                                                                              | Regra de Negócio                                                                                                                                                                    |
 | :------------- | :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
