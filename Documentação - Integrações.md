@@ -193,10 +193,11 @@ Alguns Integradores requerem que uma **Operação** seja bem definida durante a 
 
 ### Regra de Negócio da Rotina
 
-| Regra de Negócio | Descritivo                                                                                                                                                                                                        | Padrões                                                                                         |
-| :--------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------- |
-|       RN1        | Não permitir a criação de Finalidades de Operação iguais, contendo os mesmos parâmetros.                                                                                                                          | Validar Operação, Tipo de Movimentação, CFOP e Finalidade do Produto para distinguir cadastros. |
-|       RN2        | Não habilitar os campos **Origem, Destino, UF de Destino, Código do Integrador e Ações** do **Cenário Fiscal** quando não houver Integração Fiscal ativada ou quando o Integrador for diferente de **Mix Fiscal** | Não exibir os campos ou desabilitar por completo.                                               |
+| Regra de Negócio | Descritivo                                                                                                                                                                                                        | Padrões                                                                                                                                                                               |
+| :--------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|       RN1        | Não permitir a criação de Finalidades de Operação iguais, contendo os mesmos parâmetros.                                                                                                                          | Validar Operação, Tipo de Movimentação, CFOP e Finalidade do Produto para distinguir cadastros.                                                                                       |
+|       RN2        | Não habilitar os campos **Origem, Destino, UF de Destino, Código do Integrador e Ações** do **Cenário Fiscal** quando não houver Integração Fiscal ativada ou quando o Integrador for diferente de **Mix Fiscal** | Não exibir os campos ou desabilitar por completo.                                                                                                                                     |
+|       RN3        | A Operação do tipo **Outras Operações (Manual)** possibilita a criação de operações não existentes no DF-e, como por exemplo, **"Remessa em Garantia"** que pode ter uma tributação diferente das demais.         | Não vincular esta Operação com o Tipo de Movimentação Manual do DF-e. O Usuário deve informar uma Finalidade de Operação no DF-e que seja compatível com o documento fiscal desejado. |
 
 O Protótipo abaixo ilustra os elementos descritos acima para o Cadastro de Finalidade de Operação.
 
@@ -376,7 +377,7 @@ Após ajustes nesta tela, será necessário reposicionar os elementos de filtros
 A Rotina de Espelhamento de Produtos foi criada para que os dados tributários e de custo sejam replicados para as Empresas configuradas quando há alterações em um Produto. Contudo, a Regra Fiscal possui recurso de múltiplas filiais, não sendo necessário manter os dados tributários no E**spelhamento e no Processamento**.
 
 1. Remover todos os campos e Grupos **ICMS, ICMS ST, PIS/COFINS, IPI e NFC-e**.
-2. Avaliar a Inclusão dos Códigos das Filiais que antes eram espelhadas nas Regras Fiscais de Venda a Consumidor Final durante o Processo de Atualização do Sistema.
+2. Gerar na Atualização do Sistema, a Inclusão dos Códigos das Filiais que antes eram espelhadas, nas Regras Fiscais de Venda a Consumidor Final.
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
@@ -440,11 +441,10 @@ Além das alterações de origem de dados, serão necessários criar **Novos Cam
 
 ### Fluxo - Emissão de Documento Fiscal com a Nova Estrutura
 
-1. Efetua a Leitura do **Tipo de Movimentação** e **Tipo de Documento Fiscal** para determinar qual a Operação para filtrar **Finalidades da Operação** que contenham a Operação.
-2. Efetua a Leitura do **Perfil Fiscal** do Destinatário informado no DF-e ou no Cadastro para combinar esta informação com a Finalidade obtida no passo anterior.
-3. Efetua a Leitura dos demais Critérios **(UF, NCM, CEST, Código do Produto)**, combina todos os Critérios de Finalidade, Perfil Fiscal, e demais lidos, para retornar as Regras Fiscais nestas condições.
-4. Se o **Tipo do Documento Fiscal** é **Manual** solicitar ao Usuário que defina uma Operação semelhante, ou seja, que informe uma Finalidade de Operação que possa corresponder à operação desejada, para facilitar a localização de regras fiscais.
-5. Se para cada Produto, uma única Regra Fiscal for localizada, aplicar imediatamente, senão, exibir quais Produtos não possuem Regras ou possuem mais de uma Regra Fiscal com os critérios identificados.
+1. Efetua a Leitura do **Tipo de Movimentação** e **Tipo de Documento Fiscal** para determinar qual a Operação para filtrar **Finalidades da Operação** que contenham a Operação. Se **Tipo de Movimentação igual a Manual**, solicitar ao Usuário o Preenchimento do campo "Finadiade de Operação" no DF-e.
+2. Efetua a Leitura do **Perfil Fiscal** do Destinatário informado no DF-e ou no Cadastro para combinar esta informação com a **Finalidade** obtida no passo anterior.
+3. Efetua a Leitura dos demais Critérios **(UF, NCM, CEST, Código do Produto)**, combina com os demais Critérios de **Finalidade, Perfil Fiscal** lidos para retornar as Regras Fiscais nestas condições.
+4. Se **para cada Produto uma única Regra Fiscal for localizada**, aplicar imediatamente, senão, exibir quais Produtos não possuem Regras ou possuem mais de uma Regra Fiscal com os critérios identificados, para que o Usuário tome as decisões sobre qual regra aplicar.
 
 O fluxo descrito acima pode ser observado na imagem abaixo:
 
@@ -714,10 +714,10 @@ A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras 
 ## Processo de Atualização do Sistema após implementações
 
 1. Organizar todos os Produtos e suas informações Tributárias para criar uma Regra Padrão de **"Venda a Consumidor Final"** por **Produto ou NCM**.
-   1. Criadas Regras por Conjuntos de Dados Distintos, uma vez que há diferenças de Tributação de Produtos entre **Tributados, Não Tributados e Substituição Tributária**.
-   2. Agrupar os Critérios Principais para determinar se a Regra será criada por NCM ou Produto.
-   3. Quando um Conjunto de Critérios e Tributações abrange muitos Produtos, esta Regra pode ser definida por NCM.
-   4. Quando há mais de uma ocorrência de Conjunto de Critérios e Tributações para um mesmo NCM, avaliar a quantidade de Produtos abrangidos para determinar a criação de Regra por Produto.
+   1. Criar Regras por Conjuntos de Dados Distintos, uma vez que há diferenças de Tributação de Produtos entre **Tributados, Não Tributados e Substituição Tributária**.
+   2. Agrupar os Critérios Principais, e criar um **Método** para determinar se a Regra será criada por NCM ou Produto, com base na quantidade de Produtos.
+      1. Quando um Conjunto de Critérios e Tributações abrange muitos Produtos, e uma única ocorrência para o NCM, esta Regra pode ser definida por NCM.
+      2. Quando há mais de uma ocorrência de Conjunto de Critérios e Tributações para um mesmo NCM, avaliar a quantidade de Produtos abrangidos para determinar a criação de Regra por Produto.
 2. Criar o Perfil Fiscal **"Consumidor Final"**, definir a Característica Tributária como **"Pessoa Física não Contribuinte do ICMS"** e Contribuinte do ICMS como **Não Contribuinte**.
 3. Criar o Perfil Fiscal **"Pessoa Jurídica Contribuinte do ICMS"**, definido a Característica Tributária como **"Pessoa Jurídica Contribuinte do ICMS"** e Contribuinte do ICMS como **Contribuinte do ICMS**.
 4. Executar Atualização dos **Cadastros de Clientes Pessoa Física** definindo o **Regime Tributário** como **"Consumidor Final"** e **Perfil Fiscal** criado no passo 2 (Consumidor Final).
