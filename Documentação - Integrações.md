@@ -30,6 +30,7 @@
   - [Devolução de Vendas](#devolução-de-vendas)
   - [Recebimento Fiscal](#recebimento-fiscal)
   - [Documentos Fiscais - DF-e](#documentos-fiscais---df-e)
+    - [Tela de Decisão de Regras Fiscais a Aplicar](#tela-de-decisão-de-regras-fiscais-a-aplicar)
     - [Fluxo - Emissão de Documento Fiscal com a Nova Estrutura](#fluxo---emissão-de-documento-fiscal-com-a-nova-estrutura)
   - [Relatórios](#relatórios)
   - [Gerador de Etiquetas](#gerador-de-etiquetas)
@@ -438,6 +439,18 @@ Além das alterações de origem de dados, serão necessários criar **Novos Cam
 4. Cada Operação (Tipo de Movimentação) exige uma Fórmula específica. Este processo deverá permanecer, contudo, os **Dados Tributários** devem ser obtidos de uma **Regra Fiscal cuja Finalidade e Operação corresponda ao Tipo de Movimentação e Perfil Fiscal do Destinatário** informados no Documento Fiscal.
 5. Todos os Dados Tributários (ICMS, IPI, PIS, COFINS, e Cálculo do DIFAL) deverão ser lidos de uma **Regra Fiscal** correspondente a Operação.
 6. Havendo duplicidade de Regras ou Inexistência da mesma, o usuário deve ser precisamente informado sobre quais produtos não tiveram os Tributos processados. Neste cenário, a orientação deve ser sobre Criar uma Regra, Selecionar uma da Lista ou optar por preencher manualmente as informações no Documento Fiscal (quando o tipo possibilitar).
+
+### Tela de Decisão de Regras Fiscais a Aplicar
+
+Durante a Emissão de um Documento Fiscal cujo Produto não possui Regra Fiscal para a Operação, deve ser solicitado ao Usuário que defina uma Regra Fiscal. Deste modo é necessário que seja exibida uma Tela de Decisão, semelhante à tela existente na Entrada de Produtos, que deve conter os seguintes elementos:
+
+| Elemento       | Nome/Texto                | Descritivo                                                                                                                                              | Regra de Negócio                                                                                                                                                                    |
+| :------------- | :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Grade de Dados | Produtos do Documento     | Grade de Dados que exibe os Produtos do Documento Fiscal e os Critérios utilizados                                                                      | Permitir selecionar um Produto e definir uma Regra para o mesmo.                                                                                                                    |
+| Grade de Dados | Regras Fiscais do Produto | Grade de Dados que exibe as Regras Fiscais para o Produto selecionado na Grade definida no elemento anterior                                            | Permitir selecionar apenas uma única Regra para um Produto.                                                                                                                         |
+| Botão de Ação  | Definir Regra             | Botão de Ação para definir para o Produto Selecionado na Grade "Produtos do Documento", a Regra Fiscal selecionada na Grade "Regras Fiscais do Produto" | Verificar se a Regra está selecionada.                                                                                                                                              |
+| Botão de Ação  | Nova Regra                | Botão de Ação para acionar a abertura da Tela de Cadastro de Regras Fiscais e permitir cadastrar uma nova Regra.                                        | Abrir a Tela de Cadastro de Regras em Modo de Inserção, com os campos **Tipo de Regra, Finalidade, Perfil Fiscal, NCM, Produto e UF Destino** preenchidos para agilizar o Cadastro. |
+| Botão de Ação  | Reprocessar Regra         | Botão de Ação para acionar o Reprocessamento das Regras Fiscais para o Documento Fiscal.                                                                | Reprocessar para todos os Produtos                                                                                                                                                  |
 
 ### Fluxo - Emissão de Documento Fiscal com a Nova Estrutura
 
