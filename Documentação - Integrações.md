@@ -735,11 +735,13 @@ A tabela a seguir, relaciona os Logs necessários por Integrador Fiscal, Regras 
       1. Quando um Conjunto de Critérios e Tributações abrange muitos Produtos, e uma única ocorrência para o NCM, esta Regra pode ser definida por NCM.
       2. Quando há mais de uma ocorrência de Conjunto de Critérios e Tributações para um mesmo NCM, avaliar a quantidade de Produtos abrangidos para determinar a criação de Regra por Produto.
 2. Criar o Perfil Fiscal **"Consumidor Final"**, definir a Característica Tributária como **"Pessoa Física não Contribuinte do ICMS"** e Contribuinte do ICMS como **Não Contribuinte**.
-3. Criar o Perfil Fiscal **"Pessoa Jurídica Contribuinte do ICMS"**, definido a Característica Tributária como **"Pessoa Jurídica Contribuinte do ICMS"** e Contribuinte do ICMS como **Contribuinte do ICMS**.
-4. Executar Atualização dos **Cadastros de Clientes Pessoa Física** definindo o **Regime Tributário** como **"Consumidor Final"** e **Perfil Fiscal** criado no passo 2 (Consumidor Final).
-5. Executar Atualização dos **Cadastros de Clientes Pessoa Jurídica e Contribuinte do ICMS** anteriormente definido como **"Sim"**, definindo o **Regime Tributário** como **"Lucro Real"** e **Perfil Fiscal** criado no passo 3.
-6. Criar a **Finalidade Operação "Venda a Consumidor Final"**, definindo a **Operação** como **"Venda a Consumidor Final"**, Tipo de Movimentação como **"Saída"**, CFOP Padrão **"Vazio"** e Finalidade do Produto como **Mercadoria para Revenda**.
-7. Criar **Regras Fiscais** utilizando a **Finalidade de Operação** criada no passo 6 e **Perfil Fiscal** criado no passo 2, obedecendo as seguintes definições:
+3. Criar o Perfil Fiscal **"Pessoa Jurídica Contribuinte do ICMS"**, definido a Característica Tributária como **"Varejista"** e Contribuinte do ICMS como **Contribuinte do ICMS**.
+4. Criar o Perfil Fiscal **"Pessoa Jurídica Não Contribuinte do ICMS"**, definido a Característica Tributária como **"Pessoa Jurídica não Contribuinte do ICMS"** e Contribuinte do ICMS como **Não Contribuinte**.
+5. Executar Atualização dos **Cadastros de Clientes Pessoa Física** definindo o **Regime Tributário** como **"Consumidor Final"** e **Perfil Fiscal** criado no passo 2 (Consumidor Final).
+6. Executar Atualização dos **Cadastros de Clientes Pessoa Jurídica e Contribuinte do ICMS** anteriormente definido como **"Sim"**, definindo o **Regime Tributário** como **"Lucro Real"** e **Perfil Fiscal** criado no passo 3.
+7. Executar Atualização dos **Cadastros de Clientes Pessoa Jurídica e Não Contribuinte do ICMS** anteriormente definido como **"Não"**, definindo o **Regime Tributário** como **"Lucro Real"** e **Perfil Fiscal** criado no passo 4.
+8. Criar a **Finalidade Operação "Venda a Consumidor Final"**, definindo a **Operação** como **"Venda a Consumidor Final"**, Tipo de Movimentação como **"Saída"**, CFOP Padrão **"Vazio"** e Finalidade do Produto como **Mercadoria para Revenda**.
+9. Criar **Regras Fiscais** utilizando a **Finalidade de Operação** criada no passo 6 e **Perfil Fiscal** criado no passo 2, obedecendo as seguintes definições:
    1. Quando o Produto possuir Alíquota de ICMS **diferente** de **"Subst. Trib."** e **CST Estadual** entre **"000,020,040,041"**, criar a Regra **"VENDA A CONSUMIDOR FINAL TRIBUTADO NCM XXXX UF"**. Utilizar o CFOP **"5102"** na Regra.
    2. Quando o Produto possuir Alíquota de ICMS igual a **"Subst. Trib."** e **CST Estadual** igual a **"060"**, criar a Regra **"VENDA A CONSUMIDOR FINAL ST NCM XXXX UF"**. Utilizar o CFOP **"5405"** na Regra.
    3. **Obs.:** O Sistema deve relacionar os Produtos a uma Regra sempre que a Operação corresponder, NCM e CEST, para que não ocorra duplicidade durante a utilização na operação de Venda a Consumidor Final.
