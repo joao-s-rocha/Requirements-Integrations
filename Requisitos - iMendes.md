@@ -92,24 +92,21 @@ Para ilustrar a tomada de decisão que o Sistema Ganso deverá realizar conforme
 Inicialmente foram descritos os Métodos de Consulta que o Parceiro oferece, e nesta seção, é descrito como deve ser realizada uma Requisição à API do Integrador.
 Conforme **Manual de Integração iMendes**, uma Consulta ao **Parceiro** requer um padrão `JSON`. Supondo que o Sistema Ganso possua os Métodos implementados, a Consulta Simples (Apenas um Produto) através do **Cadastro de Produtos** pode ser compreendida através dos seguintes passos:
 
-1. Usuário aciona a **Função de Consulta**.
-2. O Sistema identifica **quais dados foram inseridos pelo Usuário** através do **Fluxo de Decisão de Método de Consulta** para definir o [**Método de Consulta**](#métodos-de-consulta) ideal, coleta as informações que compõem as _Tags_ principais e efetua consulta utilizando a API correta.
-3. Se o **Método de Consulta** definido for igual a **"Método 2 - Apenas Descrição"**, o **Passo 8** será executado, senão, continuará a partir do **Passo 4**.
-4. O Sistema Coleta dados do Emitente e gera a _Tag_ `"emit"` do `JSON`.
-5. O Sistema Coleta dados do Perfil do Destinatário da Operação e gera a _Tag_ `"perfil"` do `JSON`.
-6. O Sistema Coleta dados do Produto e gera a _Tag_ `"produtos"`
+1. Usuário aciona a **Função de Consulta** criada na Documentação de Integrações Fiscais Geral.
+2. O Sistema identifica **quais dados foram inseridos pelo Usuário** através do **Fluxo de Decisão de Método de Consulta** para definir o [**Método de Consulta**](#métodos-de-consulta) ideal e coleta as informações que compõem as _Tags_ principais para efetuar consulta utilizando a API correta.
+3. Se o **Método de Consulta** identificado for igual a **"Método 2 - Apenas Descrição"**, continuar a partir do **Passo 8**, senão, continuar a partir do **Passo 4**.
+4. O Sistema Coleta dados do Emitente (Dados da Empresa) e gera a _Tag_ `"emit"` do `JSON`.
+5. O Sistema Coleta dados do Perfil do Destinatário da Operação, que nesta situação, trata-se de um Perfil **Consumidor Final** e gera a _Tag_ `"perfil"` do `JSON`.
+6. O Sistema Coleta dados do Produto e gera a _Tag_ `"produtos"`.
 7. O Sistema Constrói a estrutura `JSON` obedecendo a hierarquia estabelecida: `emit` > `perfil` > `produtos` e executa o **Passo 9**
-8. Utilizar a **API Envia/Recebe Dados** e exibir a **Nova Tela - Consulta por Descrição** para Usuário decidir qual produto do iMendes vincular ao Produto Cadastrado. A partir deste ponto, o Produto possuirá um Código iMendes, e portanto, utilizará o Método de Consulta 3. O Sistema deve continuar do **Passo 2**.
-9. O Sistema envia requisição a API indicada no Método determinado. [Ver Seção Parâmetros iMendes](#parâmetros-imendes)
-10. O Sistema obtém retorno de dados tributários e os envia à **Camada de Tratamento** que determinará a Criação ou Atualização das Regras Fiscais correspondentes.
+8. Utilizar a **API Envia/Recebe Dados** e exibir a **Nova Tela de Consulta por Descrição** para Usuário decidir qual produto do iMendes vincular ao Produto Cadastrado. A partir deste ponto, o Produto possuirá um Código iMendes, e portanto, utilizará o Método de Consulta 3. O Sistema deve continuar do **Passo 2**.
+9. O Sistema envia requisição à API indicada no Método identificado. [Ver Seção Parâmetros](#parâmetros-imendes)
+10. O Sistema obtém retorno de dados tributários e os envia à **Camada de Tratamento** que determinará a Criação ou Atualização das Regras Fiscais correspondentes à Operação.
 
-O Fluxo abaixo, demonstra os passos que compoem a Consulta a **API Saneamento**.
+O Fluxo abaixo exemplifica as Estratégias de Envio de Requisição:
 
-![Ilustração do Fluxo de Consulta API Saneamento](./iMendes-Workflow-01.png)
+![Fluxo de Estratégia de Envio de Requisição](./Flow-Strategies-Send-Request.png)
 
-O Fluxo abaixo, demonstra os passos que compoem a Consulta a **API Envia/Recebe Dados**
-
-![Ilustração do Fluxo de Consulta API Envia/Recebe](./iMendes-Workflow-02.png)
 
 ### Detalhamento da Estrutura JSON
 
@@ -307,7 +304,7 @@ Após Processo de Envio e Captura de Retorno, os seguintes passos devem ocorrer:
 1. A Camada de Tratamento deve interpretar e relacionar os dados com respectivos destinos, conforme descrito nas tabelas de [**Relação de Campos da Regra Fiscal x Integrador Fiscal / Coluna "Ganso" e "Retorno iMendes"**](#relação-de-campos-da-regra-fiscal-x-integrador-fiscal).
 2. Efetivar a gravação dos dados na Regra Fiscal correspondente, e efetivar a gravação de [**Logs**](#logs).
 
-[Voltar ao Sumário](#introdução) | [Voltar ao Roadmap](#roadmap)
+[Voltar ao Sumário](#introdução) | [Voltar ao Roadmap](#roadmap-do-integrador)
 
 ## Relação de Campos da Regra Fiscal x Integrador Fiscal
 
