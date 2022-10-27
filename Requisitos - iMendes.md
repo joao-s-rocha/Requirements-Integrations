@@ -1,7 +1,8 @@
 Sumário
+
 - [Introdução](#introdução)
-- [Roadmap do Integrador](#roadmap-do-integrador)
-  - [Parâmetros do Sistema](#parâmetros-do-sistema)
+  - [Roadmap do Integrador](#roadmap-do-integrador)
+- [Parâmetros do Sistema](#parâmetros-do-sistema)
 - [Requisitos da Integração iMendes](#requisitos-da-integração-imendes)
   - [Métodos de Consulta](#métodos-de-consulta)
   - [Composição da Requisição](#composição-da-requisição)
@@ -13,8 +14,9 @@ Sumário
     - [Simulações de Consulta](#simulações-de-consulta)
 - [Requisitos de Homologação](#requisitos-de-homologação)
   - [Checklist do MVP iMendes](#checklist-do-mvp-imendes)
+- [Recursos Adicionais](#recursos-adicionais)
 
-----
+---
 
 # Introdução
 
@@ -26,7 +28,7 @@ Sumário
 - Este Parceiro recomenda que o Sistema disponibilize decisão invidual ao usuário, que pode ou não acatar as alterações tributárias para seus produtos através do próprio Sistema Ganso.
 - Este Parceiro retorna dados suficientes para permitir a criação de Regras Fiscais de Entrada e Saída completas no Sistema Ganso, entretanto, devem ser utilizados o Gerenciador Tributário e a Camada de Tratamento de dados para garantir o direcionamento correto dos dados.
 
-# Roadmap do Integrador
+## Roadmap do Integrador
 
 Conforme Análise e Testes da Plataforma do Integrador, foram definidas as Etapas a seguir para implementação completa da integração:
 
@@ -40,7 +42,7 @@ Conforme Análise e Testes da Plataforma do Integrador, foram definidas as Etapa
 
   ![Roadmap Integração iMendes](./Roadmap-iMendes.png)
 
-## Parâmetros do Sistema
+# Parâmetros do Sistema
 
 Nesta seção, são descritos os Parâmetros essenciais para o funcionamento desta Integração. Deve ser utilizada a nova aba de **Integrações Fiscais** dos Parâmetros do Sistema, e conter os elementos descritos abaixo:
 
@@ -378,22 +380,24 @@ A Consulta em Lotes ao Integrador iMendes utilizará a **Nova Tela de Gerenciado
 
 # Requisitos de Homologação
 
-Nesta seção está contida a relação de recursos que o Sistema Ganso deve oferecer para que a Homologação seja concluída com sucesso.
+Nesta seção contém a relação de recursos que o Sistema Ganso deve oferecer para que a Homologação seja concluída com sucesso.
 
 ## Checklist do MVP iMendes
 
-| Item  | Requisito iMendes                                                                                                                                                                                                          | Requisito Ganso                                                                                                 | Grau de Importância | Implementado |
-| :---: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- | :-----------------: | :----------: |
-| MVP 1 | Opção para Usuário definir que o Produto Cadastrado não deve ser enviado à iMendes                                                                                                                                         | Documentação de Requisitos de Integrações / Cadastro de Produtos                                                |      **Alto**       |      -       |
-| MVP 2 | Opção para Usuário enviar informações manualmente                                                                                                                                                                          | [Ver Seção Consulta Avançada - iMendes](#consulta-avançada-imendes---gerenciador-tributário) (Consulta em Lote) |      **Alto**       |      -       |
-| MVP 3 | Captura de Retorno controlado por Log e **Reversão** de tributação atualizada de qualquer Produto em qualquer ponto do histórico                                                                                           | Documentação de Requisitos de Integrações / Requisitos de Segurança                                             |      **Alto**       |      -       |
-| MVP 4 | Consultar a Tributação de um único produto através do Cadastro do Produto e receber as atualizações após consulta                                                                                                          | Documentação de Requisitos de Integrações / Cadastro de Produtos                                                |      **Alto**       |      -       |
-| VF 1  | Opção para Usuário vincular um Produto próprio com o Código iMendes                                                                                                                                                        | [Ver Seção Métodos de Consulta - Método 2](#métodos-de-consulta)                                                |      **Alto**       |      -       |
-| VF 2  | Gravar e exibir no Cadastro do Produto um selo indicativo de auditoria da tributação pela IMendes                                                                                                                          | Documentação de Requisitos de Integrações / Cadastro de Produtos                                                |      **Alto**       |      -       |
-| VF 3  | Gravar e exibir o Retorno da Consulta por Produto contendo todos os campos retornados pela API e permitir a seleção de campos individuais para atualização. Apresentar a relação **Antes e Depois** e um Aceite do Usuário | -                                                                                                               |      **Alto**       |      -       |
-| VF 4  | Efetuar verificação períodica de Atualizações Tributárias dos Produtos auditados por iMendes através do Método **Alterados**                                                                                               | [Ver Seção Parâmetros iMendes / Verificação Periódica](#parâmetros-do-sistema)                                  |      **Alto**       |      -       |
-| VF 5  | Criar um Relatório Gerencial para acompanhamento do Histórico de Mudanças Tributárias ocorridas em determinado período                                                                                                     | [Documentação de Requisitos de Integrações / Requisitos de Segurança                                            |      **Alto**       |      -       |
-| VF 6  | Implementar o **Simulador Tributário** que efetua uma verificação no Cadastro de Produtos e aponta os problemas tributários em Clientes ainda não integrados                                                               | -                                                                                                               |      **Médio**      |      -       |
-| VF 7  | Implementar mensagem de **Sugestão de Contratação da iMendes** para captura de novos clientes                                                                                                                              | -                                                                                                               |      **Baixo**      |      -       |
+| Item  | Requisito iMendes                                                                                                                                                                                                          | Requisito Ganso                                                                                | Grau de Importância | Implementado |
+| :---: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------- | :-----------------: | :----------: |
+| MVP 1 | Opção para Usuário definir que o Produto Cadastrado não deve ser enviado à iMendes                                                                                                                                         | Documentação de Requisitos de Integrações / Cadastro de Produtos                               |      **Alto**       |      -       |
+| MVP 2 | Opção para Usuário enviar informações manualmente                                                                                                                                                                          | [Ver Seção Consulta em Lotes](#consultas-em-lotes)                                             |      **Alto**       |      -       |
+| MVP 3 | Captura de Retorno controlado por Log e **Reversão** de tributação atualizada de qualquer Produto em qualquer ponto do histórico                                                                                           | Documentação de Requisitos de Integrações / Requisitos de Segurança                            |      **Alto**       |      -       |
+| MVP 4 | Consultar a Tributação de um único produto através do Cadastro do Produto e receber as atualizações após consulta                                                                                                          | Documentação de Requisitos de Integrações / Cadastro de Produtos                               |      **Alto**       |      -       |
+| VF 1  | Opção para Usuário vincular um Produto próprio com o Código iMendes                                                                                                                                                        | [Ver Seção Métodos de Consulta - Método 2](#métodos-de-consulta)                               |      **Alto**       |      -       |
+| VF 2  | Gravar e exibir no Cadastro do Produto um selo indicativo de auditoria da tributação pela IMendes                                                                                                                          | Documentação de Requisitos de Integrações / Cadastro de Produtos                               |      **Alto**       |      -       |
+| VF 3  | Gravar e exibir o Retorno da Consulta por Produto contendo todos os campos retornados pela API e permitir a seleção de campos individuais para atualização. Apresentar a relação **Antes e Depois** e um Aceite do Usuário | -                                                                                              |      **Alto**       |      -       |
+| VF 4  | Efetuar verificação períodica de Atualizações Tributárias dos Produtos auditados por iMendes através do Método **Alterados**                                                                                               | [Ver Seção Parâmetros do Sistema](#parâmetros-do-sistema), parâmetro **Verificação Periódica** |      **Alto**       |      -       |
+| VF 5  | Criar um Relatório Gerencial para acompanhamento do Histórico de Mudanças Tributárias ocorridas em determinado período                                                                                                     | [Documentação de Requisitos de Integrações / Requisitos de Segurança                           |      **Alto**       |      -       |
+| VF 6  | Implementar o **Simulador Tributário** que efetua uma verificação no Cadastro de Produtos e aponta os problemas tributários em Clientes ainda não integrados                                                               | -                                                                                              |      **Médio**      |      -       |
+| VF 7  | Implementar mensagem de **Sugestão de Contratação da iMendes** para captura de novos clientes                                                                                                                              | -                                                                                              |      **Baixo**      |      -       |
 
-**Legenda**: MVP - Implementação Mínima | VF - Versão Final (Recursos Adicionais)
+**Legenda**: Coluna **Item**: MVP - Implementação Mínima | VF - Versão Final (Recursos Adicionais)
+
+# Recursos Adicionais
