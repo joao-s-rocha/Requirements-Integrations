@@ -1,3 +1,21 @@
+Sumário
+- [Introdução](#introdução)
+- [Roadmap do Integrador](#roadmap-do-integrador)
+  - [Parâmetros do Sistema](#parâmetros-do-sistema)
+- [Requisitos da Integração iMendes](#requisitos-da-integração-imendes)
+  - [Métodos de Consulta](#métodos-de-consulta)
+  - [Composição da Requisição](#composição-da-requisição)
+    - [Detalhamento da Estrutura JSON](#detalhamento-da-estrutura-json)
+    - [Exemplo de Requisição API - JSON completo](#exemplo-de-requisição-api---json-completo)
+  - [Relação de Campos da Regra Fiscal x Integrador Fiscal](#relação-de-campos-da-regra-fiscal-x-integrador-fiscal)
+  - [Consultas em Lotes](#consultas-em-lotes)
+    - [Regras de Negócio](#regras-de-negócio)
+    - [Simulações de Consulta](#simulações-de-consulta)
+- [Requisitos de Homologação](#requisitos-de-homologação)
+  - [Checklist do MVP iMendes](#checklist-do-mvp-imendes)
+
+----
+
 # Introdução
 
 - O presente documento objetiva descrever em detalhes os processos e meios para Integrações Fiscais de Consulta Tributária do Parceiro **iMendes** no Sistema Ganso.
