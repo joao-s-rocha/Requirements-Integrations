@@ -8,6 +8,8 @@ Sumário
   - [Composição da Requisição](#composição-da-requisição)
     - [Detalhamento da Estrutura JSON](#detalhamento-da-estrutura-json)
     - [Exemplo de Requisição API - JSON completo](#exemplo-de-requisição-api---json-completo)
+    - [Exemplo de Retorno da API - JSON completo](#exemplo-de-retorno-da-api---json-completo)
+    - [Fluxo de Envio dos Dados](#fluxo-de-envio-dos-dados)
   - [Relação de Campos da Regra Fiscal x Integrador Fiscal](#relação-de-campos-da-regra-fiscal-x-integrador-fiscal)
   - [Consultas em Lotes](#consultas-em-lotes)
     - [Regras de Negócio](#regras-de-negócio)
@@ -88,7 +90,7 @@ Para ilustrar a tomada de decisão que o Sistema Ganso deverá realizar conforme
 ## Composição da Requisição
 
 Inicialmente foram descritos os Métodos de Consulta que o Parceiro oferece, e nesta seção, é descrito como deve ser realizada uma Requisição à API do Integrador.
-Conforme **Manual de Integração iMendes**, uma Consulta ao **Parceiro** requer um padrão `JSON`. Supondo que o Sistema Ganso possua os Métodos implementados, a Consulta Básica através do **Cadastro de Produtos** pode ser compreendida através dos seguintes passos:
+Conforme **Manual de Integração iMendes**, uma Consulta ao **Parceiro** requer um padrão `JSON`. Supondo que o Sistema Ganso possua os Métodos implementados, a Consulta Simples (Apenas um Produto) através do **Cadastro de Produtos** pode ser compreendida através dos seguintes passos:
 
 1. Usuário aciona a **Função de Consulta**.
 2. O Sistema identifica **quais dados foram inseridos pelo Usuário** através do **Fluxo de Decisão de Método de Consulta** para definir o [**Método de Consulta**](#métodos-de-consulta) ideal, coleta as informações que compõem as _Tags_ principais e efetua consulta utilizando a API correta.
@@ -186,7 +188,9 @@ A Estrutura abaixo exemplifica uma Consulta do Produto **Água Mineral** atravé
 }
 ```
 
-A requisição acima, retornará a seguinte Estrutura de Dados `JSON` padronizada:
+### Exemplo de Retorno da API - JSON completo
+
+A Requisição de exemplo retornará a seguinte Estrutura de Dados `JSON` padronizada:
 
 ```JSON
  { "Cabecalho": {
@@ -291,6 +295,12 @@ A requisição acima, retornará a seguinte Estrutura de Dados `JSON` padronizad
     "SemRetorno": []
 }
 ```
+
+### Fluxo de Envio dos Dados
+
+
+
+
 
 Após Processo de Envio e Captura de Retorno, os seguintes passos devem ocorrer:
 
