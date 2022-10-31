@@ -9,8 +9,7 @@ Sumário
   - [Composição da Requisição](#composição-da-requisição)
     - [Detalhamento da Estrutura JSON](#detalhamento-da-estrutura-json)
     - [Exemplo de Requisição API - JSON completo](#exemplo-de-requisição-api---json-completo)
-    - [Exemplo de Retorno da API - JSON completo](#exemplo-de-retorno-da-api---json-completo)
-    - [Fluxo de Envio dos Dados](#fluxo-de-envio-dos-dados)
+    - [Tratamento do Retorno de Informações](#tratamento-do-retorno-de-informações)
   - [Relação de Campos da Regra Fiscal x Integrador Fiscal](#relação-de-campos-da-regra-fiscal-x-integrador-fiscal)
   - [Consultas em Lotes](#consultas-em-lotes)
     - [Regras de Negócio](#regras-de-negócio)
@@ -192,9 +191,9 @@ A Estrutura abaixo exemplifica uma Consulta do Produto **Água Mineral** atravé
 }
 ```
 
-### Exemplo de Retorno da API - JSON completo
+### Tratamento do Retorno de Informações
 
-A Requisição de exemplo retornará a seguinte Estrutura de Dados `JSON` padronizada:
+Utilizando como exemplo a Requisição descrita anteriormente, os dados retornados possuirá a seguinte Estrutura de Dados `JSON`:
 
 ```JSON
  { "Cabecalho": {
@@ -300,7 +299,44 @@ A Requisição de exemplo retornará a seguinte Estrutura de Dados `JSON` padron
 }
 ```
 
-### Fluxo de Envio dos Dados
+A _Tag_ `"Cabecalho"` contém as informações sobre a Requisição enviada e os dados devem ser interpretados para orientar o Usuário durante os processos de consulta. Abaixo, a relação de informações e sua utilidade:
+
+| Tag                        | Descritivo                                                           | Utilidade                                              |
+| :------------------------- | :------------------------------------------------------------------- | :----------------------------------------------------- |
+| `"sugestao"`               | Mensagens da API                                                     | Apenas informativo                                     |
+| `"amb"`                    | Ambiente Habilitado: 1 - Homologação / 2 - Produção                  | Validação do Parâmetro "Ambiente Ativo"                |
+| `"cnpj"`                   | CNPJ do Cliente Integrado                                            | Validação Cadastral                                    |
+| `"dthr"`                   | Data e Hora do Retorno dos dados                                     | Gravação de Logs de Consulta ou Retorno da API         |
+| `"transacao"`              | Código da Transação gerada na API do Integrador                      | Auxiliar a solução de problemas                        |
+| `"mensagem"`               | Mensagens da API                                                     | Apenas informativo                                     |
+| `"prodEnv"`                | Produtos Enviados na Requisição                                      | Validação ou Verificação de Dados enviados             |
+| `"prodRet"`                | Produtos Retornados pela Requisição                                  | Validação ou Verificação de Dados recebidos e enviados |
+| `"comportamentosParceiro"` | Comportamentos configurados pelo Integrador para o Parceiro (Ganso)  | Apenas Informativo                                     |
+| `"comportamentosCliente"`  | Comportamentos configurados pelo Integrador para o Cliente Integrado | Apenas Informativo                                     |
+| `"versao"`                 | Versão da API utilizada para Consulta/Retorno                        | Apenas Informativo                                     |
+
+É de suma importância gravar estes dados em Log para eventual solução de problemas. O Integrador sugere a criação de um relatório de fácil acesso para estas situações.
+
+A *Tag* `"Grupos"` é uma Lista de Dados (*Array*) e contém as informações tributárias sobre os Produtos retornados, organizados por código de grupo Tributário, NCM e demais informações tributárias. Para cada **Grupo**, haverão Regras para cada **UF, Operação e Característica Tributária** consultada. Os dados serão aninhados hierarquicamente na sequencia:
+
+- Grupos
+  - Dados do Grupo Tributário (Código, NCM, CEST e outros)
+  - Tributação de PIS e COFINS
+  - Tributação de IPI
+  - Regras (Vários)
+    - UFs (Vários) enviadas para Consulta
+      - UF (UF da Lista de UFs enviadas)
+      - Operação (Vários) (CFOPs enviados para Consulta)
+        - CFOP (CFOP da Lista de CFOPs enviados)
+        - Característica Tributária (Vários) (Característica enviada para consulta)
+          - Impostos Padrão
+          - Impostos para Saída a Consumidor Final
+          - Protocolos
+          - Convênios
+      - Mensagem da Operação
+  - Lista de Produtos com EAN retornados
+  - Mensagem do Grupo
+- Lista de Produtos Sem Retorno
 
 Após Processo de Envio e Captura de Retorno, os seguintes passos devem ocorrer:
 
