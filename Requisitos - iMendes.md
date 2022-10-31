@@ -367,11 +367,9 @@ Abaixo o descritivo das informações mais importantes do grupo, considerando a 
 | `pIsencao`               | Percentual de Desoneração do ICMS da Operação                                                                                             | `CaracTrib` | Desoneração Aplicável. Se campo `desonerado` igual a 'S' utilizar o percentual para cálculo da Desoneração. Caso contrário, ignorar.                                                                           |
 | `ampLegal`               | Amparo Legal do ICMS                                                                                                                      | `CaracTrib` | Informações sobre a Base Legal (da esfera Estadual) para a Tributação do ICMS                                                                                                                                  |
 
-![Hierarquia Desenhada](./hierarquia-desenhada.png)
-
 Após Processo de Envio e Captura de Retorno, os seguintes passos devem ocorrer:
 
-1. A Camada de Tratamento deve interpretar e relacionar os dados com respectivos destinos, conforme descrito nas tabelas de [**Relação de Campos da Regra Fiscal x Integrador Fiscal / Coluna "Ganso" e "Retorno iMendes"**](#relação-de-campos-da-regra-fiscal-x-integrador-fiscal).
+1. A **Camada de Tratamento** deve interpretar e relacionar os dados com respectivos destinos, conforme descrito nas tabelas de [**Relação de Campos da Regra Fiscal x Integrador Fiscal**](#relação-de-campos-da-regra-fiscal-x-integrador-fiscal).
 2. Efetivar a gravação dos dados na Regra Fiscal correspondente, e efetivar a gravação de [**Logs**](#logs).
 
 [Voltar ao Sumário](#introdução) | [Voltar ao Roadmap](#roadmap-do-integrador)
