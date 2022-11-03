@@ -42,6 +42,7 @@
   - [Campos Dependentes](#campos-dependentes)
   - [Regra Fiscal x Integrador Fiscal](#regra-fiscal-x-integrador-fiscal)
 - [Camada de Tratamento de Dados](#camada-de-tratamento-de-dados)
+  - [Estrutura de Dados Padrão de Conversão](#estrutura-de-dados-padrão-de-conversão)
   - [Regras de Negócio Padrão](#regras-de-negócio-padrão)
 - [Requisitos de Segurança](#requisitos-de-segurança)
   - [Acessos Restritos](#acessos-restritos)
@@ -688,6 +689,99 @@ Este Recurso **é útil apenas quando há Integração Fiscal ativada**, uma vez
 Em suma, o esquema ilustrado abaixo exemplifica o fluxo:
 
 ![Esquema Camada de Tratamento](./Flow-Scheme-Threat-Layer.png)
+
+## Estrutura de Dados Padrão de Conversão
+
+De modo a simplificar a conversão de informações fornecidas pelos Integradores e garantir que as Regras Fiscais serão criadas corretamente, é necessário a criação de uma Estrutura Padronizada para relacionamento de informações. Uma vez relacionada a informação do Integrador com a informação de destino no Sistema, independentemente do integrador, os dados serão direcionados para o Local em comum.
+A estrutura inicial pode ser compreendida através do exemplo abaixo:
+
+```JSON
+{
+  "criterios": {
+    "integrador": "Nome_Integrador",
+    "tipo_regra": "E ou S",
+    "operacao": "VCF, DCO, DEV, REM, RCL",
+    "cfop": "5102",
+    "perfil": "2",
+    "caracteristica": "8",
+    "finalidade_produto": "0",
+    "uf_destino": ["MT", "MG", "SC"],
+    "ncm": "84241000",
+    "cest": "0501000"
+  },
+  "impostos": [
+    {
+      "icms": {
+        "cst_icms": "60",
+        "csosn": "",
+        "aliquota_interna": "17",
+        "aliquota_efetiva": "7",
+        "reducao_base": "58.824",
+        "perc_diferimento": "0",
+        "perc_desoneracao": "0",
+        "perc_fcp": "0",
+        "zerar_icms": false,
+        "difal": false
+      },
+      "icmsst": {
+        "mva": "0",
+        "reducao_base": "0",
+        "aliquota_st": "17",
+        "perc_anulacao_credito": "0",
+        "perc_fcp_st": "0",
+        "soma_ipi_base_st": false,
+        "soma_frete_base_st": false,
+        "zerar_icms_st": false
+      },
+      "piscofins": {
+        "cst_entrada": "50",
+        "cst_saida": "01",
+        "natureza_receita": "",
+        "aliquota_pis": "1.65",
+        "aliquota_cofins": "7.6",
+        "soma_ipi_base": false,
+        "soma_st_base": false,
+        "zerar_piscofins": false
+      },
+      "ipi": {
+        "cst_entrada": "53",
+        "cst_saida": "03",
+        "enquadramento": "999",
+        "aliquota_ipi": "0"
+      },
+      "baselegal": {
+        "amparo_estadual": "",
+        "amparo_federal": "",
+        "protocolo": "",
+        "convenio": ""
+      },
+      "complemento": {
+        "ex_tipi": "",
+        "cod_beneficio_fiscal": "",
+        "cod_anp": "",
+        "cod_regra_integrador": "",
+        "produtos_enviados": "7",
+        "produtos_recebidos": "6",
+        "mensagem": "OK"
+      },
+      "produtos": [
+        {
+          "codigo_interno": "1000",
+          "ean": "7897897897891",
+          "descricao": "DESCRICAO DO PRODUTO 1000"
+        },
+        {
+          "codigo_interno": "1001",
+          "ean": "7897897897892",
+          "descricao": "DESCRICAO DO PRODUTO 1001"
+        }
+        ]
+    }
+  ]
+}
+
+
+```
 
 ## Regras de Negócio Padrão
 
