@@ -827,6 +827,16 @@ A estrutura inicial pode ser compreendida através do exemplo abaixo:
 
 ### Tabela de Validação - CFOP x CST x Símbolo Tributário
 
+Esta tabela relaciona o Código CFOP com CST e Símbolo Tributário (Sigla PDV) para auxiliar a consulta por Códigos de Tributos e vinculação de informações corretas.
+
+|               Código CFOP               | Código CST  |     CSOSN      | Símbolo PDV |
+| :-------------------------------------: | :---------: | :------------: | :---------: |
+| 1101,1102,2101,2102,5101,5102,6101,6102 |   000,020   |   0101,0102    |      T      |
+| 1101,1102,2101,2102,5101,5102,6101,6102 |     040     | 0101,0102,0103 |      I      |
+| 1101,1102,2101,2102,5101,5102,6101,6102 |     041     |   0300,0400    |      N      |
+|   1401,1403,2401,2403,5401,5403,5405    |     060     |      0500      |      F      |
+|      1411,2411,5401,5411,6401,6411      | 010,030,070 | 0201,0202,0203 |      T      |
+
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ### Tabela de Relacionamento Sigla Destino x Característica Tributária
