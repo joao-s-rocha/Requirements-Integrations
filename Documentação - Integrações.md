@@ -826,6 +826,8 @@ A estrutura inicial pode ser compreendida através do exemplo abaixo:
 
 ## Regras de Negócio de Tratamento - FGF
 
+A tabela a seguir, especifica como deve ser alimentado cada Campo da Estrutura JSON Padrão Ganso. Trata-se das Regras e Validações que deve ser realizadas antes do preenchimento dos dados. Após definição de todos os campos, uma Regra Fiscal terá parâmetros suficientes para ser criada ou atualizada.
+
 | Regra de Negócio | Descritivo                                                                              |        Parâmetro         | Padronizações                                                                                                                                                  |
 | :--------------- | :-------------------------------------------------------------------------------------- | :----------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | RN1              | Definir o Tipo de Regra (E - Entrada ou S - Saída) do Grupo **Critérios**               |       `tipo_regra`       | Fixar em 'S' (Saída)                                                                                                                                           |
