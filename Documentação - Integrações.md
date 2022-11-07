@@ -822,7 +822,11 @@ A estrutura inicial pode ser compreendida através do exemplo abaixo:
 | `icms`      | `perc_fcp`               | Percentual de FCP do ICMS a ser aplicada pela Regra na Operação.                                             |        Não        | Número/Real     | Percentual de FCP retornado pelo Integrador para Cálculo do ICMS da Operação.                                                                                                                         | -                                                                                                              |
 | `icms`      | `zerar_icms`             | Parâmetro de Controle para indicar se os Valores de Base de Cálculo, Alíquota e Valor de ICMS serão zerados. |        Não        | Booleano        | Aplicável quando o conjunto de Parâmetros para cálculo do ICMS Sugere ativação deste parâmetro.                                                                                                       | -                                                                                                              |
 
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
+
 ### Tabela de Validação - CFOP
+
+[Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ## Regras de Negócio de Tratamento - FGF
 
