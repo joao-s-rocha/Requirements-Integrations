@@ -45,7 +45,7 @@
   - [Estrutura de Dados Padrão de Conversão](#estrutura-de-dados-padrão-de-conversão)
     - [Descrição dos Campos da Estrutura](#descrição-dos-campos-da-estrutura)
     - [Tabela de Validação - CFOP](#tabela-de-validação---cfop)
-  - [Regras de Negócio Padrão](#regras-de-negócio-padrão)
+  - [Regras de Negócio de Tratamento - FGF](#regras-de-negócio-de-tratamento---fgf)
 - [Requisitos de Segurança](#requisitos-de-segurança)
   - [Acessos Restritos](#acessos-restritos)
   - [Logs](#logs)
@@ -824,12 +824,22 @@ A estrutura inicial pode ser compreendida através do exemplo abaixo:
 
 ### Tabela de Validação - CFOP
 
-## Regras de Negócio Padrão
+## Regras de Negócio de Tratamento - FGF
 
-| Regra de Negócio | Descritivo                                                   | Padronizações                                                                                                                                                                                                                                   |
-| :--------------- | :----------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| RN1              | Integrador oferece **Código do CFOP** no Retorno da Consulta | Verificar a Finalidade de Operação enviada na Consulta ao Integrador para determinar se deve: <br>- **Criar Regra de Entrada** se CFOP retornado iniciar com 1, 2 ou 3. <br>- Criar **Regra de Saída** se CFOP retornado iniciar com 5, 6 ou 7. |
-| RN2              | Integrador não oferece Regras de Entrada                     | Utilizar Regras de Saída de "Venda a Consumidor Final", para confrontar os dados e definir se ocorrerá **Atualização** ou **Criação** de uma Nova Regra.                                                                                        |
+| Regra de Negócio | Descritivo                                                                |       Parâmetro        | Padronizações                                                                                                                                                  |
+| :--------------- | :------------------------------------------------------------------------ | :--------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| RN1              | Definir o Tipo de Regra (E - Entrada ou S - Saída) do Grupo **Critérios** |      `tipo_regra`      | Fixar em 'S'                                                                                                                                                   |
+| RN2              | Definir o Código da Finalidade da Operação do Grupo **Critérios**         | `finalidade_operacao`  | Localizar um Código de Finalidade de Operação que corresponda a uma Operação de **Venda a Consumidor Final**, Tipo **Saída**                                   |
+| RN3              | Definir o Tipo de Operação para validação                                 |    `tipo_operacao`     | Utilizar a Sigla 'VCF' que corresponde a Operação definida em Finalidade da Operação                                                                           |
+| RN4              | Definir o CFOP do Grupo **Critérios**                                     |         `cfop`         | Fixar em `null`                                                                                                                                                |
+| RN5              | Definir o Perfil do Grupo **Critérios**                                   |        `perfil`        | Localizar um Perfil Fiscal correspondente a **Consumidor Final**, cuja **Caraterística Tributária** seja igual a 8.                                            |
+| RN6              | Definir a Característica Tributária do Grupo **Critérios**                |    `caracteristica`    | Fixar em 8                                                                                                                                                     |
+| RN7              | Definir a Finalidade do Produto do Grupo **Critérios**                    |  `finalidade_produto`  | Fixar em 0                                                                                                                                                     |
+| RN8              | Definir a UF de Destino do Grupo **Critérios**                            |      `uf_destino`      | Utilizar a UF da Empresa Filial definida em `codigo_filial`                                                                                                    |
+| RN9              | Definir o NCM do Grupo **Critérios**                                      |         `ncm`          | Utilizar o NCM de Retorno do Integrador. Atualizar o NCM nos Produtos vinculados no Envio que correspondam à esta Regra.                                       |
+| RN10             | Definir o CEST do Grupo **Critérios**                                     |         `cest`         | Utilizar o CEST de Retorno do Integrador. Atualizar o CEST nos Produtos viculados no Envio que correspondam à esta Regra.                                      |
+| RN11             | Definir o Código de Regra do Integrador do Grupo **Critérios**            | `cod_regra_integrador` | Fixar em `null`                                                                                                                                                |
+| RN12             | Definir o Método de Injeção de Dados (I - Inserção ou A - Atualização )   |        `metodo`        | Consultar Regras Fiscais da Operação de **Venda a Consumidor Final**, e se foram criadas pelo Integrador para definir se **Atualiza** ou **Cria** novas Regras |
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
