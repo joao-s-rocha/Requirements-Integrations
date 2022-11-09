@@ -1152,33 +1152,33 @@ O Fluxo abaixo, ilustra a operação descrita acima.
 ### Parâmetros da Requisição (Envio)
 
 Antes do Envio da Consulta, o produto em questão não possui Código de Barras EAN, e houve necessidade de consulta por descrição à base de dados do iMendes. Em seguida, o Código iMendes foi vinculado ao Produto.
+A partir deste ponto, a consulta foi gerada os Parâmetros são:
 
-1. **Métodos de Consulta** utilizados: **Método 2 - Descrição e Método 3 - Código iMendes e Descrição**
-2. Finalidade da Operação: **"Compra para Revenda Interestadual"**
+1. Finalidade da Operação: **"Compra para Revenda Interestadual"**
    1. Operação: Entrada de Mercadorias
    2. Tipo de Movimentação: Entrada
    3. CFOP Padrão: 2102
    4. Finalidade do Produto: 0 - Mercadoria para Revenda
-3. Perfil Fiscal: **"Fornecedor Distribuidor"**
+2. Perfil Fiscal: **"Fornecedor Distribuidor"**
    1. Característica Tributária: 1 - Distribuidor
    2. Contribuinte do ICMS: Sim (Contribuinte)
    3. Destacar IPI e Destacar ICMS ST em Documentos Fiscais: **Sim**
-4. Regime Tributário da Empresa Filial: **Lucro Real**
-5. CRT: **3** (Regime Normal)
-6. UF: **MS**
-7. Perfil do Emitente (Fornecedor):
+3. Regime Tributário da Empresa Filial: **Lucro Real**
+4. CRT: **3** (Regime Normal)
+5. UF: **MS**
+6. Perfil do Emitente (Fornecedor):
    1. UF: **MG**
    2. CFOP da Operação: **2102** (Da Finalidade de Operação)
    3. Característica Tributária: **1** (Do Perfil Fiscal)
    4. Finalidade do Produto: **0** (Da Finalidade da Operação)
-8. Produtos:
+7. Produtos:
    1. Código: "52001000002" (Código da Base iMendes)
-   2. Código Interno: 'N' (Indicativo da não referenciação a este código)
+   2. Código Interno: 'N' (Indicativo da não referenciação ao Código Interno)
    3. Código iMendes: "7317457" (Código do iMendes disponibilizado e vinculado durante consulta por descrição)
    4. Descrição: "CARNE BOVINA RESFRIADA C/OSSO DIANTEIRO" (Descrição do Produto)
    5. NCM: "02012010" (NCM do Produto)
 
-JSON de Envio:
+Os dados acima, geram o JSON de Envio:
 
 ```JSON
 {
@@ -1218,13 +1218,10 @@ JSON de Envio:
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ### Interpretação do Retorno
+Com base no JSON gerado anteriormente como exemplo, e após a obtenção do retorno, os passos a seguir devem ser executados:
 
-1. Efetuar a Leitura do JSON de Retorno e agrupar os dados por Grupo de Critérios.
-   1. Finalidade da Operação
-   2. Perfil Fiscal
-   3. UF de Destino
-   4. NCM do Produto
-   5. Produto
-2. 
+1. Os Critérios de **Finalidade de Compra, Perfil Fiscal, UF de Destino** devem ser obtidos dos dados de envio.
+2. Agrupar os dados de retorno em NCM, CEST, CFOP e Produtos de Retorno (Grupo de Informações Chave) para mapear as Regras necessárias para os critérios do passo 1.
+3. Se houver NCMs, CEST e CFOPs distintos, com os mesmos Critérios do passo 1, devem ser criadas Regras distintas para cada Grupo de Informações Chave.
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
