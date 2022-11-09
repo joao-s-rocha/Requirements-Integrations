@@ -1342,8 +1342,6 @@ A partir desta estrutura de retorno, os passos a seguir devem ser executados:
 O JSON Padrão Ganso terá a seguinte estrutura e dados já interpretada e preenchida conforme as Regras de Negócio estabelecidas para cada campo;
 
 ```JSON
-
-JSON GANSO
 {
   "criterios": {
     "integrador": "IMENDES",
