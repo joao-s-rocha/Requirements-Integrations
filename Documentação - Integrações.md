@@ -1154,12 +1154,12 @@ O Fluxo abaixo, ilustra a operação descrita acima.
 Antes do Envio da Consulta, o produto em questão não possui Código de Barras EAN, e houve necessidade de consulta por descrição à base de dados do iMendes. Em seguida, o Código iMendes foi vinculado ao Produto.
 A partir deste ponto, a consulta foi gerada os Parâmetros são:
 
-1. Finalidade da Operação: **"Compra para Revenda Interestadual"**
+1. Finalidade da Operação: Código 1 - **"Compra de Mercadorias para Revenda Interestadual"**
    1. Operação: Entrada de Mercadorias
    2. Tipo de Movimentação: Entrada
    3. CFOP Padrão: 2102
    4. Finalidade do Produto: 0 - Mercadoria para Revenda
-2. Perfil Fiscal: **"Fornecedor Distribuidor"**
+2. Perfil Fiscal: Código 2 - **"Fornecedor Distribuidor"**
    1. Característica Tributária: 1 - Distribuidor
    2. Contribuinte do ICMS: Sim (Contribuinte)
    3. Destacar IPI e Destacar ICMS ST em Documentos Fiscais: **Sim**
@@ -1218,10 +1218,223 @@ Os dados acima, geram o JSON de Envio:
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
 
 ### Interpretação do Retorno
-Com base no JSON gerado anteriormente como exemplo, e após a obtenção do retorno, os passos a seguir devem ser executados:
 
-1. Os Critérios de **Finalidade de Compra, Perfil Fiscal, UF de Destino** devem ser obtidos dos dados de envio.
+O JSON de Envio gerado como exemplo retorna a estrutura abaixo:
+
+```JSON
+
+{
+    "Cabecalho": {
+        "sugestao": "Se a comunicação estiver lenta, reduza o número de UF's, Caract. Tributárias e produtos. Nessa ordem.",
+        "amb": 1,
+        "cnpj": "04391715000173",
+        "dthr": "2022-11-09T11:39:32.5733369-03:00",
+        "transacao": "82119782",
+        "mensagem": "OK",
+        "prodEnv": 1,
+        "prodRet": 1,
+        "prodNaoRet": 0,
+        "comportamentosParceiro": "104;106;108",
+        "comportamentosCliente": "",
+        "versao": "2.5.2.0"
+    },
+    "Grupos": [
+        {
+            "codigo": "311",
+            "nCM": "02012010",
+            "cEST": "17.084.00",
+            "lista": "",
+            "tipo": "",
+            "codAnp": "",
+            "passivelPMC": "N",
+            "impostoImportacao": 10.00,
+            "pisCofins": {
+                "cstEnt": "73",
+                "cstSai": "06",
+                "aliqPis": 0,
+                "aliqCofins": 0,
+                "nri": "121",
+                "ampLegal": "'Medida ProvisOria n 609/2013, art. 1'",
+                "redPis": 0,
+                "redCofins": 0
+            },
+            "iPI": {
+                "cstEnt": "03",
+                "cstSai": "53",
+                "aliqipi": 0.00,
+                "codenq": "999",
+                "ex": ""
+            },
+            "Regras": [
+                {
+                    "uFs": [
+                        {
+                            "uF": "MT",
+                            "CFOP": {
+                                "cFOP": "2102",
+                                "CaracTrib": [
+                                    {
+                                        "codigo": "1",
+                                        "finalidade": "0",
+                                        "codRegra": "2015",
+                                        "codExcecao": 0,
+                                        "cFOP": "2403",
+                                        "cST": "70",
+                                        "cSOSN": "",
+                                        "aliqIcmsInterna": 17.00,
+                                        "aliqIcmsInterestadual": 12.00,
+                                        "reducaoBcIcms": 0.00,
+                                        "reducaoBcIcmsSt": 76.47,
+                                        "redBcICMsInterestadual": 41.67,
+                                        "aliqIcmsSt": 17.00,
+                                        "iVA": 36.00,
+                                        "iVAAjust": 36.00,
+                                        "fCP": 0.00,
+                                        "codBenef": "",
+                                        "pDifer": 0.00,
+                                        "pIsencao": 0.00,
+                                        "antecipado": "N",
+                                        "desonerado": "N",
+                                        "isento": "N",
+                                        "tpCalcDifal": 0,
+                                        "ampLegal": "",
+                                        "Protocolo": {},
+                                        "Convenio": {
+                                            "convId": 298,
+                                            "convNome": "'CONVENIO ICMS 89/05'",
+                                            "descricao": "'DISPOE SOBRE A CONCESSAO DE REDUCAO NA BASE DE CALCULO DO ICMS DEVIDO NAS SAIDAS DE CARNE E DEMAIS PRODUTOS COMESTIVEIS, RESULTANTES DO ABATE DE AVES, GADO E LEPORIDEOS.'",
+                                            "dtVigIni": "01/01/2006",
+                                            "dtVigFin": "26/03/2050",
+                                            "isento": "N",
+                                            "subsTrib": "N",
+                                            "respTrib": "DESTINATARIO",
+                                            "aliqIcmsInterestadual": 12.00,
+                                            "redBcInterestadual": 41.67,
+                                            "aliqEfetiva": 7.00,
+                                            "iva": 0.00
+                                        }
+                                    }
+                                ]
+                            },
+                            "mensagem": "OK"
+                        }
+                    ]
+                }
+            ],
+            "prodCodImendes": [
+                "7317457"
+            ],
+            "Mensagem": "OK"
+        }
+    ],
+    "SemRetorno": []
+}
+
+```
+
+A partir desta estrutura de retorno, os passos a seguir devem ser executados:
+
+1. Os Critérios de **Finalidade de Compra, Perfil Fiscal, UF de Destino** devem ser obtidos dos dados da Requisição de envio.
 2. Agrupar os dados de retorno em NCM, CEST, CFOP e Produtos de Retorno (Grupo de Informações Chave) para mapear as Regras necessárias para os critérios do passo 1.
-3. Se houver NCMs, CEST e CFOPs distintos, com os mesmos Critérios do passo 1, devem ser criadas Regras distintas para cada Grupo de Informações Chave.
+3. Se houver NCMs, CEST e CFOPs distintos com os mesmos Critérios do passo 1, devem ser criadas Regras distintas para cada Grupo de Informações Chave. O Integrador retorna uma lista de Produtos que são afetados pelo conjunto de critérios. Havendo mais de uma situação, estes dados já estarão separados.
+4. Relacionar todas as informações (campo a campo) do retorno com a Estrutura JSON Padrão para criação de Regras Fiscais, observando as [Regras de Negócio de Tratamento](#regras-de-negócio-de-tratamento---imendes).
+
+O JSON Padrão Ganso terá a seguinte estrutura e dados já interpretada e preenchida conforme as Regras de Negócio estabelecidas para cada campo;
+
+```JSON
+
+JSON GANSO
+{
+  "criterios": {
+    "integrador": "IMENDES",
+    "codigo_filial": 1,
+    "tipo_regra": "E",
+    "finalidade_operacao": 1,
+    "tipo_operacao": "ENT",
+    "cfop": null,
+    "perfil": 2,
+    "caracteristica": 1,
+    "finalidade_produto": 0,
+    "uf_destino": ["MT"],
+    "ncm": "02012010",
+    "cest": "1708400",
+    "cod_regra_integrador": 2015,
+    "metodo": "insere"
+  },
+  "ex_tipi": null,
+  "cod_beneficio_fiscal": null,
+  "cod_anp": null,
+  "impostos": [
+    {
+      "cfop": 2403,
+      "icms": {
+        "modalidade": 3,
+        "cst_icms": "070",
+        "csosn": null,
+        "aliquota_interna": 17,
+        "aliquota_efetiva": 12,
+        "codigo_tributo_interno": 7,
+        "codigo_tributo_efetivo": 6,
+        "reducao_base": 0,
+        "perc_diferimento": null,
+        "perc_desoneracao": null,
+        "perc_fcp": null,
+        "zerar_icms": false,
+        "difal": false
+      },
+      "icmsst": {
+        "destaque": "D",
+        "modalidade": 4,
+        "origem_base": "VLOPR",
+        "aliquota_credito": "E",
+        "mva_entrada": 36.00,
+        "mva_saida": null,
+        "reducao_base": 76.47,
+        "aliquota_st": 17,
+        "perc_anulacao_credito": null,
+        "perc_fcp_st": null,
+        "soma_ipi_base_st": false,
+        "soma_frete_base_st": false,
+        "zerar_icms_st": false
+      },
+      "piscofins": {
+        "cst_entrada": "73",
+        "cst_saida": "06",
+        "natureza_receita": "121",
+        "aliquota_pis": 0,
+        "aliquota_cofins": 0,
+        "soma_ipi_base": false,
+        "soma_st_base": false,
+        "zerar_piscofins": true
+      },
+      "ipi": {
+        "cst_entrada": "53",
+        "cst_saida": "03",
+        "enquadramento": "999",
+        "aliquota_ipi": 0.00
+      },
+      "baselegal": {
+        "amparo_estadual": "",
+        "amparo_federal": "",
+        "protocolo": null,
+        "convenio": "CONVENIO ICMS 89/05 - DISPOE SOBRE A CONCESSAO DE REDUCAO NA BASE DE CALCULO DO ICMS DEVIDO NAS SAIDAS DE CARNE E DEMAIS PRODUTOS COMESTIVEIS ..."
+      },
+
+      "produtos": [
+        {
+          "codigo_interno": "13597",
+          "ean": "13597",
+          "descricao": "CARNE BOVINA RESFRIADA C/OSSO DIANTEIRO"
+        }
+      ]
+    }
+  ]
+}
+
+```
+
+No Sistema Ganso, o Cadastro da Regra Fiscal para esta situação terá as seguintes informações:
+
+![Cadastro-Regra-Fiscal-Preenchida-01](./RegraFiscal-01.png)
 
 [Voltar ao Sumário](#documentação-de-requisitos---integrações-fiscais) | [Voltar ao Roadmap](#roadmap) | [Voltar ao Resumo](#resumo)
