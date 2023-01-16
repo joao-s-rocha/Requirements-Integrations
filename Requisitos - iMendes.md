@@ -23,6 +23,10 @@ Sumário
 - [Requisitos de Homologação](#requisitos-de-homologação)
   - [Checklist do MVP iMendes](#checklist-do-mvp-imendes)
 - [Recursos Adicionais](#recursos-adicionais)
+  - [Consulta por Descrição](#consulta-por-descrição)
+  - [Passos para executar a Consulta por Descrição](#passos-para-executar-a-consulta-por-descrição)
+  - [Tratamento do Retorno](#tratamento-do-retorno)
+  - [Nova Tela - Consulta por Descrição](#nova-tela---consulta-por-descrição)
 
 ---
 
@@ -528,3 +532,149 @@ Nesta seção contém a relação de recursos que o Sistema Ganso deve oferecer 
 **Legenda**: Coluna **Item**: MVP - Implementação Mínima | VF - Versão Final (Recursos Adicionais)
 
 # Recursos Adicionais
+
+## Consulta por Descrição
+
+Determinados Integradores podem possuir recursos importantes para garantir que o Usuário consiga informações Tributárias de todos os seus Produtos, mesmo os que não possuírem **Código de Barras** padronizado ou dados específicos requeridos. Um dos **Recursos Adicionais** trata-se da **Pesquisa por Descrição**, em que é oferecida a **Base de Dados de Produtos do Integrador** para que o Usuário relacione o seu Produto e obtenha os dados Tributários conforme desejado. Este recurso deve ser disponibilizado para o [Método de Consulta 2](#métodos-de-consulta) e deve ser acionado nas Situações a seguir.
+
+| Ação do Usuário                                                                                | Dados Inseridos                                                        | Mensagem ao Usuário                                                                                                                                                                                     | Decisão                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Validações                                                                                                                                                                             |
+| :--------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Cadastrando Novo Produto e Acionando a Consulta Tributária                                     | Apenas Descrição do Produto                                            | Informar que a Consulta Tributária ocorrerá através da Descrição e que o Usuário deverá tomar a decisão em vincular um **Código do Integrador** para futuras consultas.                                 | Utilizar o **[Método de Consulta 2](#métodos-de-consulta) (Apenas Descrição)** e exibir os Produtos encontrados utilizando a [Nova Tela - Consulta por Descrição](#nova-tela---consulta-por-descrição)                                                                                                                                                                                                                                                                                                                                               | Solicitar Chave de Acesso Restrito para vincular o Código do Integrador. [Ver Seção Acessos Restritos](#acessos-restritos)                                                             |
+| Cadastrando Novo Produto ou Utilizando um Produto Cadastrado e Acionando a Consulta Tributária | Descrição e Código de Barras inválido, mas com 8, 12, 13 ou 14 dígitos | Informar que o Código de Barras é inválido e solicitar que o usuário verifique o Código informado. Disponibilizar as opções para **"Continuar por Descrição"** e **"Continuar pelo Código de Barras"**. | Se Usuário **"Continuar por Descrição"**, exibir mensagem informando que a consulta ocorrerá através da Descrição, utilizar **[Método de Consulta 2](#métodos-de-consulta) (Apenas Descrição)** e exibir os Produtos encontrados utilizando a [Nova Tela - Consulta por Descrição](#nova-tela---consulta-por-descrição).<br><br> Se Usuário **"Continuar pelo Código de Barras"**, utilizar o **[Método de Consulta 1](#métodos-de-consulta)**, exibir mensagem informando que o Produto pode não ser encontrado se o Código de Barras for inválido. | Aplicar método de validação do Código de Barras pelo dígito verificador. <br><br> Exibir mensagem clara e objetiva sobre possível falha do Processo "Continuar pelo Código de Barras". |
+
+## Passos para executar a Consulta por Descrição
+
+Conforme mencionando anteriormente, a Consulta por Descrição ([Método de Consulta 2](#métodos-de-consulta)) requer utilização da API **Envia/Recebe Dados**, e sua estrutura de requisição também é distinta. Antes do envio da Requisição, é necessário coletar CNPJ da Filial Consulente e a Descrição do Produto. Após coleta dos dados, a Estrutura da Requisição pode ser visualizada no Exemplo a seguir.
+
+```JSON
+
+{ "nomeServico": "DESCRPRODUTOS", "dados": "04391715000173|DIANTEIRO RESFRIADO|0"}
+
+```
+
+Onde:
+
+| Tag           | Descritivo                                                                 | Parâmetros Aceitos                                                                                                                                                             |
+| :------------ | :------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nomeServico` | Determina qual Serviço/Método será utilizado da API **Envia/Recebe Dados** | Texto "DESCPRODUTOS"                                                                                                                                                           |
+| `dados`       | Dados da Requisição para o "Método Descrição de Produtos"                  | CNPJ, Descrição do Produto e Critério. <br><br> O CNPJ deve ser enviado apenas números. <br> A Descrição do Produto deve ser enviada total. <br> O Critério deve ser sempre 0. |
+
+:bulb: **Nota:** Este recurso pode ser utilizado de modo Unitário, ou seja, é permitido uma Consulta por Vez, já que a iMendes irá retornar uma Lista de Produtos. Quando processada em Lotes, deve ser tratado de outra maneira, sugerindo ao Usuário que tome a decisão sobre qual Produto vincular.
+
+O retorno da consulta de exemplo acima, terá o seguinte resultado:
+
+```JSON
+{
+    "cabecalho": {
+        "CNPJ": "04391715000173",
+        "produtosRetornados": 12,
+        "mensagem": ""
+    },
+    "produto": [
+        {
+            "id": "12167324",
+            "descricao": "CARNE BOVINA RESFRIADA C/OSSO DIANTEIRO",
+            "ean": "02000002013327",
+            "ncm": "02012010",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "26309024",
+            "descricao": "CARNE BOVINA RESFRIADA DIANTEIRO BOVINO",
+            "ean": "07898949138822",
+            "ncm": "02012010",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "27473522",
+            "descricao": "CARNE MOIDA DIANTEIRO DO CHEF RESFRIADA 500 G",
+            "ean": "07895000468126",
+            "ncm": "02013000",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "20062683",
+            "descricao": "CARNE MOIDA RESFRIADA DE DIANTEIRO CARREFOUR SELECTION 500 G",
+            "ean": "07891103206429",
+            "ncm": "02013000",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "425749",
+            "descricao": "CARNE RESFRIADA DE BOVINO COM OSSO - DIANTEIRO",
+            "ean": "07898494840027",
+            "ncm": "02012010",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "37198638",
+            "descricao": "CARNE RESFRIADA DE BOVINO COM OSSO DIANTEIRO DE BOI",
+            "ean": "00000079017206",
+            "ncm": "02013000",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "37198641",
+            "descricao": "CARNE RESFRIADA DE BOVINO COM OSSO DIANTEIRO NOVILHA",
+            "ean": "00000079027670",
+            "ncm": "02013000",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "28250892",
+            "descricao": "CARNE RESFRIADA DE BOVINO SEM OSSO   MUSCULO DIANTEIRO",
+            "ean": "07895944001335",
+            "ncm": "02013000",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "35207133",
+            "descricao": "CARNE RESFRIADA DE BOVINO SEM OSSO  MUSCULO DIANTEIRO 22017",
+            "ean": "09900000227029",
+            "ncm": "02013000",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "7317457",
+            "descricao": "DIANTEIRO C /OSSO RESFRIADO BOVINO",
+            "ean": "09010665772588",
+            "ncm": "02012010",
+            "cest": "17.084.00"
+        },
+        {
+            "id": "35215413",
+            "descricao": "MUSCULO DIANTEIRO BOVINO RESFRIADO PALAD",
+            "ean": "01230000031912",
+            "ncm": "02013000",
+            "cest": "17.084.00"
+        }
+    ]
+}
+```
+
+## Tratamento do Retorno
+
+As informações retornadas pela iMendes no exemplo anterior devem ser dispostas nos campos da _Grid de Dados_ da [Nova Tela - Consulta por Descrição](#nova-tela---consulta-por-descrição), conforme relacionamento abaixo:
+
+| Campo Retorno | Campo da Grid        | Regra de Negócio                                                                                                                                     |
+| :------------ | :------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`          | Código iMendes       | Quando usuário selecionar o Item, gravar esta informação no campo "Código Integrador" do [Cadastro de Produtos](#alterações-no-cadastro-de-produtos) |
+| `descricao`   | Descrição do Produto | -                                                                                                                                                    |
+| `ean`         | Código de Barras     | -                                                                                                                                                    |
+| `ncm`         | NCM                  | -                                                                                                                                                    |
+| `cest`        | CEST                 | Remover a máscara do resultado                                                                                                                       |
+
+## Nova Tela - Consulta por Descrição
+
+A Nova Tela para Consulta por Descrição deve conter os elementos obrigatórios descritos a seguir.
+
+| Elemento          | Descritivo                                                           | Regra de Negócio                                                                                                                                                            |
+| :---------------- | :------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Título da Tela    | Título do Formulário                                                 | Exibir "Produtos iMendes - Consulta por Descrição"                                                                                                                          |
+| Texto Explicativo | Instruções para usuário                                              | Exibir "Selecionar um Produto que possua características iguais ou semelhantes ao Produto [CODIGO] - [DESCRICAO], onde, respectivamente, é o Código e Descrição do Produto. |
+| _Grid de Dados_   | Lista dos Produtos pesquisados por Descrição retornados pela iMendes | Exibir as colunas: **Código de Barras, Descrição, NCM, CEST e ID (Código iMendes)** <br> Permitir selecionar apenas um Produto da _Grid de Dados_ para vincular ao Produto. |
+| Botão de Ação     | Botão para **Vincular Código iMendes**                               | Ação para gravar o campo `id` (Código iMendes) do Produto selecionado na _Grid_ no Produto em Cadastro/Consulta.                                                            |
+
+A seguir um _Protótipo_ que exemplifica os recursos e elementos da Tela.
+
+![Nova Tela - Consulta por Descrição](./Wireframe-Screen-Description-Consulting.png)
